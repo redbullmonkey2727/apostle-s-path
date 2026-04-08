@@ -22,6 +22,8 @@ const writerNames: Record<string, string> = {
 };
 
 const CityMarker = ({ city, onClick }: CityMarkerProps) => {
+  const refCount = city.scriptures.length;
+
   return (
     <CircleMarker
       center={[city.lat, city.lng]}
@@ -42,7 +44,12 @@ const CityMarker = ({ city, onClick }: CityMarkerProps) => {
         className="city-tooltip"
       >
         <div className="p-2 min-w-[180px]">
-          <h3 className="font-serif text-base font-bold text-foreground">{city.name}</h3>
+          <div className="flex items-center justify-between gap-2">
+            <h3 className="font-serif text-base font-bold text-foreground">{city.name}</h3>
+            <span className="text-xs font-semibold bg-primary/10 text-primary px-1.5 py-0.5 rounded-full">
+              {refCount} ref{refCount !== 1 ? "s" : ""}
+            </span>
+          </div>
           <p className="text-xs text-muted-foreground mt-0.5">{city.label}</p>
           <p className="text-xs text-muted-foreground mt-1 italic">{city.estimatedAge}</p>
           <div className="flex flex-wrap gap-1 mt-1">
@@ -52,15 +59,7 @@ const CityMarker = ({ city, onClick }: CityMarkerProps) => {
               </span>
             ))}
           </div>
-          <div className="mt-1.5 border-t border-border pt-1.5">
-            <p className="text-xs font-medium text-foreground mb-0.5">References:</p>
-            {city.references.slice(0, 3).map((ref) => (
-              <p key={ref} className="text-xs text-muted-foreground">{ref}</p>
-            ))}
-            {city.references.length > 3 && (
-              <p className="text-xs text-accent">+{city.references.length - 3} more…</p>
-            )}
-          </div>
+          <p className="text-[10px] text-accent mt-1.5">Click to view scriptures →</p>
         </div>
       </Tooltip>
     </CircleMarker>
