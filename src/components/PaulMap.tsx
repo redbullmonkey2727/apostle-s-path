@@ -16,9 +16,10 @@ function TileUpdater({ tileId }: { tileId: string }) {
 
 const PaulMap = () => {
   const [activeJourneys, setActiveJourneys] = useState<string[]>(["first", "second", "third", "rome"]);
-  const [activeTile, setActiveTile] = useState("terrain");
+  const [activeTile, setActiveTile] = useState("google");
   const [selectedCity, setSelectedCity] = useState<CityData | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
+  const [activeTopic, setActiveTopic] = useState("");
 
   const toggleJourney = (id: string) => {
     setActiveJourneys((prev) =>
@@ -29,15 +30,24 @@ const PaulMap = () => {
   const tile = tileOptions.find((t) => t.id === activeTile) || tileOptions[0];
 
   const filteredCities = useMemo(() => {
-    if (!searchQuery.trim()) return cities;
-    const q = searchQuery.toLowerCase();
-    return cities.filter(
-      (c) =>
-        c.name.toLowerCase().includes(q) ||
-        c.label.toLowerCase().includes(q) ||
-        c.references.some((r) => r.toLowerCase().includes(q))
-    );
-  }, [searchQuery]);
+    let result = cities;
+    if (searchQuery.trim()) {
+      const q = searchQuery.toLowerCase();
+      result = result.filter(
+        (c) =>
+          c.name.toLowerCase().includes(q) ||
+          c.label.toLowerCase().includes(q) ||
+          c.references.some((r) => r.toLowerCase().includes(q)) ||
+          c.writers.some((w) => w.toLowerCase().includes(q))
+      );
+    }
+    if (activeTopic) {
+      result = result.filter((c) =>
+        c.scriptures.some((s) => s.topics.includes(activeTopic))
+      );
+    }
+    return result;
+  }, [searchQuery, activeTopic]);
 
   return (
     <div className="flex flex-col lg:flex-row gap-4 h-[calc(100vh-5rem)]">
@@ -48,6 +58,8 @@ const PaulMap = () => {
         onTileChange={setActiveTile}
         searchQuery={searchQuery}
         onSearchChange={setSearchQuery}
+        activeTopic={activeTopic}
+        onTopicChange={setActiveTopic}
       />
 
       <div className="flex-1 rounded-lg overflow-hidden border border-border shadow-sm relative">
@@ -61,7 +73,6 @@ const PaulMap = () => {
           <TileUpdater tileId={activeTile} />
           <TileLayer url={tile.url} attribution={tile.attribution} />
 
-          {/* Journey polylines */}
           {journeys
             .filter((j) => activeJourneys.includes(j.id))
             .map((j) => (
@@ -77,7 +88,6 @@ const PaulMap = () => {
               />
             ))}
 
-          {/* City markers */}
           {filteredCities.map((city) => (
             <CityMarker
               key={city.id}
@@ -88,11 +98,11 @@ const PaulMap = () => {
         </MapContainer>
       </div>
 
-      {/* City detail panel */}
       {selectedCity && (
         <CityDetailPanel
           city={selectedCity}
           onClose={() => setSelectedCity(null)}
+          activeTopic={activeTopic}
         />
       )}
     </div>
