@@ -20,6 +20,10 @@ export interface CityData {
   references: string[];
   scriptures: ScriptureEntry[];
   writers: WriterType[];
+  epistleName?: string;
+  writerAges?: Record<string, string>;
+  summerTempC?: number;
+  winterTempC?: number;
 }
 
 export interface JourneyData {
