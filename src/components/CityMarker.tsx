@@ -12,6 +12,15 @@ const typeColors: Record<string, string> = {
   both: "hsl(25, 60%, 30%)",
 };
 
+const writerNames: Record<string, string> = {
+  paul: "Paul",
+  peter: "Peter",
+  john: "John",
+  james: "James",
+  jude: "Jude",
+  "hebrews-author": "Hebrews Author",
+};
+
 const CityMarker = ({ city, onClick }: CityMarkerProps) => {
   return (
     <CircleMarker
@@ -36,6 +45,13 @@ const CityMarker = ({ city, onClick }: CityMarkerProps) => {
           <h3 className="font-serif text-base font-bold text-foreground">{city.name}</h3>
           <p className="text-xs text-muted-foreground mt-0.5">{city.label}</p>
           <p className="text-xs text-muted-foreground mt-1 italic">{city.estimatedAge}</p>
+          <div className="flex flex-wrap gap-1 mt-1">
+            {city.writers.map((w) => (
+              <span key={w} className="text-[10px] px-1.5 py-0.5 rounded-full bg-muted text-muted-foreground">
+                {writerNames[w] || w}
+              </span>
+            ))}
+          </div>
           <div className="mt-1.5 border-t border-border pt-1.5">
             <p className="text-xs font-medium text-foreground mb-0.5">References:</p>
             {city.references.slice(0, 3).map((ref) => (
