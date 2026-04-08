@@ -13,7 +13,17 @@ export default {
       },
     },
     extend: {
+      fontFamily: {
+        serif: ['"Crimson Pro"', 'serif'],
+        sans: ['Inter', 'sans-serif'],
+      },
       colors: {
+        journey: {
+          1: "hsl(var(--journey-1))",
+          2: "hsl(var(--journey-2))",
+          3: "hsl(var(--journey-3))",
+          rome: "hsl(var(--journey-rome))",
+        },
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
