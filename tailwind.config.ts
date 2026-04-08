@@ -13,7 +13,17 @@ export default {
       },
     },
     extend: {
+      fontFamily: {
+        serif: ['"Crimson Pro"', 'serif'],
+        sans: ['Inter', 'sans-serif'],
+      },
       colors: {
+        journey: {
+          1: "hsl(var(--journey-1))",
+          2: "hsl(var(--journey-2))",
+          3: "hsl(var(--journey-3))",
+          rome: "hsl(var(--journey-rome))",
+        },
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
@@ -80,10 +90,15 @@ export default {
             height: "0",
           },
         },
+        "slide-in-right": {
+          "0%": { transform: "translateX(100%)" },
+          "100%": { transform: "translateX(0)" },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+        "slide-in-right": "slide-in-right 0.3s ease-out",
       },
     },
   },
