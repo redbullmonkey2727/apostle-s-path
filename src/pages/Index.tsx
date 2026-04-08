@@ -1,16 +1,30 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import PaulMap from "@/components/PaulMap";
+import { BookOpen } from "lucide-react";
 
-// IMPORTANT: Fully REPLACE this with your own code
-const PlaceholderIndex = () => {
-  // PLACEHOLDER: Replace this entire return statement with the user's app.
-  // The inline background color is intentionally not part of the design system.
+const Index = () => {
   return (
-    <div className="flex min-h-screen items-center justify-center" style={{ backgroundColor: '#fcfbf8' }}>
-      <img data-lovable-blank-page-placeholder="REMOVE_THIS" src="/placeholder.svg" alt="Your app will live here!" />
+    <div className="min-h-screen bg-background">
+      {/* Header */}
+      <header className="px-4 lg:px-6 py-3 border-b border-border bg-card">
+        <div className="flex items-center gap-3">
+          <BookOpen className="h-6 w-6 text-primary" />
+          <div>
+            <h1 className="font-serif text-xl font-bold text-foreground leading-tight">
+              The Journeys of the Apostle Paul
+            </h1>
+            <p className="text-xs text-muted-foreground">
+              An interactive map of the 1st century Mediterranean world
+            </p>
+          </div>
+        </div>
+      </header>
+
+      {/* Map */}
+      <main className="p-4">
+        <PaulMap />
+      </main>
     </div>
   );
 };
-
-const Index = PlaceholderIndex;
 
 export default Index;
