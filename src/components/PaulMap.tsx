@@ -549,25 +549,28 @@ const PaulMap = () => {
 
             {(() => {
               const journeyOrder = ["first", "second", "third", "rome"];
-              const staggerDelay = 4500; // ms between journey starts
-              return journeys
+              const staggerDelay = 4500;
+              const items: React.ReactNode[] = [];
+              journeys
                 .filter((j) => activeJourneys.includes(j.id))
-                .map((j) => {
+                .forEach((j) => {
                   const orderIdx = journeyOrder.indexOf(j.id);
                   const smooth = smoothPath(j.path, 12);
-                  return (
-                    <span key={j.id}>
-                      <AnimatedPolyline
-                        positions={smooth}
-                        color={j.color}
-                        dashArray={j.id === "rome" ? "8 4" : undefined}
-                        shipwrecks={j.shipwrecks}
-                        delay={orderIdx * staggerDelay}
-                      />
-                      <JourneyDistanceSegments path={smooth} color={j.color} />
-                    </span>
+                  items.push(
+                    <AnimatedPolyline
+                      key={j.id}
+                      positions={smooth}
+                      color={j.color}
+                      dashArray={j.id === "rome" ? "8 4" : undefined}
+                      shipwrecks={j.shipwrecks}
+                      delay={orderIdx * staggerDelay}
+                    />
+                  );
+                  items.push(
+                    <JourneyDistanceSegments key={`dist-${j.id}`} path={smooth} color={j.color} />
                   );
                 });
+              return items;
             })()}
 
             {/* Shipwreck markers */}
