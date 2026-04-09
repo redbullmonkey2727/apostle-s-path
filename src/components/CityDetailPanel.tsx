@@ -12,6 +12,7 @@ interface CityDetailPanelProps {
   onCityChange: (city: CityData) => void;
   bookmarks: Set<string>;
   onToggleBookmark: (ref: string) => void;
+  onScriptureView?: (reference: string) => void;
 }
 
 const writerNames: Record<string, string> = {
@@ -97,7 +98,7 @@ function getChurchUrl(reference: string): string {
   return `https://www.churchofjesuschrist.org/study/scriptures/nt/${slug}/${match[2]}?lang=eng`;
 }
 
-const CityDetailPanel = ({ city, onClose, activeTopic, allCities, onCityChange, bookmarks, onToggleBookmark }: CityDetailPanelProps) => {
+const CityDetailPanel = ({ city, onClose, activeTopic, allCities, onCityChange, bookmarks, onToggleBookmark, onScriptureView }: CityDetailPanelProps) => {
   const filteredScriptures = activeTopic
     ? city.scriptures.filter((s) => s.topics.includes(activeTopic))
     : city.scriptures;
