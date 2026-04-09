@@ -34,6 +34,9 @@ export interface JourneyData {
   name: string;
   color: string;
   path: [number, number][];
+  dateRange: string;
+  durationNote: string;
+  travelNote: string;
 }
 
 export interface TileOption {
