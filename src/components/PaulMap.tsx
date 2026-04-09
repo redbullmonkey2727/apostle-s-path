@@ -405,6 +405,16 @@ const PaulMap = () => {
           >
             <Share2 className="h-3.5 w-3.5" /> Share
           </button>
+          {/* Mobile floating search bar */}
+          <div className="lg:hidden absolute top-3 left-20 right-3 z-[1000]">
+            <input
+              type="text"
+              placeholder="Search topics, cities, writers…"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="w-full px-3 py-2 text-sm rounded-md border border-input bg-card/95 backdrop-blur text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-ring shadow-sm"
+            />
+          </div>
           <MapContainer
             center={[37.5, 28]}
             zoom={5}
