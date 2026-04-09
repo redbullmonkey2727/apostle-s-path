@@ -7,6 +7,7 @@ export interface ScriptureEntry {
   nrsv: string;
   topics: string[];
   writer: WriterType;
+  commentary?: string;
 }
 
 export interface CityData {
