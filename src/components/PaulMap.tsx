@@ -315,18 +315,33 @@ function haversineMi(a: [number, number], b: [number, number]): number {
   return R * 2 * Math.atan2(Math.sqrt(x), Math.sqrt(1 - x));
 }
 
-// One distance label per leg between raw waypoints
-function JourneyDistanceSegments({ rawPath, color }: { rawPath: [number, number][]; color: string }) {
+// One distance label per leg between POIs (cities + shipwrecks)
+function JourneyDistanceSegments({ rawPath, shipwrecks, color }: { rawPath: [number, number][]; shipwrecks?: ShipwreckPoint[]; color: string }) {
   const segments = useMemo(() => {
+    // Merge shipwreck coords into the path as additional POIs, sorted by insertion point
+    let allPoints: [number, number][] = [...rawPath];
+    if (shipwrecks?.length) {
+      for (const sw of shipwrecks) {
+        const pt: [number, number] = [sw.lat, sw.lng];
+        // Find the closest segment to insert after
+        let bestIdx = 0;
+        let bestDist = Infinity;
+        for (let i = 0; i < allPoints.length - 1; i++) {
+          const d = haversineMi(allPoints[i], pt) + haversineMi(pt, allPoints[i + 1]) - haversineMi(allPoints[i], allPoints[i + 1]);
+          if (d < bestDist) { bestDist = d; bestIdx = i + 1; }
+        }
+        allPoints.splice(bestIdx, 0, pt);
+      }
+    }
     const result: { from: [number, number]; to: [number, number]; mid: [number, number]; miles: number }[] = [];
-    for (let i = 0; i < rawPath.length - 1; i++) {
-      const from = rawPath[i];
-      const to = rawPath[i + 1];
+    for (let i = 0; i < allPoints.length - 1; i++) {
+      const from = allPoints[i];
+      const to = allPoints[i + 1];
       const mid: [number, number] = [(from[0] + to[0]) / 2, (from[1] + to[1]) / 2];
       result.push({ from, to, mid, miles: Math.round(haversineMi(from, to)) });
     }
     return result;
-  }, [rawPath]);
+  }, [rawPath, shipwrecks]);
 
   return (
     <>
@@ -564,7 +579,7 @@ const PaulMap = () => {
                     />
                   );
                   items.push(
-                    <JourneyDistanceSegments key={`dist-${j.id}`} rawPath={j.path} color={j.color} />
+                    <JourneyDistanceSegments key={`dist-${j.id}`} rawPath={j.path} shipwrecks={j.shipwrecks} color={j.color} />
                   );
                 });
               return items;
