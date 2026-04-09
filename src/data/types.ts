@@ -35,6 +35,8 @@ export interface ShipwreckPoint {
   label: string;
   reference: string;
   description: string;
+  date?: string;
+  summary?: string;
 }
 
 export interface JourneyData {
