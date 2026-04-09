@@ -33,39 +33,39 @@ function getBookName(reference: string): string {
 
 const bookContextInfo: Record<string, Record<string, string>> = {
   Ephesus: {
-    "Acts": "Acts — Luke's record of the early Church. Paul ministered in Ephesus during his 3rd journey (~53–55 AD).",
-    "Ephesians": "Ephesians — Written by Paul from Rome (~60–62 AD) during his first imprisonment, to the saints at Ephesus.",
-    "1 Timothy": "1 Timothy — Written by Paul from Macedonia (~62–64 AD) to Timothy, who was overseeing the church in Ephesus.",
-    "2 Timothy": "2 Timothy — Paul's final letter (~66–67 AD), written from Rome during his second imprisonment, to Timothy at Ephesus.",
-    "1 John": "1 John — Written by John from Ephesus (~85–95 AD), where he spent his later years leading the Church.",
-    "2 John": "2 John — Written by John from Ephesus (~85–95 AD) to the elect lady and her children.",
+    "Acts": "Acts — Luke's record of the early Church. Paul ministered in Ephesus during his 3rd journey (~53–55 AD). Paul was ~48–50 years old.",
+    "Ephesians": "Ephesians — Written by Paul from Rome (~60–62 AD) during his first imprisonment, to the saints at Ephesus. Paul was ~55–57 years old.",
+    "1 Timothy": "1 Timothy — Written by Paul from Macedonia (~62–64 AD) to Timothy, who was overseeing the church in Ephesus. Paul was ~57–59 years old.",
+    "2 Timothy": "2 Timothy — Paul's final letter (~66–67 AD), written from Rome during his second imprisonment, to Timothy at Ephesus. Paul was ~61–62 years old.",
+    "1 John": "1 John — Written by John from Ephesus (~85–95 AD), where he spent his later years leading the Church. John was ~75–85 years old.",
+    "2 John": "2 John — Written by John from Ephesus (~85–95 AD) to the elect lady and her children. John was ~75–85 years old.",
   },
   Rome: {
-    "Romans": "Romans — Written by Paul from Corinth (~57 AD) to the saints in Rome before his arrival.",
-    "1 Peter": "1 Peter — Written by Peter from Rome (~62–64 AD), referred to symbolically as 'Babylon.'",
-    "2 Peter": "2 Peter — Written by Peter from Rome (~64–67 AD), shortly before his martyrdom.",
+    "Romans": "Romans — Written by Paul from Corinth (~57 AD) to the saints in Rome before his arrival. Paul was ~52 years old.",
+    "1 Peter": "1 Peter — Written by Peter from Rome (~62–64 AD), referred to symbolically as 'Babylon.' Peter was ~62–64 years old.",
+    "2 Peter": "2 Peter — Written by Peter from Rome (~64–67 AD), shortly before his martyrdom. Peter was ~64–67 years old.",
   },
   Jerusalem: {
     "Acts": "Acts — Luke's account of the Apostles' ministry, centered in Jerusalem in the early chapters (~30–50 AD).",
-    "James": "James — Written by James the Lord's brother from Jerusalem (~45–50 AD), leader of the Jerusalem church.",
-    "Jude": "Jude — Written by Jude, brother of James, from Jerusalem (~65 AD).",
+    "James": "James — Written by James the Lord's brother from Jerusalem (~45–50 AD), leader of the Jerusalem church. James was ~40–50 years old.",
+    "Jude": "Jude — Written by Jude, brother of James, from Jerusalem (~65 AD). Jude was ~50–65 years old.",
   },
   Corinth: {
-    "1 Corinthians": "1 Corinthians — Written by Paul from Ephesus (~55 AD) to address divisions in the Corinthian church.",
-    "2 Corinthians": "2 Corinthians — Written by Paul from Macedonia (~56 AD) after a painful visit to Corinth.",
+    "1 Corinthians": "1 Corinthians — Written by Paul from Ephesus (~55 AD) to address divisions in the Corinthian church. Paul was ~50 years old.",
+    "2 Corinthians": "2 Corinthians — Written by Paul from Macedonia (~56 AD) after a painful visit to Corinth. Paul was ~51 years old.",
   },
   Thessalonica: {
-    "1 Thessalonians": "1 Thessalonians — Written by Paul from Corinth (~50 AD), one of his earliest letters.",
-    "2 Thessalonians": "2 Thessalonians — Written by Paul from Corinth (~51 AD), shortly after the first letter.",
+    "1 Thessalonians": "1 Thessalonians — Written by Paul from Corinth (~50 AD), one of his earliest letters. Paul was ~45 years old.",
+    "2 Thessalonians": "2 Thessalonians — Written by Paul from Corinth (~51 AD), shortly after the first letter. Paul was ~46 years old.",
   },
   Colossae: {
-    "Colossians": "Colossians — Written by Paul from Rome (~60–62 AD) during his first imprisonment.",
+    "Colossians": "Colossians — Written by Paul from Rome (~60–62 AD) during his first imprisonment. Paul was ~55–57 years old.",
   },
   Patmos: {
-    "Revelation": "Revelation — Written by John the Revelator from the Isle of Patmos (~95 AD) during exile under Emperor Domitian.",
+    "Revelation": "Revelation — Written by John the Revelator from the Isle of Patmos (~95 AD) during exile under Emperor Domitian. John was ~85–90 years old.",
   },
   Crete: {
-    "Titus": "Titus — Written by Paul (~63–65 AD) to Titus, whom he left in Crete to organize the churches.",
+    "Titus": "Titus — Written by Paul (~63–65 AD) to Titus, whom he left in Crete to organize the churches. Paul was ~58–60 years old.",
   },
   Alexandria: {
     "Hebrews": "Hebrews — Author debated, written ~60–70 AD, addressing Jewish Christians with deep doctrinal arguments.",
