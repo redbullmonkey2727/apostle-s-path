@@ -315,21 +315,18 @@ function haversineMi(a: [number, number], b: [number, number]): number {
   return R * 2 * Math.atan2(Math.sqrt(x), Math.sqrt(1 - x));
 }
 
-// Invisible polyline segments with distance tooltip on hover
-function JourneyDistanceSegments({ path, color }: { path: [number, number][]; color: string }) {
-  // Create segments between key points (every ~20 smoothed points)
+// One distance label per leg between raw waypoints
+function JourneyDistanceSegments({ rawPath, color }: { rawPath: [number, number][]; color: string }) {
   const segments = useMemo(() => {
     const result: { from: [number, number]; to: [number, number]; mid: [number, number]; miles: number }[] = [];
-    const step = 20;
-    for (let i = 0; i + step < path.length; i += step) {
-      const from = path[i];
-      const to = path[Math.min(i + step, path.length - 1)];
-      const segDist = haversineMi(from, to);
-      const midIdx = Math.min(i + Math.floor(step / 2), path.length - 1);
-      result.push({ from, to, mid: path[midIdx], miles: Math.round(segDist) });
+    for (let i = 0; i < rawPath.length - 1; i++) {
+      const from = rawPath[i];
+      const to = rawPath[i + 1];
+      const mid: [number, number] = [(from[0] + to[0]) / 2, (from[1] + to[1]) / 2];
+      result.push({ from, to, mid, miles: Math.round(haversineMi(from, to)) });
     }
     return result;
-  }, [path]);
+  }, [rawPath]);
 
   return (
     <>
@@ -564,7 +561,7 @@ const PaulMap = () => {
                     />
                   );
                   items.push(
-                    <JourneyDistanceSegments key={`dist-${j.id}`} path={smooth} color={j.color} />
+                    <JourneyDistanceSegments key={`dist-${j.id}`} rawPath={j.path} color={j.color} />
                   );
                 });
               return items;
