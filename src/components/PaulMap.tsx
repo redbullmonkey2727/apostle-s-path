@@ -215,7 +215,7 @@ function AnimatedPolyline({
 
     const timer = setTimeout(() => {
       frameRef.current = requestAnimationFrame(step);
-    }, 100);
+    }, delay);
     return () => {
       clearTimeout(timer);
       if (frameRef.current) cancelAnimationFrame(frameRef.current);
@@ -417,17 +417,25 @@ const PaulMap = () => {
             <MapRef onMap={handleMapRef} />
             <TileLayer url={tile.url} attribution={tile.attribution} />
 
-            {journeys
-              .filter((j) => activeJourneys.includes(j.id))
-              .map((j) => (
-                <AnimatedPolyline
-                  key={j.id}
-                  positions={smoothPath(j.path, 12)}
-                  color={j.color}
-                  dashArray={j.id === "rome" ? "8 4" : undefined}
-                  shipwrecks={j.shipwrecks}
-                />
-              ))}
+            {(() => {
+              const journeyOrder = ["first", "second", "third", "rome"];
+              const staggerDelay = 4500; // ms between journey starts
+              return journeys
+                .filter((j) => activeJourneys.includes(j.id))
+                .map((j) => {
+                  const orderIdx = journeyOrder.indexOf(j.id);
+                  return (
+                    <AnimatedPolyline
+                      key={j.id}
+                      positions={smoothPath(j.path, 12)}
+                      color={j.color}
+                      dashArray={j.id === "rome" ? "8 4" : undefined}
+                      shipwrecks={j.shipwrecks}
+                      delay={orderIdx * staggerDelay}
+                    />
+                  );
+                });
+            })()}
 
             {/* Shipwreck markers */}
             {journeys
