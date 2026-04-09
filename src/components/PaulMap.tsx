@@ -127,11 +127,13 @@ function AnimatedPolyline({
   color,
   dashArray,
   shipwrecks = [],
+  delay = 0,
 }: {
   positions: [number, number][];
   color: string;
   dashArray?: string;
   shipwrecks?: ShipwreckPoint[];
+  delay?: number;
 }) {
   const [visibleCount, setVisibleCount] = useState(0);
   const [shipPos, setShipPos] = useState<[number, number] | null>(null);
