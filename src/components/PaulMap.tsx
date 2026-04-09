@@ -288,8 +288,22 @@ const PaulMap = () => {
                   positions={smoothPath(j.path, 12)}
                   color={j.color}
                   dashArray={j.id === "rome" ? "8 4" : undefined}
+                  shipwrecks={j.shipwrecks}
                 />
               ))}
+
+            {/* Shipwreck markers */}
+            {journeys
+              .filter((j) => activeJourneys.includes(j.id) && j.shipwrecks)
+              .flatMap((j) =>
+                j.shipwrecks!.map((sw, i) => (
+                  <ShipwreckMarkerComponent
+                    key={`${j.id}-wreck-${i}`}
+                    shipwreck={sw}
+                    journeyColor={j.color}
+                  />
+                ))
+              )}
 
             {filteredCities.map((city) => (
               <CityMarker
