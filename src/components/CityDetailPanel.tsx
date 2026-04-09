@@ -1,6 +1,7 @@
 import { CityData } from "@/data/paulData";
 import { X, MapPin, Tag, Thermometer, BookOpen } from "lucide-react";
 import { useState } from "react";
+import { commentaries } from "@/data/commentaries";
 
 interface CityDetailPanelProps {
   city: CityData;
@@ -17,6 +18,14 @@ const writerNames: Record<string, string> = {
   "hebrews-author": "Hebrews Author",
 };
 
+function getCommentary(reference: string): string {
+  if (commentaries[reference]) return commentaries[reference];
+  for (const key of Object.keys(commentaries)) {
+    if (reference.includes(key) || key.includes(reference)) return commentaries[key];
+  }
+  return "";
+}
+
 const CityDetailPanel = ({ city, onClose, activeTopic }: CityDetailPanelProps) => {
   const [selectedRef, setSelectedRef] = useState<string | null>(
     city.scriptures.length > 0 ? city.scriptures[0].reference : null
@@ -27,6 +36,7 @@ const CityDetailPanel = ({ city, onClose, activeTopic }: CityDetailPanelProps) =
     : city.scriptures;
 
   const selectedScripture = city.scriptures.find((s) => s.reference === selectedRef);
+  const commentary = selectedScripture ? getCommentary(selectedScripture.reference) : "";
 
   return (
     <div className="fixed inset-0 bg-background z-[1000] flex flex-col animate-fade-in">
@@ -77,7 +87,7 @@ const CityDetailPanel = ({ city, onClose, activeTopic }: CityDetailPanelProps) =
       {/* Content area */}
       <div className="flex-1 flex overflow-hidden max-w-7xl mx-auto w-full">
         {/* Scripture selector sidebar */}
-        <div className="w-72 border-r border-border overflow-y-auto p-4 space-y-1 bg-card/50 shrink-0 font-rosarivo">
+        <div className="w-64 border-r border-border overflow-y-auto p-4 space-y-1 bg-card/50 shrink-0 font-rosarivo">
           <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-3 flex items-center gap-1">
             <BookOpen className="h-3.5 w-3.5" /> Scriptures ({filteredScriptures.length})
           </h3>
@@ -111,16 +121,16 @@ const CityDetailPanel = ({ city, onClose, activeTopic }: CityDetailPanelProps) =
           )}
         </div>
 
-        {/* Side-by-side translations */}
+        {/* Three-column translation + application view */}
         {selectedScripture ? (
           <div className="flex-1 flex overflow-hidden">
-            {/* KJV */}
+            {/* KJV — 1/3 */}
             <div className="flex-1 overflow-y-auto p-6 border-r border-border">
               <div className="flex items-center justify-between mb-4">
                 <h3 className="font-serif text-lg font-bold text-foreground">KJV</h3>
                 <span className="text-xs text-muted-foreground">{selectedScripture.reference}</span>
               </div>
-              <p className="text-sm leading-relaxed text-foreground font-rosarivo whitespace-pre-line">
+              <p className="text-base leading-relaxed text-foreground font-rosarivo whitespace-pre-line">
                 {selectedScripture.kjv}
               </p>
               {selectedScripture.topics.length > 0 && (
@@ -133,13 +143,14 @@ const CityDetailPanel = ({ city, onClose, activeTopic }: CityDetailPanelProps) =
                 </div>
               )}
             </div>
-            {/* NRSV */}
-            <div className="flex-1 overflow-y-auto p-6">
+
+            {/* NRSV — 1/3 */}
+            <div className="flex-1 overflow-y-auto p-6 border-r border-border">
               <div className="flex items-center justify-between mb-4">
                 <h3 className="font-serif text-lg font-bold text-foreground">NRSV (2021)</h3>
                 <span className="text-xs text-muted-foreground">{selectedScripture.reference}</span>
               </div>
-              <p className="text-sm leading-relaxed text-foreground font-rosarivo whitespace-pre-line">
+              <p className="text-base leading-relaxed text-foreground font-rosarivo whitespace-pre-line">
                 {selectedScripture.nrsv}
               </p>
               <div className="mt-6 pt-4 border-t border-border">
@@ -147,6 +158,23 @@ const CityDetailPanel = ({ city, onClose, activeTopic }: CityDetailPanelProps) =
                   Writer: <strong>{writerNames[selectedScripture.writer]}</strong>
                 </p>
               </div>
+            </div>
+
+            {/* Application — 1/3 */}
+            <div className="flex-1 overflow-y-auto p-6">
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="font-serif text-lg font-bold text-foreground">Application</h3>
+                <span className="text-xs text-muted-foreground">Elder Fisher</span>
+              </div>
+              {commentary ? (
+                <p className="text-base leading-relaxed text-foreground font-rosarivo whitespace-pre-line">
+                  {commentary}
+                </p>
+              ) : (
+                <p className="text-sm text-muted-foreground italic">
+                  No commentary available for this scripture.
+                </p>
+              )}
             </div>
           </div>
         ) : (
