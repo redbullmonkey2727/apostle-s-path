@@ -343,4 +343,10 @@ export const tileOptions: TileOption[] = [
     url: "https://server.arcgisonline.com/ArcGIS/rest/services/World_Physical_Map/MapServer/tile/{z}/{y}/{x}",
     attribution: '&copy; Esri',
   },
+  {
+    id: "satellite",
+    name: "Satellite",
+    url: "https://mt1.google.com/vt/lyrs=s&x={x}&y={y}&z={z}",
+    attribution: '&copy; Google Maps',
+  },
 ];

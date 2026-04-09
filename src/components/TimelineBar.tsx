@@ -46,8 +46,8 @@ const TimelineBar = ({ onCitySelect, selectedCityId }: TimelineBarProps) => {
         {/* Timeline line */}
         <div className="absolute top-5 left-0 right-0 h-0.5 bg-border" />
         {/* Year labels */}
-        <span className="absolute top-8 left-0 text-[10px] text-muted-foreground">~{minYear} AD</span>
-        <span className="absolute top-8 right-0 text-[10px] text-muted-foreground">~{maxYear} AD</span>
+        <span className="absolute top-8 left-0 text-[10px] text-muted-foreground">{minYear} AD</span>
+        <span className="absolute top-8 right-0 text-[10px] text-muted-foreground">{maxYear} AD</span>
         {/* Entries */}
         {entries.map((e, i) => {
           const pct = ((e.year - minYear) / range) * 100;
