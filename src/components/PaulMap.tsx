@@ -1,6 +1,7 @@
-import { MapContainer, TileLayer, Polyline, useMap } from "react-leaflet";
+import { MapContainer, TileLayer, Polyline, Marker, useMap } from "react-leaflet";
 import { useState, useMemo, useEffect, useCallback, useRef } from "react";
 import { useSearchParams } from "react-router-dom";
+import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import { cities, journeys, tileOptions, CityData } from "@/data/paulData";
 import { smoothPath } from "@/lib/smoothPath";
@@ -14,6 +15,7 @@ import { Loader2 } from "lucide-react";
 import { useBookmarks } from "@/hooks/useBookmarks";
 import { useDarkMode } from "@/hooks/useDarkMode";
 import type { ShipwreckPoint } from "@/data/types";
+import shipImg from "@/assets/ship.png";
 
 function TileUpdater({ tileId }: { tileId: string }) {
   const map = useMap();
