@@ -154,6 +154,8 @@ function AnimatedPolyline({
     setVisibleCount(0);
     setShipPos(null);
     setShowShip(false);
+    setSplashPoints([]);
+    triggeredWrecks.current = new Set();
     let count = 0;
     const slowRadius = 15;
     const pauseFrames = 30;
