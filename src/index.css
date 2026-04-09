@@ -109,3 +109,14 @@
 .animated-path path {
   animation: dash-flow 1s linear infinite;
 }
+
+.shipwreck-marker {
+  background: transparent !important;
+  border: none !important;
+}
+
+.sailing-ship-icon {
+  background: transparent !important;
+  border: none !important;
+  transition: opacity 0.3s ease;
+}
