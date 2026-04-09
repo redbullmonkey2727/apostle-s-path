@@ -14,8 +14,9 @@ export default {
     },
     extend: {
       fontFamily: {
-        serif: ['"EB Garamond"', 'serif'],
+        serif: ['Lora', 'serif'],
         sans: ['Lora', 'serif'],
+        rosarivo: ['Rosarivo', 'serif'],
       },
       colors: {
         journey: {

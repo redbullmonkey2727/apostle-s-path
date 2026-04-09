@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-@import "https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;500;600;700&family=Lora:wght@400;500;600;700&display=swap";
+@import "https://fonts.googleapis.com/css2?family=Lora:wght@400;500;600;700&family=Rosarivo&display=swap";
 
 @layer base {
   :root {
@@ -63,13 +63,13 @@
   }
 
   h1, h2, h3, h4, h5, h6 {
-    font-family: 'EB Garamond', serif;
+    font-family: 'Lora', serif;
   }
 }
 
 @layer utilities {
   .font-serif-display {
-    font-family: 'EB Garamond', serif;
+    font-family: 'Lora', serif;
   }
 }
 
