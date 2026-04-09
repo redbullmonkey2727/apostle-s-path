@@ -3,7 +3,7 @@ import { useState, useMemo, useEffect, useCallback, useRef } from "react";
 import { useSearchParams } from "react-router-dom";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
-import { cities, journeys, tileOptions, CityData } from "@/data/paulData";
+import { cities, journeys, tileOptions, CityData, allTopics } from "@/data/paulData";
 import { smoothPath } from "@/lib/smoothPath";
 import CityMarker from "./CityMarker";
 import CityDetailPanel from "./CityDetailPanel";
@@ -80,12 +80,12 @@ function isOverWater(pos: [number, number]): boolean {
   return minCityDist > 0.8; // ~80km threshold
 }
 
-// Create tiny ship icon for the leading edge
+// Create tiny ship icon for the leading edge (14px — 12% smaller than 16px)
 const tinyShipIcon = L.divIcon({
-  html: `<img src="${shipImg}" style="width:16px;height:16px;object-fit:contain;filter:drop-shadow(0 1px 2px rgba(0,0,0,0.5));" />`,
+  html: `<img src="${shipImg}" style="width:14px;height:14px;object-fit:contain;filter:drop-shadow(0 1px 2px rgba(0,0,0,0.5));" />`,
   className: "sailing-ship-icon",
-  iconSize: [16, 16],
-  iconAnchor: [8, 8],
+  iconSize: [14, 14],
+  iconAnchor: [7, 7],
 });
 
 // Global speed multiplier: 18% slower
@@ -263,6 +263,25 @@ const PaulMap = () => {
 
   const tile = tileOptions.find((t) => t.id === activeTile) || tileOptions[0];
 
+  // Collect all scriptures matching a topic search
+  const topicSearchResults = useMemo(() => {
+    if (!searchQuery.trim()) return null;
+    const q = searchQuery.trim().toLowerCase();
+    // Check if query matches any topic name
+    const matchedTopic = allTopics.find((t) => t.toLowerCase().includes(q));
+    if (!matchedTopic) return null;
+
+    const results: { city: string; cityData: CityData; reference: string; writer: string; topics: string[] }[] = [];
+    for (const c of cities) {
+      for (const s of c.scriptures) {
+        if (s.topics.some((t) => t.toLowerCase().includes(q))) {
+          results.push({ city: c.name, cityData: c, reference: s.reference, writer: s.writer, topics: s.topics });
+        }
+      }
+    }
+    return results.length > 0 ? { topic: matchedTopic, results } : null;
+  }, [searchQuery]);
+
   const filteredCities = useMemo(() => {
     let result = cities;
     if (searchQuery.trim()) {
@@ -272,7 +291,8 @@ const PaulMap = () => {
           c.name.toLowerCase().includes(q) ||
           c.label.toLowerCase().includes(q) ||
           c.references.some((r) => r.toLowerCase().includes(q)) ||
-          c.writers.some((w) => w.toLowerCase().includes(q))
+          c.writers.some((w) => w.toLowerCase().includes(q)) ||
+          c.scriptures.some((s) => s.topics.some((t) => t.toLowerCase().includes(q)))
       );
     }
     if (activeTopic) {
@@ -357,6 +377,40 @@ const PaulMap = () => {
               />
             ))}
           </MapContainer>
+
+          {/* Topic search results overlay */}
+          {topicSearchResults && !selectedCity && (
+            <div className="absolute top-3 right-3 z-[1000] bg-card/95 backdrop-blur border border-border rounded-lg shadow-lg max-w-sm max-h-[60vh] overflow-y-auto">
+              <div className="sticky top-0 bg-card/95 backdrop-blur px-4 py-3 border-b border-border">
+                <div className="flex items-center justify-between">
+                  <h3 className="font-serif font-bold text-sm text-foreground">
+                    📖 "{topicSearchResults.topic}" — {topicSearchResults.results.length} scriptures
+                  </h3>
+                  <button
+                    onClick={() => setSearchQuery("")}
+                    className="text-muted-foreground hover:text-foreground text-xs ml-2"
+                  >✕</button>
+                </div>
+              </div>
+              <div className="divide-y divide-border">
+                {topicSearchResults.results.map((r, i) => (
+                  <button
+                    key={`${r.reference}-${i}`}
+                    onClick={() => {
+                      setSelectedCity(r.cityData);
+                      setSearchQuery("");
+                    }}
+                    className="w-full text-left px-4 py-2.5 hover:bg-muted/50 transition-colors"
+                  >
+                    <p className="text-sm font-semibold text-foreground">{r.reference}</p>
+                    <p className="text-xs text-muted-foreground mt-0.5">
+                      {r.city} · <span className="capitalize">{r.writer}</span>
+                    </p>
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
       </div>
 
