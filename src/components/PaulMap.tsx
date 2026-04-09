@@ -236,6 +236,7 @@ const PaulMap = () => {
   const { isDark, toggle: toggleDark } = useDarkMode();
   const { bookmarks, toggle: toggleBookmark } = useBookmarks();
   const [showTour, setShowTour] = useState(false);
+  const [showWelcome, setShowWelcome] = useState(false);
   const mapInstanceRef = useRef<L.Map | null>(null);
 
   const [activeJourneys, setActiveJourneys] = useState<string[]>(() => {
@@ -255,7 +256,7 @@ const PaulMap = () => {
     if (activeJourneys.length > 0 && activeJourneys.length < 4) {
       params.journeys = activeJourneys.join(",");
     }
-    if (activeTile !== "google") params.tile = activeTile;
+    if (activeTile !== "osm") params.tile = activeTile;
     if (selectedCity) params.city = selectedCity.id;
     if (activeTopic) params.topic = activeTopic;
     setSearchParams(params, { replace: true });
@@ -263,16 +264,48 @@ const PaulMap = () => {
 
   const closeCity = useCallback(() => setSelectedCity(null), []);
 
+  // Keyboard shortcuts: Esc, arrows, T, D
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
+      // Don't trigger shortcuts when typing in inputs
+      if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) return;
+
       if (e.key === "Escape") {
         if (showTour) setShowTour(false);
         else closeCity();
+      } else if (e.key === "t" || e.key === "T") {
+        setShowTour((prev) => !prev);
+      } else if (e.key === "d" || e.key === "D") {
+        toggleDark();
+      } else if (e.key === "ArrowRight" || e.key === "ArrowLeft") {
+        setSelectedCity((current) => {
+          const citiesWithScriptures = cities.filter((c) => c.scriptures.length > 0);
+          if (citiesWithScriptures.length === 0) return current;
+          if (!current) return citiesWithScriptures[0];
+          const idx = citiesWithScriptures.findIndex((c) => c.id === current.id);
+          if (e.key === "ArrowRight") {
+            return citiesWithScriptures[(idx + 1) % citiesWithScriptures.length];
+          } else {
+            return citiesWithScriptures[(idx - 1 + citiesWithScriptures.length) % citiesWithScriptures.length];
+          }
+        });
       }
     };
     window.addEventListener("keydown", handler);
     return () => window.removeEventListener("keydown", handler);
-  }, [closeCity, showTour]);
+  }, [closeCity, showTour, toggleDark]);
+
+  const handleShareLink = useCallback(() => {
+    navigator.clipboard.writeText(window.location.href).then(() => {
+      // Brief visual feedback via a toast-like approach
+      const el = document.createElement("div");
+      el.textContent = "📋 Link copied!";
+      el.className = "fixed top-4 left-1/2 -translate-x-1/2 z-[3000] bg-card border border-border rounded-lg px-4 py-2 text-sm shadow-lg animate-fade-in";
+      document.body.appendChild(el);
+      setTimeout(() => { el.style.opacity = "0"; el.style.transition = "opacity 0.3s"; }, 1500);
+      setTimeout(() => el.remove(), 2000);
+    });
+  }, []);
 
   const toggleJourney = (id: string) => {
     setActiveJourneys((prev) =>
