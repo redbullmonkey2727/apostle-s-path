@@ -1,6 +1,7 @@
-import { MapContainer, TileLayer, Polyline, useMap } from "react-leaflet";
+import { MapContainer, TileLayer, Polyline, Marker, useMap } from "react-leaflet";
 import { useState, useMemo, useEffect, useCallback, useRef } from "react";
 import { useSearchParams } from "react-router-dom";
+import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import { cities, journeys, tileOptions, CityData } from "@/data/paulData";
 import { smoothPath } from "@/lib/smoothPath";
@@ -14,6 +15,7 @@ import { Loader2 } from "lucide-react";
 import { useBookmarks } from "@/hooks/useBookmarks";
 import { useDarkMode } from "@/hooks/useDarkMode";
 import type { ShipwreckPoint } from "@/data/types";
+import shipImg from "@/assets/ship.png";
 
 function TileUpdater({ tileId }: { tileId: string }) {
   const map = useMap();
@@ -70,6 +72,25 @@ function findClosestIndex(positions: [number, number][], point: { lat: number; l
   return minIdx;
 }
 
+// Heuristic: is a point over water? (far from known land cities)
+const landCityCoords: [number, number][] = cities.map((c) => [c.lat, c.lng]);
+function isOverWater(pos: [number, number]): boolean {
+  // If the point is far enough from any known city, it's likely over water
+  const minCityDist = Math.min(...landCityCoords.map((c) => dist(pos, c)));
+  return minCityDist > 0.8; // ~80km threshold
+}
+
+// Create tiny ship icon for the leading edge
+const tinyShipIcon = L.divIcon({
+  html: `<img src="${shipImg}" style="width:16px;height:16px;object-fit:contain;filter:drop-shadow(0 1px 2px rgba(0,0,0,0.5));" />`,
+  className: "sailing-ship-icon",
+  iconSize: [16, 16],
+  iconAnchor: [8, 8],
+});
+
+// Global speed multiplier: 18% slower
+const SPEED_FACTOR = 0.82;
+
 // Animated polyline that draws progressively with slowdowns near shipwrecks
 function AnimatedPolyline({
   positions,
@@ -83,6 +104,8 @@ function AnimatedPolyline({
   shipwrecks?: ShipwreckPoint[];
 }) {
   const [visibleCount, setVisibleCount] = useState(0);
+  const [shipPos, setShipPos] = useState<[number, number] | null>(null);
+  const [showShip, setShowShip] = useState(false);
   const frameRef = useRef<number>();
 
   // Pre-compute shipwreck indices and slow zones
@@ -92,23 +115,24 @@ function AnimatedPolyline({
 
   useEffect(() => {
     setVisibleCount(0);
+    setShipPos(null);
+    setShowShip(false);
     let count = 0;
-    const slowRadius = 15; // points before/after shipwreck to slow down
-    const pauseFrames = 30; // frames to pause at shipwreck point
+    const slowRadius = 15;
+    const pauseFrames = 30;
     let pauseCounter = 0;
     let isPaused = false;
 
     const getSpeed = (idx: number): number => {
       for (const swIdx of shipwreckIndices) {
         const distance = Math.abs(idx - swIdx);
-        if (distance === 0) return 0; // will trigger pause
+        if (distance === 0) return 0;
         if (distance <= slowRadius) {
-          // Ease: very slow near wreck, speeds up away from it
           const t = distance / slowRadius;
-          return Math.max(0.3, t * t * 2);
+          return Math.max(0.3, t * t * 2) * SPEED_FACTOR;
         }
       }
-      return 2; // normal speed
+      return 2 * SPEED_FACTOR; // normal speed, 18% slower
     };
 
     const step = () => {
@@ -136,9 +160,24 @@ function AnimatedPolyline({
       }
 
       count = Math.min(count + speed, positions.length);
-      setVisibleCount(Math.floor(count));
+      const idx = Math.floor(count);
+      setVisibleCount(idx);
+
+      // Update ship position at the leading edge
+      if (idx > 0 && idx < positions.length) {
+        const headPos = positions[idx];
+        const onWater = isOverWater(headPos);
+        setShowShip(onWater);
+        if (onWater) {
+          setShipPos(headPos);
+        }
+      }
+
       if (count < positions.length) {
         frameRef.current = requestAnimationFrame(step);
+      } else {
+        setShowShip(false);
+        setShipPos(null);
       }
     };
 
@@ -154,17 +193,22 @@ function AnimatedPolyline({
   if (visibleCount < 2) return null;
 
   return (
-    <Polyline
-      positions={positions.slice(0, visibleCount)}
-      pathOptions={{
-        color,
-        weight: 3,
-        opacity: 0.8,
-        dashArray,
-        lineJoin: "round",
-        lineCap: "round",
-      }}
-    />
+    <>
+      <Polyline
+        positions={positions.slice(0, visibleCount)}
+        pathOptions={{
+          color,
+          weight: 3,
+          opacity: 0.8,
+          dashArray,
+          lineJoin: "round",
+          lineCap: "round",
+        }}
+      />
+      {showShip && shipPos && (
+        <Marker position={shipPos} icon={tinyShipIcon} interactive={false} />
+      )}
+    </>
   );
 }
 
