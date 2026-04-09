@@ -2,6 +2,7 @@ import { MapContainer, TileLayer, Polyline, useMap } from "react-leaflet";
 import { useState, useMemo, useEffect } from "react";
 import "leaflet/dist/leaflet.css";
 import { cities, journeys, tileOptions, CityData } from "@/data/paulData";
+import { smoothPath } from "@/lib/smoothPath";
 import CityMarker from "./CityMarker";
 import CityDetailPanel from "./CityDetailPanel";
 import JourneyLegend from "./JourneyLegend";
@@ -78,12 +79,14 @@ const PaulMap = () => {
             .map((j) => (
               <Polyline
                 key={j.id}
-                positions={j.path}
+                positions={smoothPath(j.path, 12)}
                 pathOptions={{
                   color: j.color,
                   weight: 3,
                   opacity: 0.8,
                   dashArray: j.id === "rome" ? "8 4" : undefined,
+                  lineJoin: "round",
+                  lineCap: "round",
                 }}
               />
             ))}
