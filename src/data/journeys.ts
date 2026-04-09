@@ -64,6 +64,14 @@ export const journeys: JourneyData[] = [
       [36.12, 35.95],
       [36.20, 36.15],   // Antioch
     ],
+    shipwrecks: [
+      {
+        lat: 35.10, lng: 31.50,
+        label: "Shipwreck off Pamphylia",
+        reference: "2 Corinthians 11:25",
+        description: "One of three shipwrecks Paul mentions before writing 2 Corinthians. Likely occurred crossing from Cyprus to the coast of Pamphylia — a notoriously rough stretch of open Mediterranean."
+      }
+    ],
   },
   {
     id: "second",
@@ -146,6 +154,14 @@ export const journeys: JourneyData[] = [
       [34.50, 36.00],
       [35.50, 36.10],
       [36.20, 36.15],   // Antioch
+    ],
+    shipwrecks: [
+      {
+        lat: 40.55, lng: 26.80,
+        label: "Shipwreck near Samothrace",
+        reference: "2 Corinthians 11:25",
+        description: "Paul's crossing from Troas to Macedonia passed through notoriously treacherous waters around Samothrace. Scholars suggest one of his three pre-AD 56 shipwrecks may have occurred here."
+      }
     ],
   },
   {
