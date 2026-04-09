@@ -1,6 +1,7 @@
 import { CityData } from "@/data/paulData";
-import { X, MapPin, Tag, Thermometer, BookOpen, Droplets, ExternalLink } from "lucide-react";
+import { X, MapPin, Tag, Thermometer, BookOpen, Droplets, ExternalLink, Scroll } from "lucide-react";
 import { commentaries } from "@/data/commentaries";
+import { ScriptureEntry } from "@/data/types";
 
 interface CityDetailPanelProps {
   city: CityData;
@@ -24,6 +25,52 @@ function getCommentary(reference: string): string {
   }
   return "";
 }
+
+function getBookName(reference: string): string {
+  const m = reference.match(/^(.+?)\s+\d/);
+  return m ? m[1] : reference;
+}
+
+const bookContextInfo: Record<string, Record<string, string>> = {
+  Ephesus: {
+    "Acts": "Acts — Luke's record of the early Church. Paul ministered in Ephesus during his 3rd journey (~53–55 AD).",
+    "Ephesians": "Ephesians — Written by Paul from Rome (~60–62 AD) during his first imprisonment, to the saints at Ephesus.",
+    "1 Timothy": "1 Timothy — Written by Paul from Macedonia (~62–64 AD) to Timothy, who was overseeing the church in Ephesus.",
+    "2 Timothy": "2 Timothy — Paul's final letter (~66–67 AD), written from Rome during his second imprisonment, to Timothy at Ephesus.",
+    "1 John": "1 John — Written by John from Ephesus (~85–95 AD), where he spent his later years leading the Church.",
+    "2 John": "2 John — Written by John from Ephesus (~85–95 AD) to the elect lady and her children.",
+  },
+  Rome: {
+    "Romans": "Romans — Written by Paul from Corinth (~57 AD) to the saints in Rome before his arrival.",
+    "1 Peter": "1 Peter — Written by Peter from Rome (~62–64 AD), referred to symbolically as 'Babylon.'",
+    "2 Peter": "2 Peter — Written by Peter from Rome (~64–67 AD), shortly before his martyrdom.",
+  },
+  Jerusalem: {
+    "Acts": "Acts — Luke's account of the Apostles' ministry, centered in Jerusalem in the early chapters (~30–50 AD).",
+    "James": "James — Written by James the Lord's brother from Jerusalem (~45–50 AD), leader of the Jerusalem church.",
+    "Jude": "Jude — Written by Jude, brother of James, from Jerusalem (~65 AD).",
+  },
+  Corinth: {
+    "1 Corinthians": "1 Corinthians — Written by Paul from Ephesus (~55 AD) to address divisions in the Corinthian church.",
+    "2 Corinthians": "2 Corinthians — Written by Paul from Macedonia (~56 AD) after a painful visit to Corinth.",
+  },
+  Thessalonica: {
+    "1 Thessalonians": "1 Thessalonians — Written by Paul from Corinth (~50 AD), one of his earliest letters.",
+    "2 Thessalonians": "2 Thessalonians — Written by Paul from Corinth (~51 AD), shortly after the first letter.",
+  },
+  Colossae: {
+    "Colossians": "Colossians — Written by Paul from Rome (~60–62 AD) during his first imprisonment.",
+  },
+  Patmos: {
+    "Revelation": "Revelation — Written by John the Revelator from the Isle of Patmos (~95 AD) during exile under Emperor Domitian.",
+  },
+  Crete: {
+    "Titus": "Titus — Written by Paul (~63–65 AD) to Titus, whom he left in Crete to organize the churches.",
+  },
+  Alexandria: {
+    "Hebrews": "Hebrews — Author debated, written ~60–70 AD, addressing Jewish Christians with deep doctrinal arguments.",
+  },
+};
 
 // Build church website URL for a scripture reference
 function getChurchUrl(reference: string): string {
@@ -123,11 +170,23 @@ const CityDetailPanel = ({ city, onClose, activeTopic }: CityDetailPanelProps) =
           {filteredScriptures.length === 0 && (
             <p className="text-muted-foreground italic text-center py-12">No scriptures match the selected topic.</p>
           )}
-          {filteredScriptures.map((s) => {
+          {filteredScriptures.map((s, idx) => {
             const commentary = getCommentary(s.reference);
             const churchUrl = getChurchUrl(s.reference);
+            const currentBook = getBookName(s.reference);
+            const prevBook = idx > 0 ? getBookName(filteredScriptures[idx - 1].reference) : null;
+            const showBookTransition = currentBook !== prevBook;
+            const contextMap = bookContextInfo[city.name];
+            const contextNote = contextMap ? contextMap[currentBook] : undefined;
             return (
-              <div key={s.reference} className="border border-border rounded-lg overflow-hidden bg-card">
+              <div key={s.reference}>
+                {showBookTransition && contextNote && (
+                  <div className="flex items-center gap-3 mb-4 mt-2 px-1">
+                    <Scroll className="h-4 w-4 text-primary shrink-0" />
+                    <p className="text-sm text-muted-foreground italic">{contextNote}</p>
+                  </div>
+                )}
+                <div className="border border-border rounded-lg overflow-hidden bg-card">
                 {/* Scripture header */}
                 <div className="px-5 py-3 border-b border-border bg-muted/30">
                   <div className="flex items-center justify-between flex-wrap gap-2">
@@ -181,6 +240,7 @@ const CityDetailPanel = ({ city, onClose, activeTopic }: CityDetailPanelProps) =
                       <p className="text-sm text-muted-foreground italic">No commentary available.</p>
                     )}
                   </div>
+                </div>
                 </div>
               </div>
             );
