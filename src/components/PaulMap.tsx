@@ -194,6 +194,20 @@ function AnimatedPolyline({
       if (speed === 0 && !isPaused) {
         isPaused = true;
         pauseCounter = 0;
+        // Trigger splash animation at this shipwreck
+        const idx = Math.floor(count);
+        for (let si = 0; si < shipwreckIndices.length; si++) {
+          if (Math.abs(idx - shipwreckIndices[si]) <= 1 && !triggeredWrecks.current.has(si)) {
+            triggeredWrecks.current.add(si);
+            const splashPos = positions[shipwreckIndices[si]];
+            const splashKey = Date.now() + si;
+            setSplashPoints((prev) => [...prev, { pos: splashPos, key: splashKey }]);
+            // Remove splash after 1.2s
+            setTimeout(() => {
+              setSplashPoints((prev) => prev.filter((s) => s.key !== splashKey));
+            }, 1200);
+          }
+        }
         frameRef.current = requestAnimationFrame(step);
         return;
       }
