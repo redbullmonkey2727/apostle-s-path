@@ -505,14 +505,23 @@ const PaulMap = () => {
         />
 
         <div className="flex-1 rounded-lg overflow-hidden border border-border shadow-sm relative">
-          {/* Share button */}
-          <button
-            onClick={handleShareLink}
-            className="absolute top-3 left-3 z-[1000] bg-card/90 border border-border rounded-lg px-3 py-1.5 flex items-center gap-1.5 text-xs text-muted-foreground hover:text-foreground hover:bg-card shadow-sm transition-colors"
-            title="Copy shareable link"
-          >
-            <Share2 className="h-3.5 w-3.5" /> Share
-          </button>
+          {/* Top buttons: Share + PDF */}
+          <div className="absolute top-3 left-3 z-[1000] flex gap-2">
+            <button
+              onClick={handleShareLink}
+              className="bg-card/90 border border-border rounded-lg px-3 py-1.5 flex items-center gap-1.5 text-xs text-muted-foreground hover:text-foreground hover:bg-card shadow-sm transition-colors"
+              title="Copy shareable link"
+            >
+              <Share2 className="h-3.5 w-3.5" /> Share
+            </button>
+            <button
+              onClick={() => generateScripturePdf(activeTopic)}
+              className="bg-card/90 border border-border rounded-lg px-3 py-1.5 flex items-center gap-1.5 text-xs text-muted-foreground hover:text-foreground hover:bg-card shadow-sm transition-colors"
+              title="Download scripture PDF"
+            >
+              <FileDown className="h-3.5 w-3.5" /> PDF
+            </button>
+          </div>
           {/* Mobile floating search bar */}
           <div className="lg:hidden absolute top-3 left-20 right-3 z-[1000]">
             <input
