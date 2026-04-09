@@ -64,9 +64,8 @@ export const cities: CityData[] = [
     writerAges: {"paul":"~47–50","john":"~60–85"},
     summerTempC: 33, winterTempC: 9,
     summerPrecipMm: 3, winterPrecipMm: 110,
-    references: ["Ephesians 1:1","Ephesians 1:4","Ephesians 1:10","Ephesians 1:20","Ephesians 2:19-21","Ephesians 3:5","Ephesians 3:9","Ephesians 4:11-14","1 Timothy 2:3-6","1 Timothy 4:1","1 Timothy 4:14","2 Timothy 1:6","2 Timothy 1:9","2 Timothy 2:9","2 Timothy 4:3-4","1 John 4:14-16"],
+    references: ["Ephesians 1:4","Ephesians 1:10","Ephesians 1:20","Ephesians 2:19-21","Ephesians 3:5","Ephesians 3:9","Ephesians 4:11-14","1 Timothy 2:3-6","1 Timothy 4:1","1 Timothy 4:14","2 Timothy 1:6","2 Timothy 1:9","2 Timothy 2:9","2 Timothy 4:3-4","1 John 4:14-16"],
     scriptures: [
-      { reference: "Ephesians 1:1", kjv: "[KJV text to be added]", nrsv: "[NRSV text to be added]", topics: [], writer: "paul" },
       { reference: "Ephesians 1:4", kjv: "According as he hath chosen us in him before the foundation of the world, that we should be holy and without blame before him in love.", nrsv: "Just as he chose us in Christ before the foundation of the world to be holy and blameless before him in love.", topics: ["Premortal Life"], writer: "paul" },
       { reference: "Ephesians 1:10", kjv: "That in the dispensation of the fulness of times he might gather together in one all things in Christ, both which are in heaven, and which are on earth; even in him.", nrsv: "As a plan for the fullness of time, to gather up all things in him, things in heaven and things on earth.", topics: ["Restoration","Priesthood","Pattern of Apostacy"], writer: "paul" },
       { reference: "Ephesians 1:20", kjv: "Which he wrought in Christ, when he raised him from the dead, and set him at his own right hand in the heavenly places.", nrsv: "God put this power to work in Christ when he raised him from the dead and seated him at his right hand in the heavenly places.", topics: ["Godhead"], writer: "paul" },
