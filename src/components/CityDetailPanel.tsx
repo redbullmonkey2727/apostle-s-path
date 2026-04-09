@@ -129,27 +129,29 @@ const CityDetailPanel = ({ city, onClose, activeTopic }: CityDetailPanelProps) =
             return (
               <div key={s.reference} className="border border-border rounded-lg overflow-hidden bg-card">
                 {/* Scripture header */}
-                <div className="px-5 py-3 border-b border-border bg-muted/30 flex items-center justify-between flex-wrap gap-2">
-                  <div className="flex items-center gap-3">
-                    <BookOpen className="h-4 w-4 text-primary" />
-                    <span className="font-serif text-lg font-bold text-foreground">{s.reference}</span>
-                    <span className="text-xs text-muted-foreground">— {writerNames[s.writer]}</span>
+                <div className="px-5 py-3 border-b border-border bg-muted/30">
+                  <div className="flex items-center justify-between flex-wrap gap-2">
+                    <div className="flex items-center gap-3">
+                      <BookOpen className="h-4 w-4 text-primary" />
+                      <span className="font-serif text-lg font-bold text-foreground">{s.reference}</span>
+                      <span className="text-xs text-muted-foreground">— {writerNames[s.writer]}</span>
+                    </div>
+                    <div className="flex items-center gap-2 flex-wrap">
+                      {s.topics.map((t) => (
+                        <span key={t} className="text-[10px] px-2 py-0.5 rounded-full bg-primary/10 text-primary flex items-center gap-0.5">
+                          <Tag className="h-2.5 w-2.5" /> {t}
+                        </span>
+                      ))}
+                    </div>
                   </div>
-                  <div className="flex items-center gap-2 flex-wrap">
-                    {s.topics.map((t) => (
-                      <span key={t} className="text-[10px] px-2 py-0.5 rounded-full bg-primary/10 text-primary flex items-center gap-0.5">
-                        <Tag className="h-2.5 w-2.5" /> {t}
-                      </span>
-                    ))}
-                    <a
-                      href={churchUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-xs text-primary hover:text-primary/80 flex items-center gap-1 ml-2 underline"
-                    >
-                      <ExternalLink className="h-3 w-3" /> Read on ChurchofJesusChrist.org
-                    </a>
-                  </div>
+                  <a
+                    href={churchUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-sm text-primary hover:text-primary/80 flex items-center gap-1 mt-1.5 underline"
+                  >
+                    <ExternalLink className="h-3.5 w-3.5" /> Read on ChurchofJesusChrist.org
+                  </a>
                 </div>
 
                 {/* Three columns */}
