@@ -14,8 +14,8 @@ export default {
     },
     extend: {
       fontFamily: {
-        serif: ['"Crimson Pro"', 'serif'],
-        sans: ['Inter', 'sans-serif'],
+        serif: ['"EB Garamond"', 'serif'],
+        sans: ['Lora', 'serif'],
       },
       colors: {
         journey: {
