@@ -1,4 +1,4 @@
-import { MapContainer, TileLayer, Polyline, Marker, useMap } from "react-leaflet";
+import { MapContainer, TileLayer, Polyline, Marker, useMap, CircleMarker, Tooltip } from "react-leaflet";
 import { useState, useMemo, useEffect, useCallback, useRef } from "react";
 import { useSearchParams } from "react-router-dom";
 import L from "leaflet";
@@ -12,9 +12,12 @@ import TimelineBar from "./TimelineBar";
 import GuidedTour from "./GuidedTour";
 import ShipwreckMarkerComponent from "./ShipwreckMarker";
 import WelcomeOverlay from "./WelcomeOverlay";
-import { Loader2, Share2 } from "lucide-react";
+import ScriptureProgressBar from "./ScriptureProgressBar";
+import { Loader2, Share2, FileDown } from "lucide-react";
 import { useBookmarks } from "@/hooks/useBookmarks";
 import { useDarkMode } from "@/hooks/useDarkMode";
+import { useScriptureProgress } from "@/hooks/useScriptureProgress";
+import { generateScripturePdf } from "@/lib/generatePdf";
 import type { ShipwreckPoint } from "@/data/types";
 import shipImg from "@/assets/ship.png";
 
@@ -138,7 +141,9 @@ function AnimatedPolyline({
   const [visibleCount, setVisibleCount] = useState(0);
   const [shipPos, setShipPos] = useState<[number, number] | null>(null);
   const [showShip, setShowShip] = useState(false);
+  const [splashPoints, setSplashPoints] = useState<{ pos: [number, number]; key: number }[]>([]);
   const frameRef = useRef<number>();
+  const triggeredWrecks = useRef<Set<number>>(new Set());
 
   // Pre-compute shipwreck indices and slow zones
   const shipwreckIndices = useMemo(() => {
@@ -149,6 +154,8 @@ function AnimatedPolyline({
     setVisibleCount(0);
     setShipPos(null);
     setShowShip(false);
+    setSplashPoints([]);
+    triggeredWrecks.current = new Set();
     let count = 0;
     const slowRadius = 15;
     const pauseFrames = 30;
@@ -187,6 +194,20 @@ function AnimatedPolyline({
       if (speed === 0 && !isPaused) {
         isPaused = true;
         pauseCounter = 0;
+        // Trigger splash animation at this shipwreck
+        const idx = Math.floor(count);
+        for (let si = 0; si < shipwreckIndices.length; si++) {
+          if (Math.abs(idx - shipwreckIndices[si]) <= 1 && !triggeredWrecks.current.has(si)) {
+            triggeredWrecks.current.add(si);
+            const splashPos = positions[shipwreckIndices[si]];
+            const splashKey = Date.now() + si;
+            setSplashPoints((prev) => [...prev, { pos: splashPos, key: splashKey }]);
+            // Remove splash after 1.2s
+            setTimeout(() => {
+              setSplashPoints((prev) => prev.filter((s) => s.key !== splashKey));
+            }, 1200);
+          }
+        }
         frameRef.current = requestAnimationFrame(step);
         return;
       }
@@ -240,6 +261,92 @@ function AnimatedPolyline({
       {showShip && shipPos && (
         <Marker position={shipPos} icon={tinyShipIcon} interactive={false} />
       )}
+      {/* Splash animation circles */}
+      {splashPoints.map((sp) => (
+        <SplashEffect key={sp.key} position={sp.pos} color={color} />
+      ))}
+    </>
+  );
+}
+
+// Small expanding circle splash effect
+function SplashEffect({ position, color }: { position: [number, number]; color: string }) {
+  const [radius, setRadius] = useState(3);
+  const [opacity, setOpacity] = useState(0.8);
+
+  useEffect(() => {
+    let frame = 0;
+    const maxFrames = 40;
+    const animate = () => {
+      frame++;
+      const t = frame / maxFrames;
+      setRadius(3 + t * 18);
+      setOpacity(0.8 * (1 - t));
+      if (frame < maxFrames) requestAnimationFrame(animate);
+    };
+    const id = requestAnimationFrame(animate);
+    return () => cancelAnimationFrame(id);
+  }, []);
+
+  return (
+    <>
+      <CircleMarker
+        center={position}
+        radius={radius}
+        pathOptions={{ color, weight: 1.5, opacity, fillOpacity: opacity * 0.3, fillColor: color }}
+        interactive={false}
+      />
+      <CircleMarker
+        center={position}
+        radius={radius * 0.6}
+        pathOptions={{ color: "#fff", weight: 1, opacity: opacity * 0.7, fillOpacity: opacity * 0.2, fillColor: "#fff" }}
+        interactive={false}
+      />
+    </>
+  );
+}
+
+// Haversine distance in miles
+function haversineMi(a: [number, number], b: [number, number]): number {
+  const R = 3959;
+  const dLat = ((b[0] - a[0]) * Math.PI) / 180;
+  const dLng = ((b[1] - a[1]) * Math.PI) / 180;
+  const x = Math.sin(dLat / 2) ** 2 + Math.cos((a[0] * Math.PI) / 180) * Math.cos((b[0] * Math.PI) / 180) * Math.sin(dLng / 2) ** 2;
+  return R * 2 * Math.atan2(Math.sqrt(x), Math.sqrt(1 - x));
+}
+
+// Invisible polyline segments with distance tooltip on hover
+function JourneyDistanceSegments({ path, color }: { path: [number, number][]; color: string }) {
+  // Create segments between key points (every ~20 smoothed points)
+  const segments = useMemo(() => {
+    const result: { from: [number, number]; to: [number, number]; mid: [number, number]; miles: number }[] = [];
+    const step = 20;
+    for (let i = 0; i + step < path.length; i += step) {
+      const from = path[i];
+      const to = path[Math.min(i + step, path.length - 1)];
+      let segDist = 0;
+      for (let j = i; j < Math.min(i + step, path.length - 1); j++) {
+        segDist += haversineMi(path[j], path[j + 1]);
+      }
+      const midIdx = Math.min(i + Math.floor(step / 2), path.length - 1);
+      result.push({ from, to, mid: path[midIdx], miles: Math.round(segDist) });
+    }
+    return result;
+  }, [path]);
+
+  return (
+    <>
+      {segments.map((seg, i) => (
+        <Polyline
+          key={i}
+          positions={[seg.from, seg.to]}
+          pathOptions={{ color: "transparent", weight: 12, opacity: 0 }}
+        >
+          <Tooltip direction="top" sticky>
+            <span style={{ fontSize: 11, fontWeight: 600 }}>~{seg.miles} mi</span>
+          </Tooltip>
+        </Polyline>
+      ))}
     </>
   );
 }
@@ -248,6 +355,7 @@ const PaulMap = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const { isDark, toggle: toggleDark } = useDarkMode();
   const { bookmarks, toggle: toggleBookmark } = useBookmarks();
+  const { viewedCount, totalScriptures, markViewed } = useScriptureProgress();
   const [showTour, setShowTour] = useState(false);
   const [showWelcome, setShowWelcome] = useState(false);
   const mapInstanceRef = useRef<L.Map | null>(null);
@@ -382,29 +490,41 @@ const PaulMap = () => {
       <TimelineBar onCitySelect={setSelectedCity} selectedCityId={selectedCity?.id} />
 
       <div className="flex flex-col lg:flex-row gap-4 flex-1 min-h-0">
-        <JourneyLegend
-          activeJourneys={activeJourneys}
-          onToggleJourney={toggleJourney}
-          activeTile={activeTile}
-          onTileChange={setActiveTile}
-          searchQuery={searchQuery}
-          onSearchChange={setSearchQuery}
-          activeTopic={activeTopic}
-          onTopicChange={setActiveTopic}
-          isDark={isDark}
-          onToggleDark={toggleDark}
-          onStartTour={() => setShowTour(true)}
-        />
+        <div className="w-full lg:w-72 space-y-3">
+          <ScriptureProgressBar viewedCount={viewedCount} totalScriptures={totalScriptures} />
+          <JourneyLegend
+            activeJourneys={activeJourneys}
+            onToggleJourney={toggleJourney}
+            activeTile={activeTile}
+            onTileChange={setActiveTile}
+            searchQuery={searchQuery}
+            onSearchChange={setSearchQuery}
+            activeTopic={activeTopic}
+            onTopicChange={setActiveTopic}
+            isDark={isDark}
+            onToggleDark={toggleDark}
+            onStartTour={() => setShowTour(true)}
+          />
+        </div>
 
         <div className="flex-1 rounded-lg overflow-hidden border border-border shadow-sm relative">
-          {/* Share button */}
-          <button
-            onClick={handleShareLink}
-            className="absolute top-3 left-3 z-[1000] bg-card/90 border border-border rounded-lg px-3 py-1.5 flex items-center gap-1.5 text-xs text-muted-foreground hover:text-foreground hover:bg-card shadow-sm transition-colors"
-            title="Copy shareable link"
-          >
-            <Share2 className="h-3.5 w-3.5" /> Share
-          </button>
+          {/* Top buttons: Share + PDF */}
+          <div className="absolute top-3 left-3 z-[1000] flex gap-2">
+            <button
+              onClick={handleShareLink}
+              className="bg-card/90 border border-border rounded-lg px-3 py-1.5 flex items-center gap-1.5 text-xs text-muted-foreground hover:text-foreground hover:bg-card shadow-sm transition-colors"
+              title="Copy shareable link"
+            >
+              <Share2 className="h-3.5 w-3.5" /> Share
+            </button>
+            <button
+              onClick={() => generateScripturePdf(activeTopic)}
+              className="bg-card/90 border border-border rounded-lg px-3 py-1.5 flex items-center gap-1.5 text-xs text-muted-foreground hover:text-foreground hover:bg-card shadow-sm transition-colors"
+              title="Download scripture PDF"
+            >
+              <FileDown className="h-3.5 w-3.5" /> PDF
+            </button>
+          </div>
           {/* Mobile floating search bar */}
           <div className="lg:hidden absolute top-3 left-20 right-3 z-[1000]">
             <input
@@ -429,22 +549,28 @@ const PaulMap = () => {
 
             {(() => {
               const journeyOrder = ["first", "second", "third", "rome"];
-              const staggerDelay = 4500; // ms between journey starts
-              return journeys
+              const staggerDelay = 4500;
+              const items: React.ReactNode[] = [];
+              journeys
                 .filter((j) => activeJourneys.includes(j.id))
-                .map((j) => {
+                .forEach((j) => {
                   const orderIdx = journeyOrder.indexOf(j.id);
-                  return (
+                  const smooth = smoothPath(j.path, 12);
+                  items.push(
                     <AnimatedPolyline
                       key={j.id}
-                      positions={smoothPath(j.path, 12)}
+                      positions={smooth}
                       color={j.color}
                       dashArray={j.id === "rome" ? "8 4" : undefined}
                       shipwrecks={j.shipwrecks}
                       delay={orderIdx * staggerDelay}
                     />
                   );
+                  items.push(
+                    <JourneyDistanceSegments key={`dist-${j.id}`} path={smooth} color={j.color} />
+                  );
                 });
+              return items;
             })()}
 
             {/* Shipwreck markers */}
@@ -514,6 +640,7 @@ const PaulMap = () => {
           onCityChange={setSelectedCity}
           bookmarks={bookmarks}
           onToggleBookmark={toggleBookmark}
+          onScriptureView={markViewed}
         />
       )}
 
