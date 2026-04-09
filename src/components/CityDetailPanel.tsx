@@ -2,7 +2,7 @@ import { CityData } from "@/data/paulData";
 import { X, MapPin, Tag, Thermometer, BookOpen, Droplets, ExternalLink, Scroll, ChevronLeft, ChevronRight, Bookmark, Home } from "lucide-react";
 import { commentaries } from "@/data/commentaries";
 import { ScriptureEntry } from "@/data/types";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 interface CityDetailPanelProps {
   city: CityData;
@@ -102,6 +102,13 @@ const CityDetailPanel = ({ city, onClose, activeTopic, allCities, onCityChange, 
   const filteredScriptures = activeTopic
     ? city.scriptures.filter((s) => s.topics.includes(activeTopic))
     : city.scriptures;
+
+  // Mark scriptures as viewed when panel opens
+  useEffect(() => {
+    if (onScriptureView) {
+      for (const s of filteredScriptures) onScriptureView(s.reference);
+    }
+  }, [city.id, filteredScriptures, onScriptureView]);
 
   const cityIndex = allCities.findIndex((c) => c.id === city.id);
   const prevCity = cityIndex > 0 ? allCities[cityIndex - 1] : null;
