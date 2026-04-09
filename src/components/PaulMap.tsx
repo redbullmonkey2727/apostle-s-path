@@ -9,9 +9,11 @@ import CityDetailPanel from "./CityDetailPanel";
 import JourneyLegend from "./JourneyLegend";
 import TimelineBar from "./TimelineBar";
 import GuidedTour from "./GuidedTour";
+import ShipwreckMarkerComponent from "./ShipwreckMarker";
 import { Loader2 } from "lucide-react";
 import { useBookmarks } from "@/hooks/useBookmarks";
 import { useDarkMode } from "@/hooks/useDarkMode";
+import type { ShipwreckPoint } from "@/data/types";
 
 function TileUpdater({ tileId }: { tileId: string }) {
   const map = useMap();
@@ -52,22 +54,94 @@ function MapRef({ onMap }: { onMap: (map: L.Map) => void }) {
   return null;
 }
 
-// Animated polyline that draws progressively
-function AnimatedPolyline({ positions, color, dashArray }: { positions: [number, number][]; color: string; dashArray?: string }) {
+// Distance between two lat/lng points
+function dist(a: [number, number], b: [number, number]): number {
+  return Math.sqrt((a[0] - b[0]) ** 2 + (a[1] - b[1]) ** 2);
+}
+
+// Find the closest point index in a path to a shipwreck location
+function findClosestIndex(positions: [number, number][], point: { lat: number; lng: number }): number {
+  let minDist = Infinity;
+  let minIdx = 0;
+  for (let i = 0; i < positions.length; i++) {
+    const d = dist(positions[i], [point.lat, point.lng]);
+    if (d < minDist) { minDist = d; minIdx = i; }
+  }
+  return minIdx;
+}
+
+// Animated polyline that draws progressively with slowdowns near shipwrecks
+function AnimatedPolyline({
+  positions,
+  color,
+  dashArray,
+  shipwrecks = [],
+}: {
+  positions: [number, number][];
+  color: string;
+  dashArray?: string;
+  shipwrecks?: ShipwreckPoint[];
+}) {
   const [visibleCount, setVisibleCount] = useState(0);
   const frameRef = useRef<number>();
+
+  // Pre-compute shipwreck indices and slow zones
+  const shipwreckIndices = useMemo(() => {
+    return shipwrecks.map((sw) => findClosestIndex(positions, sw));
+  }, [positions, shipwrecks]);
 
   useEffect(() => {
     setVisibleCount(0);
     let count = 0;
+    const slowRadius = 15; // points before/after shipwreck to slow down
+    const pauseFrames = 30; // frames to pause at shipwreck point
+    let pauseCounter = 0;
+    let isPaused = false;
+
+    const getSpeed = (idx: number): number => {
+      for (const swIdx of shipwreckIndices) {
+        const distance = Math.abs(idx - swIdx);
+        if (distance === 0) return 0; // will trigger pause
+        if (distance <= slowRadius) {
+          // Ease: very slow near wreck, speeds up away from it
+          const t = distance / slowRadius;
+          return Math.max(0.3, t * t * 2);
+        }
+      }
+      return 2; // normal speed
+    };
+
     const step = () => {
-      count = Math.min(count + 2, positions.length);
-      setVisibleCount(count);
+      if (isPaused) {
+        pauseCounter++;
+        if (pauseCounter >= pauseFrames) {
+          isPaused = false;
+          pauseCounter = 0;
+          count++;
+        }
+        setVisibleCount(count);
+        if (count < positions.length) {
+          frameRef.current = requestAnimationFrame(step);
+        }
+        return;
+      }
+
+      const speed = getSpeed(Math.floor(count));
+
+      if (speed === 0 && !isPaused) {
+        isPaused = true;
+        pauseCounter = 0;
+        frameRef.current = requestAnimationFrame(step);
+        return;
+      }
+
+      count = Math.min(count + speed, positions.length);
+      setVisibleCount(Math.floor(count));
       if (count < positions.length) {
         frameRef.current = requestAnimationFrame(step);
       }
     };
-    // Small delay before starting animation
+
     const timer = setTimeout(() => {
       frameRef.current = requestAnimationFrame(step);
     }, 100);
@@ -75,7 +149,7 @@ function AnimatedPolyline({ positions, color, dashArray }: { positions: [number,
       clearTimeout(timer);
       if (frameRef.current) cancelAnimationFrame(frameRef.current);
     };
-  }, [positions]);
+  }, [positions, shipwreckIndices]);
 
   if (visibleCount < 2) return null;
 
