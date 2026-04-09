@@ -1,11 +1,13 @@
 import { MapContainer, TileLayer, Polyline, useMap } from "react-leaflet";
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo, useEffect, useCallback } from "react";
+import { useSearchParams } from "react-router-dom";
 import "leaflet/dist/leaflet.css";
 import { cities, journeys, tileOptions, CityData } from "@/data/paulData";
 import { smoothPath } from "@/lib/smoothPath";
 import CityMarker from "./CityMarker";
 import CityDetailPanel from "./CityDetailPanel";
 import JourneyLegend from "./JourneyLegend";
+import { Loader2 } from "lucide-react";
 
 function TileUpdater({ tileId }: { tileId: string }) {
   const map = useMap();
@@ -15,12 +17,72 @@ function TileUpdater({ tileId }: { tileId: string }) {
   return null;
 }
 
+function MapLoadingIndicator() {
+  const map = useMap();
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const onLoad = () => setLoading(false);
+    const onLoadStart = () => setLoading(true);
+    map.on("layeradd", onLoad);
+    map.on("loading", onLoadStart);
+    // Fallback: hide after 3s
+    const timer = setTimeout(() => setLoading(false), 3000);
+    return () => {
+      map.off("layeradd", onLoad);
+      map.off("loading", onLoadStart);
+      clearTimeout(timer);
+    };
+  }, [map]);
+
+  if (!loading) return null;
+  return (
+    <div className="absolute top-3 left-1/2 -translate-x-1/2 z-[1000] bg-card/90 border border-border rounded-lg px-4 py-2 flex items-center gap-2 shadow-md">
+      <Loader2 className="h-4 w-4 animate-spin text-primary" />
+      <span className="text-sm text-muted-foreground">Loading map…</span>
+    </div>
+  );
+}
+
 const PaulMap = () => {
-  const [activeJourneys, setActiveJourneys] = useState<string[]>(["first", "second", "third", "rome"]);
-  const [activeTile, setActiveTile] = useState("google");
-  const [selectedCity, setSelectedCity] = useState<CityData | null>(null);
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  // Initialize state from URL params
+  const [activeJourneys, setActiveJourneys] = useState<string[]>(() => {
+    const param = searchParams.get("journeys");
+    return param ? param.split(",") : ["first", "second", "third", "rome"];
+  });
+  const [activeTile, setActiveTile] = useState(() => searchParams.get("tile") || "google");
+  const [selectedCity, setSelectedCity] = useState<CityData | null>(() => {
+    const cityId = searchParams.get("city");
+    return cityId ? cities.find((c) => c.id === cityId) || null : null;
+  });
   const [searchQuery, setSearchQuery] = useState("");
-  const [activeTopic, setActiveTopic] = useState("");
+  const [activeTopic, setActiveTopic] = useState(() => searchParams.get("topic") || "");
+
+  // Sync state → URL
+  useEffect(() => {
+    const params: Record<string, string> = {};
+    if (activeJourneys.length > 0 && activeJourneys.length < 4) {
+      params.journeys = activeJourneys.join(",");
+    }
+    if (activeTile !== "google") params.tile = activeTile;
+    if (selectedCity) params.city = selectedCity.id;
+    if (activeTopic) params.topic = activeTopic;
+
+    setSearchParams(params, { replace: true });
+  }, [activeJourneys, activeTile, selectedCity, activeTopic, setSearchParams]);
+
+  // Escape key closes city detail panel
+  const closeCity = useCallback(() => setSelectedCity(null), []);
+
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => {
+      if (e.key === "Escape") closeCity();
+    };
+    window.addEventListener("keydown", handler);
+    return () => window.removeEventListener("keydown", handler);
+  }, [closeCity]);
 
   const toggleJourney = (id: string) => {
     setActiveJourneys((prev) =>
@@ -72,6 +134,7 @@ const PaulMap = () => {
           scrollWheelZoom={true}
         >
           <TileUpdater tileId={activeTile} />
+          <MapLoadingIndicator />
           <TileLayer url={tile.url} attribution={tile.attribution} />
 
           {journeys
@@ -104,7 +167,7 @@ const PaulMap = () => {
       {selectedCity && (
         <CityDetailPanel
           city={selectedCity}
-          onClose={() => setSelectedCity(null)}
+          onClose={closeCity}
           activeTopic={activeTopic}
         />
       )}
