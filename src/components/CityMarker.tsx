@@ -1,4 +1,5 @@
-import { CircleMarker, Tooltip } from "react-leaflet";
+import { CircleMarker, Tooltip, useMap } from "react-leaflet";
+import { useEffect, useRef } from "react";
 import { CityData } from "@/data/paulData";
 
 interface CityMarkerProps {
@@ -84,9 +85,39 @@ function getSummary(ref: string): string {
 const CityMarker = ({ city, onClick }: CityMarkerProps) => {
   const totalRefs = city.scriptures.length;
   const previewScriptures = city.scriptures.slice(0, 3);
+  const markerRef = useRef<any>(null);
+  const map = useMap();
+
+  // On touch devices, first tap opens tooltip; second tap opens detail
+  useEffect(() => {
+    const marker = markerRef.current;
+    if (!marker) return;
+
+    const isTouchDevice = "ontouchstart" in window;
+    if (!isTouchDevice) return;
+
+    let tooltipOpen = false;
+    const handleClick = (e: any) => {
+      if (!tooltipOpen) {
+        e.originalEvent?.stopPropagation();
+        marker.openTooltip();
+        tooltipOpen = true;
+      } else {
+        tooltipOpen = false;
+        onClick(city);
+      }
+    };
+
+    marker.on("click", handleClick);
+    map.on("click", () => { tooltipOpen = false; });
+    return () => {
+      marker.off("click", handleClick);
+    };
+  }, [city, onClick, map]);
 
   return (
     <CircleMarker
+      ref={markerRef}
       center={[city.lat, city.lng]}
       radius={8}
       pathOptions={{
@@ -96,7 +127,9 @@ const CityMarker = ({ city, onClick }: CityMarkerProps) => {
         weight: 2,
       }}
       eventHandlers={{
-        click: () => onClick(city),
+        click: () => {
+          if (!("ontouchstart" in window)) onClick(city);
+        },
       }}
     >
       <Tooltip
