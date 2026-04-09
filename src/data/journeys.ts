@@ -245,7 +245,7 @@ export const journeys: JourneyData[] = [
     ],
     shipwrecks: [
       {
-        lat: 36.50, lng: 26.00,
+        lat: 35.80, lng: 31.00,
         label: "Shipwreck off Asia Minor coast",
         reference: "2 Corinthians 11:25",
         date: "~AD 55",
