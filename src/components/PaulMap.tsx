@@ -73,31 +73,41 @@ function findClosestIndex(positions: [number, number][], point: { lat: number; l
   return minIdx;
 }
 
-// Known land areas (rough bounding boxes for major land masses in the region)
-// Mediterranean coastlines — points inside these are land
+// Land detection: polygon-ish bounding boxes for coastlines
+// More granular than before to avoid treating narrow sea crossings as land
 const landBoxes: { latMin: number; latMax: number; lngMin: number; lngMax: number }[] = [
-  // Asia Minor / Turkey
-  { latMin: 36.5, latMax: 42, lngMin: 26, lngMax: 44 },
-  // Levant / Syria / Israel
-  { latMin: 31, latMax: 37, lngMin: 34, lngMax: 37 },
-  // Greece mainland
-  { latMin: 37.5, latMax: 42, lngMin: 19, lngMax: 26 },
-  // Italy
-  { latMin: 37, latMax: 44, lngMin: 11, lngMax: 16 },
-  // Egypt / North Africa
-  { latMin: 30, latMax: 34, lngMin: 24, lngMax: 35 },
+  // Central/Eastern Turkey (inland)
+  { latMin: 37.5, latMax: 42, lngMin: 30, lngMax: 44 },
+  // Western Turkey (Ephesus/Troas coast — narrower to exclude Aegean)
+  { latMin: 37.5, latMax: 41, lngMin: 27.5, lngMax: 30 },
+  // Levant coast (Syria/Israel/Lebanon)
+  { latMin: 31, latMax: 37, lngMin: 34.5, lngMax: 37 },
+  // Greece mainland (north)
+  { latMin: 39, latMax: 42, lngMin: 19.5, lngMax: 26 },
+  // Greece mainland (south, above Peloponnese)
+  { latMin: 38, latMax: 39, lngMin: 21, lngMax: 24 },
   // Peloponnese
-  { latMin: 36.5, latMax: 39, lngMin: 21, lngMax: 24 },
+  { latMin: 36.8, latMax: 38, lngMin: 21.5, lngMax: 23.5 },
+  // Italy boot (south)
+  { latMin: 37.5, latMax: 42, lngMin: 12, lngMax: 16 },
+  // Italy boot (west coast / Rome area)
+  { latMin: 40, latMax: 43, lngMin: 11, lngMax: 13 },
+  // North Africa coast
+  { latMin: 30, latMax: 33, lngMin: 24, lngMax: 35 },
+  // Sicily
+  { latMin: 36.6, latMax: 38.3, lngMin: 13, lngMax: 15.8 },
+  // Cilicia / Tarsus strip
+  { latMin: 36.5, latMax: 37.5, lngMin: 34, lngMax: 36.5 },
 ];
 
 function isOverWater(pos: [number, number]): boolean {
   const [lat, lng] = pos;
   for (const box of landBoxes) {
     if (lat >= box.latMin && lat <= box.latMax && lng >= box.lngMin && lng <= box.lngMax) {
-      return false; // inside a land box
+      return false;
     }
   }
-  return true; // not in any land box = water
+  return true;
 }
 
 // Create tiny ship icon for the leading edge (14px — 12% smaller than 16px)
