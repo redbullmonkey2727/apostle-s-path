@@ -77,7 +77,7 @@ const CityDetailPanel = ({ city, onClose, activeTopic }: CityDetailPanelProps) =
       {/* Content area */}
       <div className="flex-1 flex overflow-hidden max-w-7xl mx-auto w-full">
         {/* Scripture selector sidebar */}
-        <div className="w-72 border-r border-border overflow-y-auto p-4 space-y-1 bg-card/50 shrink-0">
+        <div className="w-72 border-r border-border overflow-y-auto p-4 space-y-1 bg-card/50 shrink-0 font-rosarivo">
           <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-3 flex items-center gap-1">
             <BookOpen className="h-3.5 w-3.5" /> Scriptures ({filteredScriptures.length})
           </h3>
@@ -120,7 +120,7 @@ const CityDetailPanel = ({ city, onClose, activeTopic }: CityDetailPanelProps) =
                 <h3 className="font-serif text-lg font-bold text-foreground">KJV</h3>
                 <span className="text-xs text-muted-foreground">{selectedScripture.reference}</span>
               </div>
-              <p className="text-sm leading-relaxed text-foreground font-serif whitespace-pre-line">
+              <p className="text-sm leading-relaxed text-foreground font-rosarivo whitespace-pre-line">
                 {selectedScripture.kjv}
               </p>
               {selectedScripture.topics.length > 0 && (
@@ -139,7 +139,7 @@ const CityDetailPanel = ({ city, onClose, activeTopic }: CityDetailPanelProps) =
                 <h3 className="font-serif text-lg font-bold text-foreground">NRSV (2021)</h3>
                 <span className="text-xs text-muted-foreground">{selectedScripture.reference}</span>
               </div>
-              <p className="text-sm leading-relaxed text-foreground font-serif whitespace-pre-line">
+              <p className="text-sm leading-relaxed text-foreground font-rosarivo whitespace-pre-line">
                 {selectedScripture.nrsv}
               </p>
               <div className="mt-6 pt-4 border-t border-border">
