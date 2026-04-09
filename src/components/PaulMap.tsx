@@ -334,9 +334,9 @@ function JourneyDistanceSegments({ rawPath, color }: { rawPath: [number, number]
         <Polyline
           key={i}
           positions={[seg.from, seg.to]}
-          pathOptions={{ color: "transparent", weight: 12, opacity: 0 }}
+          pathOptions={{ color: "transparent", weight: 14, opacity: 0 }}
         >
-          <Tooltip direction="top" sticky>
+          <Tooltip direction="top" permanent={false} sticky={false} offset={[0, -8]}>
             <span style={{ fontSize: 11, fontWeight: 600 }}>~{seg.miles} mi</span>
           </Tooltip>
         </Polyline>
@@ -502,8 +502,8 @@ const PaulMap = () => {
         </div>
 
         <div className="flex-1 rounded-lg overflow-hidden border border-border shadow-sm relative">
-          {/* Top buttons: Share + PDF */}
-          <div className="absolute top-3 left-3 z-[1000] flex gap-2">
+          {/* Top-left: Share */}
+          <div className="absolute top-3 left-3 z-[1000]">
             <button
               onClick={handleShareLink}
               className="bg-card/90 border border-border rounded-lg px-3 py-1.5 flex items-center gap-1.5 text-xs text-muted-foreground hover:text-foreground hover:bg-card shadow-sm transition-colors"
@@ -511,6 +511,9 @@ const PaulMap = () => {
             >
               <Share2 className="h-3.5 w-3.5" /> Share
             </button>
+          </div>
+          {/* Top-right: PDF */}
+          <div className="absolute top-3 right-3 z-[1000]">
             <button
               onClick={() => generateScripturePdf(activeTopic)}
               className="bg-card/90 border border-border rounded-lg px-3 py-1.5 flex items-center gap-1.5 text-xs text-muted-foreground hover:text-foreground hover:bg-card shadow-sm transition-colors"
