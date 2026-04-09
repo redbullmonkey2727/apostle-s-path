@@ -155,7 +155,7 @@ const CityDetailPanel = ({ city, onClose, activeTopic }: CityDetailPanelProps) =
                 </div>
 
                 {/* Three columns */}
-                <div className="grid grid-cols-3 divide-x divide-border min-h-[120px]">
+                <div className="grid grid-cols-1 md:grid-cols-3 md:divide-x divide-y md:divide-y-0 divide-border min-h-[120px]">
                   {/* KJV */}
                   <div className="p-5">
                     <h4 className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-3">KJV</h4>
