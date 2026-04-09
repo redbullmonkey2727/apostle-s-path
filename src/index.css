@@ -2,40 +2,28 @@
 @tailwind components;
 @tailwind utilities;
 
-@import "https://fonts.googleapis.com/css2?family=Lora:wght@400;500;600;700&family=Rosarivo&display=swap";
-
 @layer base {
   :root {
     --background: 36 33% 97%;
     --foreground: 25 30% 12%;
-
     --card: 38 40% 95%;
     --card-foreground: 25 30% 12%;
-
     --popover: 36 33% 97%;
     --popover-foreground: 25 30% 12%;
-
     --primary: 25 60% 30%;
     --primary-foreground: 36 33% 97%;
-
     --secondary: 35 30% 88%;
     --secondary-foreground: 25 30% 18%;
-
     --muted: 35 20% 90%;
     --muted-foreground: 25 10% 45%;
-
     --accent: 38 70% 50%;
     --accent-foreground: 25 30% 12%;
-
     --destructive: 0 65% 50%;
     --destructive-foreground: 36 33% 97%;
-
     --border: 30 20% 85%;
     --input: 30 20% 85%;
     --ring: 25 60% 30%;
-
     --radius: 0.5rem;
-
     --sidebar-background: 33 30% 93%;
     --sidebar-foreground: 25 20% 20%;
     --sidebar-primary: 25 60% 30%;
@@ -44,11 +32,40 @@
     --sidebar-accent-foreground: 25 20% 20%;
     --sidebar-border: 30 20% 82%;
     --sidebar-ring: 25 60% 30%;
-
     --journey-1: 210 70% 45%;
     --journey-2: 140 55% 35%;
     --journey-3: 0 65% 48%;
     --journey-rome: 270 50% 45%;
+  }
+
+  .dark {
+    --background: 220 20% 10%;
+    --foreground: 36 33% 92%;
+    --card: 220 18% 14%;
+    --card-foreground: 36 33% 92%;
+    --popover: 220 18% 14%;
+    --popover-foreground: 36 33% 92%;
+    --primary: 30 60% 50%;
+    --primary-foreground: 220 20% 10%;
+    --secondary: 220 15% 22%;
+    --secondary-foreground: 36 33% 88%;
+    --muted: 220 15% 18%;
+    --muted-foreground: 220 10% 55%;
+    --accent: 38 70% 50%;
+    --accent-foreground: 220 20% 10%;
+    --destructive: 0 65% 50%;
+    --destructive-foreground: 36 33% 92%;
+    --border: 220 15% 22%;
+    --input: 220 15% 22%;
+    --ring: 30 60% 50%;
+    --sidebar-background: 220 18% 12%;
+    --sidebar-foreground: 36 33% 88%;
+    --sidebar-primary: 30 60% 50%;
+    --sidebar-primary-foreground: 220 20% 10%;
+    --sidebar-accent: 220 15% 20%;
+    --sidebar-accent-foreground: 36 33% 88%;
+    --sidebar-border: 220 15% 20%;
+    --sidebar-ring: 30 60% 50%;
   }
 }
 
@@ -59,21 +76,36 @@
 
   body {
     @apply bg-background text-foreground;
-    font-family: 'Lora', serif;
+    font-family: 'Lora', Georgia, serif;
   }
 
   h1, h2, h3, h4, h5, h6 {
-    font-family: 'Lora', serif;
+    font-family: 'Lora', Georgia, serif;
   }
 }
 
 @layer utilities {
   .font-serif-display {
-    font-family: 'Lora', serif;
+    font-family: 'Lora', Georgia, serif;
   }
 }
 
 .leaflet-container {
   background: hsl(36 33% 97%);
-  font-family: 'Lora', serif;
+  font-family: 'Lora', Georgia, serif;
+}
+
+.dark .leaflet-container {
+  background: hsl(220 20% 10%);
+}
+
+/* Animated polyline dash */
+@keyframes dash-flow {
+  to {
+    stroke-dashoffset: -20;
+  }
+}
+
+.animated-path path {
+  animation: dash-flow 1s linear infinite;
 }

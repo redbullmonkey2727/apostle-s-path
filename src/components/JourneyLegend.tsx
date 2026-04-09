@@ -1,7 +1,7 @@
 import { journeys, tileOptions, allTopics } from "@/data/paulData";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
-import { MapPin, BookOpen, Navigation, Tag, PenTool, ChevronDown, Ruler, Clock, Calendar } from "lucide-react";
+import { MapPin, BookOpen, Navigation, Tag, PenTool, ChevronDown, Ruler, Clock, Calendar, Moon, Sun, Compass } from "lucide-react";
 import { useState } from "react";
 
 interface JourneyLegendProps {
@@ -13,6 +13,9 @@ interface JourneyLegendProps {
   onSearchChange: (q: string) => void;
   activeTopic: string;
   onTopicChange: (topic: string) => void;
+  isDark: boolean;
+  onToggleDark: () => void;
+  onStartTour: () => void;
 }
 
 const writerLabels: Record<string, { label: string; color: string }> = {
@@ -24,7 +27,6 @@ const writerLabels: Record<string, { label: string; color: string }> = {
   "hebrews-author": { label: "Hebrews Author", color: "hsl(30, 60%, 45%)" },
 };
 
-// Haversine formula to calculate distance between two lat/lng points in km
 function haversineKm(lat1: number, lng1: number, lat2: number, lng2: number): number {
   const R = 6371;
   const dLat = ((lat2 - lat1) * Math.PI) / 180;
@@ -52,18 +54,38 @@ const JourneyLegend = ({
   onSearchChange,
   activeTopic,
   onTopicChange,
+  isDark,
+  onToggleDark,
+  onStartTour,
 }: JourneyLegendProps) => {
   const [topicOpen, setTopicOpen] = useState(false);
 
   return (
     <div className="w-full lg:w-72 bg-card border border-border rounded-lg p-4 shadow-sm space-y-5 overflow-y-auto max-h-[calc(100vh-6rem)]">
-      <div>
-        <h2 className="font-serif text-lg font-bold text-foreground flex items-center gap-2">
-          <Navigation className="h-4 w-4 text-primary" />
-          Apostolic Journeys
-        </h2>
-        <p className="text-xs text-muted-foreground mt-1">Toggle to show/hide routes</p>
+      <div className="flex items-center justify-between">
+        <div>
+          <h2 className="font-serif text-lg font-bold text-foreground flex items-center gap-2">
+            <Navigation className="h-4 w-4 text-primary" />
+            Apostolic Journeys
+          </h2>
+          <p className="text-xs text-muted-foreground mt-1">Toggle to show/hide routes</p>
+        </div>
+        <button
+          onClick={onToggleDark}
+          className="p-2 rounded-md hover:bg-muted transition-colors"
+          title={isDark ? "Light mode" : "Dark mode"}
+        >
+          {isDark ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+        </button>
       </div>
+
+      {/* Guided Tour button */}
+      <button
+        onClick={onStartTour}
+        className="w-full flex items-center justify-center gap-2 py-2 rounded-md bg-primary/10 text-primary text-sm font-medium hover:bg-primary/20 transition-colors"
+      >
+        <Compass className="h-4 w-4" /> Guided Tour
+      </button>
 
       {/* Search */}
       <input
@@ -115,8 +137,41 @@ const JourneyLegend = ({
         )}
       </div>
 
+      {/* Map style */}
+      <div className="border-t border-border pt-3 space-y-2">
+        <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">Map Style</h3>
+        {tileOptions.map((t) => (
+          <button
+            key={t.id}
+            onClick={() => onTileChange(t.id)}
+            className={`w-full text-left px-3 py-1.5 text-sm rounded-md transition-colors ${
+              activeTile === t.id
+                ? "bg-primary text-primary-foreground"
+                : "hover:bg-muted"
+            }`}
+          >
+            {t.name}
+          </button>
+        ))}
+      </div>
+
+      {/* Writer legend (also serves as marker legend) */}
+      <div className="border-t border-border pt-3 space-y-2">
+        <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-wide flex items-center gap-1">
+          <PenTool className="h-3 w-3" /> Writers &amp; Marker Colors
+        </h3>
+        {Object.entries(writerLabels).map(([key, { label, color }]) => (
+          <div key={key} className="flex items-center gap-2 text-sm">
+            <div className="w-3 h-3 rounded-full" style={{ backgroundColor: color }} />
+            <span>{label}</span>
+          </div>
+        ))}
+        <p className="text-[10px] text-muted-foreground mt-1">Dot size reflects scripture count</p>
+      </div>
+
       {/* Journey toggles with distance */}
-      <div className="space-y-3">
+      <div className="border-t border-border pt-3 space-y-3">
+        <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">Journey Routes</h3>
         {journeys.map((j) => {
           const distKm = totalJourneyKm(j.path);
           const distMi = Math.round(distKm * 0.621371);
@@ -158,54 +213,6 @@ const JourneyLegend = ({
             </div>
           );
         })}
-      </div>
-
-      {/* Map style */}
-      <div className="border-t border-border pt-3 space-y-2">
-        <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">Map Style</h3>
-        {tileOptions.map((t) => (
-          <button
-            key={t.id}
-            onClick={() => onTileChange(t.id)}
-            className={`w-full text-left px-3 py-1.5 text-sm rounded-md transition-colors ${
-              activeTile === t.id
-                ? "bg-primary text-primary-foreground"
-                : "hover:bg-muted"
-            }`}
-          >
-            {t.name}
-          </button>
-        ))}
-      </div>
-
-      {/* Marker legend */}
-      <div className="border-t border-border pt-3 space-y-2">
-        <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">Marker Legend</h3>
-        <div className="flex items-center gap-2 text-sm">
-          <div className="w-3 h-3 rounded-full" style={{ backgroundColor: "hsl(210, 70%, 45%)" }} />
-          <span className="flex items-center gap-1"><MapPin className="h-3 w-3" /> Visited</span>
-        </div>
-        <div className="flex items-center gap-2 text-sm">
-          <div className="w-3 h-3 rounded-full" style={{ backgroundColor: "hsl(38, 70%, 50%)" }} />
-          <span className="flex items-center gap-1"><BookOpen className="h-3 w-3" /> Letter recipient</span>
-        </div>
-        <div className="flex items-center gap-2 text-sm">
-          <div className="w-3 h-3 rounded-full" style={{ backgroundColor: "hsl(25, 60%, 30%)" }} />
-          <span>Both</span>
-        </div>
-      </div>
-
-      {/* Writer legend */}
-      <div className="border-t border-border pt-3 space-y-2">
-        <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-wide flex items-center gap-1">
-          <PenTool className="h-3 w-3" /> Writers
-        </h3>
-        {Object.entries(writerLabels).map(([key, { label, color }]) => (
-          <div key={key} className="flex items-center gap-2 text-sm">
-            <div className="w-3 h-3 rounded-full" style={{ backgroundColor: color }} />
-            <span>{label}</span>
-          </div>
-        ))}
       </div>
     </div>
   );

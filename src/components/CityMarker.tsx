@@ -17,7 +17,6 @@ const writerColors: Record<string, string> = {
 };
 
 function getMarkerColor(city: CityData): string {
-  // Use primary writer's color
   if (city.writers.length > 0) {
     return writerColors[city.writers[0]] || "hsl(25, 60%, 30%)";
   }
@@ -45,13 +44,13 @@ const summaries: Record<string, string> = {
   "1 Corinthians 15:29": "Baptism for the dead",
   "1 Corinthians 15:40-42": "Degrees of glory in resurrection",
   "2 Corinthians 1:2-3": "God of all comfort",
-  "2 Corinthians 12:2-4": "Caught up to the third heaven",
+  "2 Corinthians 12:2": "Caught up to the third heaven",
   "Galatians 1:6-8": "No other gospel; angels warning",
   "Galatians 1:19": "James the Lord's brother",
   "Galatians 5:1": "Stand fast in liberty",
   "Galatians 6:7": "Whatsoever a man soweth",
   "Ephesians 1:10": "Dispensation of the fulness of times",
-  "Ephesians 2:19-20": "Built on apostles and prophets",
+  "Ephesians 2:19-21": "Built on apostles and prophets",
   "Ephesians 4:5": "One Lord, one faith, one baptism",
   "Ephesians 4:11-14": "Apostles, prophets, evangelists for unity",
   "Ephesians 6:12": "Wrestling against spiritual wickedness",
@@ -85,7 +84,6 @@ const summaries: Record<string, string> = {
 };
 
 function getSummary(ref: string): string {
-  // Try exact match first, then partial
   if (summaries[ref]) return summaries[ref];
   for (const key of Object.keys(summaries)) {
     if (ref.includes(key) || key.includes(ref)) return summaries[key];
@@ -98,14 +96,11 @@ const CityMarker = ({ city, onClick }: CityMarkerProps) => {
   const previewScriptures = city.scriptures.slice(0, 3);
   const markerRef = useRef<any>(null);
   const map = useMap();
-
-  // On touch devices, first tap opens tooltip; second tap opens detail
   const tooltipOpenRef = useRef(false);
 
   useEffect(() => {
     const marker = markerRef.current;
     if (!marker) return;
-
     const resetTooltip = () => { tooltipOpenRef.current = false; };
     map.on("click", resetTooltip);
     return () => { map.off("click", resetTooltip); };
@@ -117,7 +112,6 @@ const CityMarker = ({ city, onClick }: CityMarkerProps) => {
       onClick(city);
       return;
     }
-    // Touch: first tap → tooltip, second tap → detail
     if (!tooltipOpenRef.current) {
       markerRef.current?.openTooltip();
       tooltipOpenRef.current = true;
@@ -127,66 +121,71 @@ const CityMarker = ({ city, onClick }: CityMarkerProps) => {
     }
   }, [city, onClick]);
 
+  // Dynamic radius based on scripture count
+  const radius = Math.min(6 + totalRefs * 0.4, 14);
+
   return (
-    <CircleMarker
-      ref={markerRef}
-      center={[city.lat, city.lng]}
-      radius={8}
-      pathOptions={{
-        fillColor: getMarkerColor(city),
-        fillOpacity: 0.9,
-        color: "hsl(36, 33%, 97%)",
-        weight: 2,
-      }}
-      eventHandlers={{ click: handleClick }}
-    >
-      <Tooltip
-        direction="top"
-        offset={[0, -10]}
-        className="city-tooltip"
+    <>
+      <CircleMarker
+        ref={markerRef}
+        center={[city.lat, city.lng]}
+        radius={radius}
+        pathOptions={{
+          fillColor: getMarkerColor(city),
+          fillOpacity: 0.9,
+          color: "hsl(36, 33%, 97%)",
+          weight: 2,
+        }}
+        eventHandlers={{ click: handleClick }}
       >
-        <div className="p-2 min-w-[200px] max-w-[280px] font-rosarivo">
-          <div className="flex items-center justify-between gap-2">
-            <h3 className="font-serif text-base font-bold text-foreground">{city.name}</h3>
-            <span className="text-xs font-semibold bg-primary/10 text-primary px-1.5 py-0.5 rounded-full">
-              {totalRefs} ref{totalRefs !== 1 ? "s" : ""}
-            </span>
-          </div>
-          <p className="text-xs text-muted-foreground mt-0.5">{city.label}</p>
-          {city.epistleName && (
-            <p className="text-[10px] text-muted-foreground italic mt-0.5">
-              {city.epistleName} — written {city.estimatedAge}
-            </p>
-          )}
-          <div className="flex flex-wrap gap-1 mt-1">
-            {city.writers.map((w) => (
-              <span key={w} className="text-[10px] px-1.5 py-0.5 rounded-full bg-muted text-muted-foreground">
-                {writerNames[w] || w}
+        <Tooltip
+          direction="top"
+          offset={[0, -10]}
+          className="city-tooltip"
+        >
+          <div className="p-2 min-w-[200px] max-w-[280px] font-rosarivo">
+            <div className="flex items-center justify-between gap-2">
+              <h3 className="font-serif text-base font-bold text-foreground">{city.name}</h3>
+              <span className="text-xs font-semibold bg-primary/10 text-primary px-1.5 py-0.5 rounded-full">
+                {totalRefs} ref{totalRefs !== 1 ? "s" : ""}
               </span>
-            ))}
-          </div>
-          {previewScriptures.length > 0 && (
-            <div className="mt-2 border-t border-border pt-1.5 space-y-1">
-              {previewScriptures.map((s, i) => {
-                const summary = getSummary(s.reference);
-                return (
-                  <div key={i} className="flex gap-1.5 items-start">
-                    <span className="text-[11px] font-semibold text-primary whitespace-nowrap">{s.reference}</span>
-                    {summary && (
-                      <span className="text-[10px] text-muted-foreground leading-tight">{summary}</span>
-                    )}
-                  </div>
-                );
-              })}
-              {totalRefs > 3 && (
-                <p className="text-[10px] text-muted-foreground italic">+{totalRefs - 3} more…</p>
-              )}
             </div>
-          )}
-          <p className="text-[10px] text-accent mt-1.5">Click to view all scriptures →</p>
-        </div>
-      </Tooltip>
-    </CircleMarker>
+            <p className="text-xs text-muted-foreground mt-0.5">{city.label}</p>
+            {city.epistleName && (
+              <p className="text-[10px] text-muted-foreground italic mt-0.5">
+                {city.epistleName} — written {city.estimatedAge}
+              </p>
+            )}
+            <div className="flex flex-wrap gap-1 mt-1">
+              {city.writers.map((w) => (
+                <span key={w} className="text-[10px] px-1.5 py-0.5 rounded-full bg-muted text-muted-foreground">
+                  {writerNames[w] || w}
+                </span>
+              ))}
+            </div>
+            {previewScriptures.length > 0 && (
+              <div className="mt-2 border-t border-border pt-1.5 space-y-1">
+                {previewScriptures.map((s, i) => {
+                  const summary = getSummary(s.reference);
+                  return (
+                    <div key={i} className="flex gap-1.5 items-start">
+                      <span className="text-[11px] font-semibold text-primary whitespace-nowrap">{s.reference}</span>
+                      {summary && (
+                        <span className="text-[10px] text-muted-foreground leading-tight">{summary}</span>
+                      )}
+                    </div>
+                  );
+                })}
+                {totalRefs > 3 && (
+                  <p className="text-[10px] text-muted-foreground italic">+{totalRefs - 3} more…</p>
+                )}
+              </div>
+            )}
+            <p className="text-[10px] text-accent mt-1.5">Click to view all scriptures →</p>
+          </div>
+        </Tooltip>
+      </CircleMarker>
+    </>
   );
 };
 
