@@ -5,6 +5,9 @@ export const journeys: JourneyData[] = [
     id: "first",
     name: "First Missionary Journey",
     color: "hsl(0, 65%, 48%)",
+    dateRange: "AD 46–48",
+    durationNote: "~2 years",
+    travelNote: "Barnabas & Saul sailed from Seleucia to Cyprus, then crossed to Pamphylia. Overland through Pisidian Antioch, Iconium, Lystra, Derbe, then retraced their route. Ancient foot travel averaged ~20 mi/day on Roman roads; sea crossings ~100 mi/day with favorable winds.",
     path: [
       // Antioch (Syria) → Seleucia → Salamis → Paphos → Perga → Pisidian Antioch → Iconium → Lystra → Derbe → return
       [36.20, 36.15],   // Antioch
@@ -66,6 +69,9 @@ export const journeys: JourneyData[] = [
     id: "second",
     name: "Second Missionary Journey",
     color: "hsl(270, 50%, 45%)",
+    dateRange: "AD 49–52",
+    durationNote: "~3 years",
+    travelNote: "Paul & Silas traveled overland through Syria, Cilicia, Derbe, Lystra, then across Phrygia and Galatia. A vision called them to Macedonia (Acts 16:9). Sea crossings to Neapolis, then overland to Philippi, Thessalonica, Berea, Athens, and Corinth (18-month stay per Acts 18:11). Return via Ephesus and Caesarea.",
     path: [
       // Antioch → overland through Cilician Gates → Derbe → Lystra → Iconium → Phrygia → Galatia → Troas → Macedonia → Greece → return
       [36.20, 36.15],   // Antioch
@@ -146,6 +152,9 @@ export const journeys: JourneyData[] = [
     id: "third",
     name: "Third Missionary Journey",
     color: "hsl(175, 60%, 35%)",
+    dateRange: "AD 53–57",
+    durationNote: "~4 years",
+    travelNote: "Paul revisited Galatia and Phrygia overland, then settled in Ephesus for ~2.5 years (Acts 19:10). Traveled through Macedonia to Corinth (3-month stay, Acts 20:3), then returned via Philippi, Troas (Eutychus incident, Acts 20:9), and sailed along the coast to Miletus and on to Jerusalem.",
     path: [
       // Antioch → Galatia/Phrygia → Ephesus (2+ years) → Macedonia → Greece → return via coast
       [36.20, 36.15],   // Antioch
@@ -219,6 +228,9 @@ export const journeys: JourneyData[] = [
     id: "rome",
     name: "Journey to Rome",
     color: "hsl(38, 70%, 50%)",
+    dateRange: "AD 59–60",
+    durationNote: "~6 months",
+    travelNote: "Paul sailed as a prisoner under centurion Julius (Acts 27:1). From Caesarea to Sidon, then along Cilicia's coast to Myra, transferred to an Alexandrian grain ship. Caught in the Northeaster (Euraquilo) storm for 14 days (Acts 27:27), shipwrecked on Malta for 3 months, then sailed via Syracuse and Rhegium to Puteoli, arriving in Rome on foot via the Appian Way.",
     path: [
       // Caesarea → Sidon → south of Cyprus → Myra → Cnidus → Crete → Malta → Syracuse → Rhegium → Puteoli → Rome
       [32.53, 34.89],   // Caesarea
