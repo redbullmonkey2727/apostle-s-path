@@ -142,6 +142,11 @@ const CityMarker = ({ city, onClick }: CityMarkerProps) => {
             </span>
           </div>
           <p className="text-xs text-muted-foreground mt-0.5">{city.label}</p>
+          {city.epistleName && (
+            <p className="text-[10px] text-muted-foreground italic mt-0.5">
+              {city.epistleName} — written {city.estimatedAge}
+            </p>
+          )}
           <div className="flex flex-wrap gap-1 mt-1">
             {city.writers.map((w) => (
               <span key={w} className="text-[10px] px-1.5 py-0.5 rounded-full bg-muted text-muted-foreground">

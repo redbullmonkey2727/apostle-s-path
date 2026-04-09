@@ -160,16 +160,21 @@ const JourneyLegend = ({
         })}
       </div>
 
-      {/* Writer legend */}
+      {/* Map style */}
       <div className="border-t border-border pt-3 space-y-2">
-        <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-wide flex items-center gap-1">
-          <PenTool className="h-3 w-3" /> Writers
-        </h3>
-        {Object.entries(writerLabels).map(([key, { label, color }]) => (
-          <div key={key} className="flex items-center gap-2 text-sm">
-            <div className="w-3 h-3 rounded-full" style={{ backgroundColor: color }} />
-            <span>{label}</span>
-          </div>
+        <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">Map Style</h3>
+        {tileOptions.map((t) => (
+          <button
+            key={t.id}
+            onClick={() => onTileChange(t.id)}
+            className={`w-full text-left px-3 py-1.5 text-sm rounded-md transition-colors ${
+              activeTile === t.id
+                ? "bg-primary text-primary-foreground"
+                : "hover:bg-muted"
+            }`}
+          >
+            {t.name}
+          </button>
         ))}
       </div>
 
@@ -190,21 +195,16 @@ const JourneyLegend = ({
         </div>
       </div>
 
-      {/* Map style */}
+      {/* Writer legend */}
       <div className="border-t border-border pt-3 space-y-2">
-        <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">Map Style</h3>
-        {tileOptions.map((t) => (
-          <button
-            key={t.id}
-            onClick={() => onTileChange(t.id)}
-            className={`w-full text-left px-3 py-1.5 text-sm rounded-md transition-colors ${
-              activeTile === t.id
-                ? "bg-primary text-primary-foreground"
-                : "hover:bg-muted"
-            }`}
-          >
-            {t.name}
-          </button>
+        <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-wide flex items-center gap-1">
+          <PenTool className="h-3 w-3" /> Writers
+        </h3>
+        {Object.entries(writerLabels).map(([key, { label, color }]) => (
+          <div key={key} className="flex items-center gap-2 text-sm">
+            <div className="w-3 h-3 rounded-full" style={{ backgroundColor: color }} />
+            <span>{label}</span>
+          </div>
         ))}
       </div>
     </div>
