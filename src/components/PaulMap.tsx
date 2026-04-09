@@ -118,8 +118,8 @@ const tinyShipIcon = L.divIcon({
   iconAnchor: [7, 7],
 });
 
-// Global speed multiplier: 22% slower total (18% + 4%)
-const SPEED_FACTOR = 0.78;
+// Global speed multiplier: 8% faster than previous 0.78 → ~0.84
+const SPEED_FACTOR = 0.84;
 
 // Animated polyline that draws progressively with slowdowns near shipwrecks
 function AnimatedPolyline({
