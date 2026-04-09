@@ -81,4 +81,13 @@ export const commentaries: Record<string, string> = {
   "Revelation 1:1": "The Revelation of Jesus Christ, which God gave unto him — God and Christ are separate.",
   "Revelation 3:5": "He that overcometh shall be clothed in white raiment, and his name shall not be blotted out of the book of life.",
   "Revelation 13:8": "The Lamb slain from the foundation of the world — Christ's mission was foreordained.",
+  "1 Peter 1:19-20": "Jesus Christ was foreordained to be the Lamb of God before the foundation of the world (John 17:24). God's Plan of Salvation, which is centered on Jesus Christ was laid out before the foundation of this world.",
+  "1 Peter 1:21": "God and Jesus are mentioned as separate beings here. God is taught to have raised up Jesus from the dead and to have given Him glory.",
+  "1 Peter 3:22": "Jesus Christ has gone into Heaven and is now on the right hand of God. He is a separate being from God the Father.",
+  "2 Peter 1:3-4": "Because of Jesus Christ, and the promises that He has given us, we are able to become \"partakers of the divine nature.\" We are promised that the righteous will receive \"all things that pertain unto life and godliness.\" This possibility to become like God is only possible because of the Atonement of Jesus Christ and His grace (Moroni 10:32).",
+  "1 John 1:3": "Why would John the Revelator distinguish between fellowship with the Father and fellowship with the Son if they are the same being?",
+  "1 John 2:1-2": "How can Jesus be the Advocate with the Father if they're the same being?",
+  "1 John 4:9-11": "God sent His son to die for us, to be the propitiation for our sins. Jesus Christ is the Savior of the world, and God the Father are two separate beings.",
+  "1 John 5:9-12": "God has given us a witness of truth through His Son. His Son is a separate being from the Father.",
+  "2 John 1:3": "The Godhead is referenced here in simplicity. John prays for grace from the Father and from the Son, who is the Son of God, the Savior of the world.",
 };
