@@ -72,12 +72,31 @@ function findClosestIndex(positions: [number, number][], point: { lat: number; l
   return minIdx;
 }
 
-// Heuristic: is a point over water? (far from known land cities)
-const landCityCoords: [number, number][] = cities.map((c) => [c.lat, c.lng]);
+// Known land areas (rough bounding boxes for major land masses in the region)
+// Mediterranean coastlines — points inside these are land
+const landBoxes: { latMin: number; latMax: number; lngMin: number; lngMax: number }[] = [
+  // Asia Minor / Turkey
+  { latMin: 36.5, latMax: 42, lngMin: 26, lngMax: 44 },
+  // Levant / Syria / Israel
+  { latMin: 31, latMax: 37, lngMin: 34, lngMax: 37 },
+  // Greece mainland
+  { latMin: 37.5, latMax: 42, lngMin: 19, lngMax: 26 },
+  // Italy
+  { latMin: 37, latMax: 44, lngMin: 11, lngMax: 16 },
+  // Egypt / North Africa
+  { latMin: 30, latMax: 34, lngMin: 24, lngMax: 35 },
+  // Peloponnese
+  { latMin: 36.5, latMax: 39, lngMin: 21, lngMax: 24 },
+];
+
 function isOverWater(pos: [number, number]): boolean {
-  // If the point is far enough from any known city, it's likely over water
-  const minCityDist = Math.min(...landCityCoords.map((c) => dist(pos, c)));
-  return minCityDist > 0.8; // ~80km threshold
+  const [lat, lng] = pos;
+  for (const box of landBoxes) {
+    if (lat >= box.latMin && lat <= box.latMax && lng >= box.lngMin && lng <= box.lngMax) {
+      return false; // inside a land box
+    }
+  }
+  return true; // not in any land box = water
 }
 
 // Create tiny ship icon for the leading edge (14px — 12% smaller than 16px)
@@ -88,8 +107,8 @@ const tinyShipIcon = L.divIcon({
   iconAnchor: [7, 7],
 });
 
-// Global speed multiplier: 18% slower
-const SPEED_FACTOR = 0.82;
+// Global speed multiplier: 22% slower total (18% + 4%)
+const SPEED_FACTOR = 0.78;
 
 // Animated polyline that draws progressively with slowdowns near shipwrecks
 function AnimatedPolyline({
