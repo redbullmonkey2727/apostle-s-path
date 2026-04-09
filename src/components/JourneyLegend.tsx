@@ -142,7 +142,7 @@ const JourneyLegend = ({
               {isActive && (
                 <p className="text-[11px] text-muted-foreground ml-5 mt-0.5 flex items-center gap-1">
                   <Ruler className="h-3 w-3" />
-                  ~{distKm.toLocaleString()} km ({distMi.toLocaleString()} mi) traveled
+                  ~{distMi.toLocaleString()} mi ({distKm.toLocaleString()} km) traveled
                 </p>
               )}
             </div>
