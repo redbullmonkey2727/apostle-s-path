@@ -261,6 +261,47 @@ function AnimatedPolyline({
       {showShip && shipPos && (
         <Marker position={shipPos} icon={tinyShipIcon} interactive={false} />
       )}
+      {/* Splash animation circles */}
+      {splashPoints.map((sp) => (
+        <SplashEffect key={sp.key} position={sp.pos} color={color} />
+      ))}
+    </>
+  );
+}
+
+// Small expanding circle splash effect
+function SplashEffect({ position, color }: { position: [number, number]; color: string }) {
+  const [radius, setRadius] = useState(3);
+  const [opacity, setOpacity] = useState(0.8);
+
+  useEffect(() => {
+    let frame = 0;
+    const maxFrames = 40;
+    const animate = () => {
+      frame++;
+      const t = frame / maxFrames;
+      setRadius(3 + t * 18);
+      setOpacity(0.8 * (1 - t));
+      if (frame < maxFrames) requestAnimationFrame(animate);
+    };
+    const id = requestAnimationFrame(animate);
+    return () => cancelAnimationFrame(id);
+  }, []);
+
+  return (
+    <>
+      <CircleMarker
+        center={position}
+        radius={radius}
+        pathOptions={{ color, weight: 1.5, opacity, fillOpacity: opacity * 0.3, fillColor: color }}
+        interactive={false}
+      />
+      <CircleMarker
+        center={position}
+        radius={radius * 0.6}
+        pathOptions={{ color: "#fff", weight: 1, opacity: opacity * 0.7, fillOpacity: opacity * 0.2, fillColor: "#fff" }}
+        interactive={false}
+      />
     </>
   );
 }
