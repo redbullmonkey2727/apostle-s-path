@@ -242,7 +242,7 @@ const PaulMap = () => {
     const param = searchParams.get("journeys");
     return param ? param.split(",") : ["first", "second", "third", "rome"];
   });
-  const [activeTile, setActiveTile] = useState(() => searchParams.get("tile") || "google");
+  const [activeTile, setActiveTile] = useState(() => searchParams.get("tile") || "osm");
   const [selectedCity, setSelectedCity] = useState<CityData | null>(() => {
     const cityId = searchParams.get("city");
     return cityId ? cities.find((c) => c.id === cityId) || null : null;
