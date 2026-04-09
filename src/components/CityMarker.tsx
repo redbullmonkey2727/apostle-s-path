@@ -83,7 +83,7 @@ function getSummary(ref: string): string {
 
 const CityMarker = ({ city, onClick }: CityMarkerProps) => {
   const totalRefs = city.scriptures.length;
-  const previewScriptures = city.scriptures.slice(0, 4);
+  const previewScriptures = city.scriptures.slice(0, 3);
 
   return (
     <CircleMarker
@@ -104,7 +104,7 @@ const CityMarker = ({ city, onClick }: CityMarkerProps) => {
         offset={[0, -10]}
         className="city-tooltip"
       >
-        <div className="p-2 min-w-[200px] max-w-[280px]">
+        <div className="p-2 min-w-[200px] max-w-[280px] font-rosarivo">
           <div className="flex items-center justify-between gap-2">
             <h3 className="font-serif text-base font-bold text-foreground">{city.name}</h3>
             <span className="text-xs font-semibold bg-primary/10 text-primary px-1.5 py-0.5 rounded-full">
@@ -132,8 +132,8 @@ const CityMarker = ({ city, onClick }: CityMarkerProps) => {
                   </div>
                 );
               })}
-              {totalRefs > 4 && (
-                <p className="text-[10px] text-muted-foreground italic">+{totalRefs - 4} more…</p>
+              {totalRefs > 3 && (
+                <p className="text-[10px] text-muted-foreground italic">+{totalRefs - 3} more…</p>
               )}
             </div>
           )}
