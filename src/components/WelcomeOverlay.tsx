@@ -42,6 +42,8 @@ const WelcomeOverlay = ({ onStartTour }: { onStartTour?: () => void }) => {
           Welcome to an interactive map of the Apostles' journeys — tracing when and under what
           circumstances they wrote doctrine pointing to the Restored Church of Jesus Christ.
           Their words, written amid affliction and revelation, carry great relevance today.
+          Try switching between map styles (street, terrain, satellite) in the layer control —
+          each view highlights different details of the ancient world.
         </p>
 
         <div className="mt-5 space-y-2.5">
