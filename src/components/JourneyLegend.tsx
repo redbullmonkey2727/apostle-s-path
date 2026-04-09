@@ -1,7 +1,7 @@
 import { journeys, tileOptions, allTopics } from "@/data/paulData";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
-import { MapPin, BookOpen, Navigation, Tag, PenTool, ChevronDown, Ruler } from "lucide-react";
+import { MapPin, BookOpen, Navigation, Tag, PenTool, ChevronDown, Ruler, Clock, Calendar } from "lucide-react";
 import { useState } from "react";
 
 interface JourneyLegendProps {
@@ -140,10 +140,20 @@ const JourneyLegend = ({
                 />
               </div>
               {isActive && (
-                <p className="text-[11px] text-muted-foreground ml-5 mt-0.5 flex items-center gap-1">
-                  <Ruler className="h-3 w-3" />
-                  ~{distMi.toLocaleString()} mi ({distKm.toLocaleString()} km) traveled
-                </p>
+                <div className="ml-5 mt-1 space-y-0.5">
+                  <p className="text-[11px] text-muted-foreground flex items-center gap-1">
+                    <Calendar className="h-3 w-3" /> {j.dateRange}
+                    <span className="mx-1">•</span>
+                    <Clock className="h-3 w-3" /> {j.durationNote}
+                  </p>
+                  <p className="text-[11px] text-muted-foreground flex items-center gap-1">
+                    <Ruler className="h-3 w-3" />
+                    ~{distMi.toLocaleString()} mi ({distKm.toLocaleString()} km) traveled
+                  </p>
+                  <p className="text-[10px] text-muted-foreground/80 mt-1 leading-snug">
+                    {j.travelNote}
+                  </p>
+                </div>
               )}
             </div>
           );
