@@ -239,6 +239,14 @@ export const journeys: JourneyData[] = [
       [31.90, 35.10],
       [31.77, 35.21],   // Jerusalem (arrest)
     ],
+    shipwrecks: [
+      {
+        lat: 37.30, lng: 28.50,
+        label: "Shipwreck off Asia Minor coast",
+        reference: "2 Corinthians 11:25",
+        description: "The third of Paul's shipwrecks mentioned in 2 Corinthians, likely on the return voyage from Miletus along the rugged Aegean coast. Paul also spent 'a night and a day in the deep' (2 Cor 11:25)."
+      }
+    ],
   },
   {
     id: "rome",
@@ -296,6 +304,14 @@ export const journeys: JourneyData[] = [
       [41.40, 13.00],
       [41.60, 12.80],
       [41.90, 12.50],   // Rome
+    ],
+    shipwrecks: [
+      {
+        lat: 35.90, lng: 14.42,
+        label: "Shipwreck at Malta",
+        reference: "Acts 27:41-44",
+        description: "The most famous shipwreck in the Bible. After 14 days adrift in the Euraquilo storm, the Alexandrian grain ship ran aground on a sandbar off Malta. All 276 passengers survived by swimming or clinging to planks, fulfilling the angel's promise to Paul (Acts 27:24)."
+      }
     ],
   },
 ];
