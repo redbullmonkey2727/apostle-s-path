@@ -1,4 +1,4 @@
-import type { JourneyData, TileOption } from "./types";
+import type { JourneyData, TileOption, ShipwreckPoint } from "./types";
 
 export const journeys: JourneyData[] = [
   {
