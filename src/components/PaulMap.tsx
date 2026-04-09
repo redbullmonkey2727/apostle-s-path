@@ -141,7 +141,9 @@ function AnimatedPolyline({
   const [visibleCount, setVisibleCount] = useState(0);
   const [shipPos, setShipPos] = useState<[number, number] | null>(null);
   const [showShip, setShowShip] = useState(false);
+  const [splashPoints, setSplashPoints] = useState<{ pos: [number, number]; key: number }[]>([]);
   const frameRef = useRef<number>();
+  const triggeredWrecks = useRef<Set<number>>(new Set());
 
   // Pre-compute shipwreck indices and slow zones
   const shipwreckIndices = useMemo(() => {
