@@ -551,15 +551,18 @@ const PaulMap = () => {
                 .filter((j) => activeJourneys.includes(j.id))
                 .map((j) => {
                   const orderIdx = journeyOrder.indexOf(j.id);
+                  const smooth = smoothPath(j.path, 12);
                   return (
-                    <AnimatedPolyline
-                      key={j.id}
-                      positions={smoothPath(j.path, 12)}
-                      color={j.color}
-                      dashArray={j.id === "rome" ? "8 4" : undefined}
-                      shipwrecks={j.shipwrecks}
-                      delay={orderIdx * staggerDelay}
-                    />
+                    <span key={j.id}>
+                      <AnimatedPolyline
+                        positions={smooth}
+                        color={j.color}
+                        dashArray={j.id === "rome" ? "8 4" : undefined}
+                        shipwrecks={j.shipwrecks}
+                        delay={orderIdx * staggerDelay}
+                      />
+                      <JourneyDistanceSegments path={smooth} color={j.color} />
+                    </span>
                   );
                 });
             })()}
