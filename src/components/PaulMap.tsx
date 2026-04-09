@@ -377,6 +377,40 @@ const PaulMap = () => {
               />
             ))}
           </MapContainer>
+
+          {/* Topic search results overlay */}
+          {topicSearchResults && !selectedCity && (
+            <div className="absolute top-3 right-3 z-[1000] bg-card/95 backdrop-blur border border-border rounded-lg shadow-lg max-w-sm max-h-[60vh] overflow-y-auto">
+              <div className="sticky top-0 bg-card/95 backdrop-blur px-4 py-3 border-b border-border">
+                <div className="flex items-center justify-between">
+                  <h3 className="font-serif font-bold text-sm text-foreground">
+                    📖 "{topicSearchResults.topic}" — {topicSearchResults.results.length} scriptures
+                  </h3>
+                  <button
+                    onClick={() => setSearchQuery("")}
+                    className="text-muted-foreground hover:text-foreground text-xs ml-2"
+                  >✕</button>
+                </div>
+              </div>
+              <div className="divide-y divide-border">
+                {topicSearchResults.results.map((r, i) => (
+                  <button
+                    key={`${r.reference}-${i}`}
+                    onClick={() => {
+                      setSelectedCity(r.cityData);
+                      setSearchQuery("");
+                    }}
+                    className="w-full text-left px-4 py-2.5 hover:bg-muted/50 transition-colors"
+                  >
+                    <p className="text-sm font-semibold text-foreground">{r.reference}</p>
+                    <p className="text-xs text-muted-foreground mt-0.5">
+                      {r.city} · <span className="capitalize">{r.writer}</span>
+                    </p>
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
       </div>
 
