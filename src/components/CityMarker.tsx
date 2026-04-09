@@ -7,11 +7,22 @@ interface CityMarkerProps {
   onClick: (city: CityData) => void;
 }
 
-const typeColors: Record<string, string> = {
-  visited: "hsl(210, 70%, 45%)",
-  letter: "hsl(38, 70%, 50%)",
-  both: "hsl(25, 60%, 30%)",
+const writerColors: Record<string, string> = {
+  paul: "hsl(25, 60%, 30%)",
+  peter: "hsl(200, 60%, 40%)",
+  john: "hsl(280, 50%, 45%)",
+  james: "hsl(140, 50%, 35%)",
+  jude: "hsl(340, 50%, 45%)",
+  "hebrews-author": "hsl(30, 60%, 45%)",
 };
+
+function getMarkerColor(city: CityData): string {
+  // Use primary writer's color
+  if (city.writers.length > 0) {
+    return writerColors[city.writers[0]] || "hsl(25, 60%, 30%)";
+  }
+  return "hsl(25, 60%, 30%)";
+}
 
 const writerNames: Record<string, string> = {
   paul: "Paul",
@@ -122,7 +133,7 @@ const CityMarker = ({ city, onClick }: CityMarkerProps) => {
       center={[city.lat, city.lng]}
       radius={8}
       pathOptions={{
-        fillColor: typeColors[city.type],
+        fillColor: getMarkerColor(city),
         fillOpacity: 0.9,
         color: "hsl(36, 33%, 97%)",
         weight: 2,
