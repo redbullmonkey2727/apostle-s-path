@@ -1,5 +1,5 @@
 import { CircleMarker, Tooltip, useMap } from "react-leaflet";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useCallback } from "react";
 import { CityData } from "@/data/paulData";
 
 interface CityMarkerProps {
@@ -89,31 +89,32 @@ const CityMarker = ({ city, onClick }: CityMarkerProps) => {
   const map = useMap();
 
   // On touch devices, first tap opens tooltip; second tap opens detail
+  const tooltipOpenRef = useRef(false);
+
   useEffect(() => {
     const marker = markerRef.current;
     if (!marker) return;
 
-    const isTouchDevice = "ontouchstart" in window;
-    if (!isTouchDevice) return;
+    const resetTooltip = () => { tooltipOpenRef.current = false; };
+    map.on("click", resetTooltip);
+    return () => { map.off("click", resetTooltip); };
+  }, [map]);
 
-    let tooltipOpen = false;
-    const handleClick = (e: any) => {
-      if (!tooltipOpen) {
-        e.originalEvent?.stopPropagation();
-        marker.openTooltip();
-        tooltipOpen = true;
-      } else {
-        tooltipOpen = false;
-        onClick(city);
-      }
-    };
-
-    marker.on("click", handleClick);
-    map.on("click", () => { tooltipOpen = false; });
-    return () => {
-      marker.off("click", handleClick);
-    };
-  }, [city, onClick, map]);
+  const handleClick = useCallback(() => {
+    const isTouchDevice = "ontouchstart" in window || navigator.maxTouchPoints > 0;
+    if (!isTouchDevice) {
+      onClick(city);
+      return;
+    }
+    // Touch: first tap → tooltip, second tap → detail
+    if (!tooltipOpenRef.current) {
+      markerRef.current?.openTooltip();
+      tooltipOpenRef.current = true;
+    } else {
+      tooltipOpenRef.current = false;
+      onClick(city);
+    }
+  }, [city, onClick]);
 
   return (
     <CircleMarker
@@ -126,11 +127,7 @@ const CityMarker = ({ city, onClick }: CityMarkerProps) => {
         color: "hsl(36, 33%, 97%)",
         weight: 2,
       }}
-      eventHandlers={{
-        click: () => {
-          if (!("ontouchstart" in window)) onClick(city);
-        },
-      }}
+      eventHandlers={{ click: handleClick }}
     >
       <Tooltip
         direction="top"
