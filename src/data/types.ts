@@ -25,6 +25,8 @@ export interface CityData {
   writerAges?: Record<string, string>;
   summerTempC?: number;
   winterTempC?: number;
+  summerPrecipMm?: number;
+  winterPrecipMm?: number;
 }
 
 export interface JourneyData {

@@ -1,7 +1,7 @@
 import { journeys, tileOptions, allTopics } from "@/data/paulData";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
-import { MapPin, BookOpen, Navigation, Tag, PenTool, ChevronDown } from "lucide-react";
+import { MapPin, BookOpen, Navigation, Tag, PenTool, ChevronDown, Ruler } from "lucide-react";
 import { useState } from "react";
 
 interface JourneyLegendProps {
@@ -23,6 +23,25 @@ const writerLabels: Record<string, { label: string; color: string }> = {
   jude: { label: "Jude", color: "hsl(340, 50%, 45%)" },
   "hebrews-author": { label: "Hebrews Author", color: "hsl(30, 60%, 45%)" },
 };
+
+// Haversine formula to calculate distance between two lat/lng points in km
+function haversineKm(lat1: number, lng1: number, lat2: number, lng2: number): number {
+  const R = 6371;
+  const dLat = ((lat2 - lat1) * Math.PI) / 180;
+  const dLng = ((lng2 - lng1) * Math.PI) / 180;
+  const a =
+    Math.sin(dLat / 2) ** 2 +
+    Math.cos((lat1 * Math.PI) / 180) * Math.cos((lat2 * Math.PI) / 180) * Math.sin(dLng / 2) ** 2;
+  return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+}
+
+function totalJourneyKm(path: [number, number][]): number {
+  let total = 0;
+  for (let i = 1; i < path.length; i++) {
+    total += haversineKm(path[i - 1][0], path[i - 1][1], path[i][0], path[i][1]);
+  }
+  return Math.round(total);
+}
 
 const JourneyLegend = ({
   activeJourneys,
@@ -96,26 +115,39 @@ const JourneyLegend = ({
         )}
       </div>
 
-      {/* Journey toggles */}
+      {/* Journey toggles with distance */}
       <div className="space-y-3">
-        {journeys.map((j) => (
-          <div key={j.id} className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <div
-                className="w-3 h-3 rounded-full"
-                style={{ backgroundColor: j.color }}
-              />
-              <Label htmlFor={j.id} className="text-sm cursor-pointer">
-                {j.name}
-              </Label>
+        {journeys.map((j) => {
+          const distKm = totalJourneyKm(j.path);
+          const distMi = Math.round(distKm * 0.621371);
+          const isActive = activeJourneys.includes(j.id);
+          return (
+            <div key={j.id}>
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <div
+                    className="w-3 h-3 rounded-full"
+                    style={{ backgroundColor: j.color }}
+                  />
+                  <Label htmlFor={j.id} className="text-sm cursor-pointer">
+                    {j.name}
+                  </Label>
+                </div>
+                <Switch
+                  id={j.id}
+                  checked={isActive}
+                  onCheckedChange={() => onToggleJourney(j.id)}
+                />
+              </div>
+              {isActive && (
+                <p className="text-[11px] text-muted-foreground ml-5 mt-0.5 flex items-center gap-1">
+                  <Ruler className="h-3 w-3" />
+                  ~{distKm.toLocaleString()} km ({distMi.toLocaleString()} mi) traveled
+                </p>
+              )}
             </div>
-            <Switch
-              id={j.id}
-              checked={activeJourneys.includes(j.id)}
-              onCheckedChange={() => onToggleJourney(j.id)}
-            />
-          </div>
-        ))}
+          );
+        })}
       </div>
 
       {/* Writer legend */}
