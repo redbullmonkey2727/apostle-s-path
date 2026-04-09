@@ -80,12 +80,12 @@ function isOverWater(pos: [number, number]): boolean {
   return minCityDist > 0.8; // ~80km threshold
 }
 
-// Create tiny ship icon for the leading edge
+// Create tiny ship icon for the leading edge (14px — 12% smaller than 16px)
 const tinyShipIcon = L.divIcon({
-  html: `<img src="${shipImg}" style="width:16px;height:16px;object-fit:contain;filter:drop-shadow(0 1px 2px rgba(0,0,0,0.5));" />`,
+  html: `<img src="${shipImg}" style="width:14px;height:14px;object-fit:contain;filter:drop-shadow(0 1px 2px rgba(0,0,0,0.5));" />`,
   className: "sailing-ship-icon",
-  iconSize: [16, 16],
-  iconAnchor: [8, 8],
+  iconSize: [14, 14],
+  iconAnchor: [7, 7],
 });
 
 // Global speed multiplier: 18% slower
@@ -263,6 +263,25 @@ const PaulMap = () => {
 
   const tile = tileOptions.find((t) => t.id === activeTile) || tileOptions[0];
 
+  // Collect all scriptures matching a topic search
+  const topicSearchResults = useMemo(() => {
+    if (!searchQuery.trim()) return null;
+    const q = searchQuery.trim().toLowerCase();
+    // Check if query matches any topic name
+    const matchedTopic = allTopics.find((t) => t.toLowerCase().includes(q));
+    if (!matchedTopic) return null;
+
+    const results: { city: string; cityData: CityData; reference: string; writer: string; topics: string[] }[] = [];
+    for (const c of cities) {
+      for (const s of c.scriptures) {
+        if (s.topics.some((t) => t.toLowerCase().includes(q))) {
+          results.push({ city: c.name, cityData: c, reference: s.reference, writer: s.writer, topics: s.topics });
+        }
+      }
+    }
+    return results.length > 0 ? { topic: matchedTopic, results } : null;
+  }, [searchQuery]);
+
   const filteredCities = useMemo(() => {
     let result = cities;
     if (searchQuery.trim()) {
@@ -272,7 +291,8 @@ const PaulMap = () => {
           c.name.toLowerCase().includes(q) ||
           c.label.toLowerCase().includes(q) ||
           c.references.some((r) => r.toLowerCase().includes(q)) ||
-          c.writers.some((w) => w.toLowerCase().includes(q))
+          c.writers.some((w) => w.toLowerCase().includes(q)) ||
+          c.scriptures.some((s) => s.topics.some((t) => t.toLowerCase().includes(q)))
       );
     }
     if (activeTopic) {
