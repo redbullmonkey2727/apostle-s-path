@@ -490,19 +490,22 @@ const PaulMap = () => {
       <TimelineBar onCitySelect={setSelectedCity} selectedCityId={selectedCity?.id} />
 
       <div className="flex flex-col lg:flex-row gap-4 flex-1 min-h-0">
-        <JourneyLegend
-          activeJourneys={activeJourneys}
-          onToggleJourney={toggleJourney}
-          activeTile={activeTile}
-          onTileChange={setActiveTile}
-          searchQuery={searchQuery}
-          onSearchChange={setSearchQuery}
-          activeTopic={activeTopic}
-          onTopicChange={setActiveTopic}
-          isDark={isDark}
-          onToggleDark={toggleDark}
-          onStartTour={() => setShowTour(true)}
-        />
+        <div className="w-full lg:w-72 space-y-3">
+          <ScriptureProgressBar viewedCount={viewedCount} totalScriptures={totalScriptures} />
+          <JourneyLegend
+            activeJourneys={activeJourneys}
+            onToggleJourney={toggleJourney}
+            activeTile={activeTile}
+            onTileChange={setActiveTile}
+            searchQuery={searchQuery}
+            onSearchChange={setSearchQuery}
+            activeTopic={activeTopic}
+            onTopicChange={setActiveTopic}
+            isDark={isDark}
+            onToggleDark={toggleDark}
+            onStartTour={() => setShowTour(true)}
+          />
+        </div>
 
         <div className="flex-1 rounded-lg overflow-hidden border border-border shadow-sm relative">
           {/* Top buttons: Share + PDF */}
