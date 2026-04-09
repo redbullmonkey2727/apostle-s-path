@@ -118,8 +118,8 @@ const tinyShipIcon = L.divIcon({
   iconAnchor: [7, 7],
 });
 
-// Global speed multiplier: 22% slower total (18% + 4%)
-const SPEED_FACTOR = 0.78;
+// Global speed multiplier: 8% faster than previous 0.78 → ~0.84
+const SPEED_FACTOR = 0.84;
 
 // Animated polyline that draws progressively with slowdowns near shipwrecks
 function AnimatedPolyline({
@@ -127,11 +127,13 @@ function AnimatedPolyline({
   color,
   dashArray,
   shipwrecks = [],
+  delay = 0,
 }: {
   positions: [number, number][];
   color: string;
   dashArray?: string;
   shipwrecks?: ShipwreckPoint[];
+  delay?: number;
 }) {
   const [visibleCount, setVisibleCount] = useState(0);
   const [shipPos, setShipPos] = useState<[number, number] | null>(null);
@@ -213,7 +215,7 @@ function AnimatedPolyline({
 
     const timer = setTimeout(() => {
       frameRef.current = requestAnimationFrame(step);
-    }, 100);
+    }, delay);
     return () => {
       clearTimeout(timer);
       if (frameRef.current) cancelAnimationFrame(frameRef.current);
@@ -415,17 +417,25 @@ const PaulMap = () => {
             <MapRef onMap={handleMapRef} />
             <TileLayer url={tile.url} attribution={tile.attribution} />
 
-            {journeys
-              .filter((j) => activeJourneys.includes(j.id))
-              .map((j) => (
-                <AnimatedPolyline
-                  key={j.id}
-                  positions={smoothPath(j.path, 12)}
-                  color={j.color}
-                  dashArray={j.id === "rome" ? "8 4" : undefined}
-                  shipwrecks={j.shipwrecks}
-                />
-              ))}
+            {(() => {
+              const journeyOrder = ["first", "second", "third", "rome"];
+              const staggerDelay = 4500; // ms between journey starts
+              return journeys
+                .filter((j) => activeJourneys.includes(j.id))
+                .map((j) => {
+                  const orderIdx = journeyOrder.indexOf(j.id);
+                  return (
+                    <AnimatedPolyline
+                      key={j.id}
+                      positions={smoothPath(j.path, 12)}
+                      color={j.color}
+                      dashArray={j.id === "rome" ? "8 4" : undefined}
+                      shipwrecks={j.shipwrecks}
+                      delay={orderIdx * staggerDelay}
+                    />
+                  );
+                });
+            })()}
 
             {/* Shipwreck markers */}
             {journeys
