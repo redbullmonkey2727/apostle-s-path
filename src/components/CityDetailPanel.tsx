@@ -84,25 +84,25 @@ const CityDetailPanel = ({ city, onClose, activeTopic }: CityDetailPanelProps) =
               ))}
             </div>
             <div className="flex items-center gap-6 mt-2 text-xs text-muted-foreground flex-wrap">
-              {(city.summerTempC !== undefined || city.winterTempC !== undefined) && (
+              {city.summerTempC !== undefined && (
                 <span className="flex items-center gap-1">
                   <Thermometer className="h-3.5 w-3.5" />
-                  {city.summerTempC !== undefined && (
-                    <span>Summer: <strong className="text-foreground">{city.summerTempC}°C / {Math.round(city.summerTempC * 9 / 5 + 32)}°F</strong></span>
-                  )}
-                  {city.winterTempC !== undefined && (
-                    <span className="ml-2">Winter: <strong className="text-foreground">{city.winterTempC}°C / {Math.round(city.winterTempC * 9 / 5 + 32)}°F</strong></span>
+                  Summer: <strong className="text-foreground">{city.summerTempC}°C / {Math.round(city.summerTempC * 9 / 5 + 32)}°F</strong>
+                  {city.summerPrecipMm !== undefined && (
+                    <span className="flex items-center gap-1 ml-1">
+                      <Droplets className="h-3 w-3" /> <strong className="text-foreground">{city.summerPrecipMm} mm</strong> precip
+                    </span>
                   )}
                 </span>
               )}
-              {(city.summerPrecipMm !== undefined || city.winterPrecipMm !== undefined) && (
+              {city.winterTempC !== undefined && (
                 <span className="flex items-center gap-1">
-                  <Droplets className="h-3.5 w-3.5" />
-                  {city.summerPrecipMm !== undefined && (
-                    <span>Summer precip: <strong className="text-foreground">{city.summerPrecipMm} mm</strong></span>
-                  )}
+                  <Thermometer className="h-3.5 w-3.5" />
+                  Winter: <strong className="text-foreground">{city.winterTempC}°C / {Math.round(city.winterTempC * 9 / 5 + 32)}°F</strong>
                   {city.winterPrecipMm !== undefined && (
-                    <span className="ml-2">Winter precip: <strong className="text-foreground">{city.winterPrecipMm} mm</strong></span>
+                    <span className="flex items-center gap-1 ml-1">
+                      <Droplets className="h-3 w-3" /> <strong className="text-foreground">{city.winterPrecipMm} mm</strong> precip
+                    </span>
                   )}
                 </span>
               )}
