@@ -1,12 +1,17 @@
 import { CityData } from "@/data/paulData";
-import { X, MapPin, Tag, Thermometer, BookOpen, Droplets, ExternalLink, Scroll } from "lucide-react";
+import { X, MapPin, Tag, Thermometer, BookOpen, Droplets, ExternalLink, Scroll, ChevronLeft, ChevronRight, Bookmark, Home } from "lucide-react";
 import { commentaries } from "@/data/commentaries";
 import { ScriptureEntry } from "@/data/types";
+import { useState } from "react";
 
 interface CityDetailPanelProps {
   city: CityData;
   onClose: () => void;
   activeTopic: string;
+  allCities: CityData[];
+  onCityChange: (city: CityData) => void;
+  bookmarks: Set<string>;
+  onToggleBookmark: (ref: string) => void;
 }
 
 const writerNames: Record<string, string> = {
@@ -72,9 +77,7 @@ const bookContextInfo: Record<string, Record<string, string>> = {
   },
 };
 
-// Build church website URL for a scripture reference
 function getChurchUrl(reference: string): string {
-  // Parse "1 Corinthians 15:29" → book slug + chapter
   const bookMap: Record<string, string> = {
     "Genesis": "gen", "Exodus": "ex", "Leviticus": "lev", "Numbers": "num", "Deuteronomy": "deut",
     "Matthew": "matt", "Mark": "mark", "Luke": "luke", "John": "john",
@@ -87,41 +90,79 @@ function getChurchUrl(reference: string): string {
     "1 John": "1-jn", "2 John": "2-jn", "3 John": "3-jn",
     "Jude": "jude", "Revelation": "rev",
   };
-
-  // Extract book name and chapter
   const match = reference.match(/^(.+?)\s+(\d+)/);
   if (!match) return "https://www.churchofjesuschrist.org/study/scriptures/nt";
-  
-  const bookName = match[1];
-  const chapter = match[2];
-  const slug = bookMap[bookName];
-  
+  const slug = bookMap[match[1]];
   if (!slug) return "https://www.churchofjesuschrist.org/study/scriptures/nt";
-  return `https://www.churchofjesuschrist.org/study/scriptures/nt/${slug}/${chapter}?lang=eng`;
+  return `https://www.churchofjesuschrist.org/study/scriptures/nt/${slug}/${match[2]}?lang=eng`;
 }
 
-const CityDetailPanel = ({ city, onClose, activeTopic }: CityDetailPanelProps) => {
+const CityDetailPanel = ({ city, onClose, activeTopic, allCities, onCityChange, bookmarks, onToggleBookmark }: CityDetailPanelProps) => {
   const filteredScriptures = activeTopic
     ? city.scriptures.filter((s) => s.topics.includes(activeTopic))
     : city.scriptures;
 
+  const cityIndex = allCities.findIndex((c) => c.id === city.id);
+  const prevCity = cityIndex > 0 ? allCities[cityIndex - 1] : null;
+  const nextCity = cityIndex < allCities.length - 1 ? allCities[cityIndex + 1] : null;
+
+  // Mobile tab state for KJV/NRSV/Application
+  const [mobileTab, setMobileTab] = useState<"kjv" | "nrsv" | "app">("kjv");
+
   return (
     <div className="fixed inset-0 bg-background z-[1000] flex flex-col animate-fade-in">
+      {/* Breadcrumb + nav */}
+      <div className="border-b border-border bg-muted/30 px-4 md:px-6 py-2 shrink-0">
+        <div className="flex items-center justify-between max-w-7xl mx-auto">
+          <div className="flex items-center gap-1 text-xs text-muted-foreground">
+            <button onClick={onClose} className="flex items-center gap-1 hover:text-foreground transition-colors">
+              <Home className="h-3 w-3" /> Map
+            </button>
+            <span>›</span>
+            <span className="text-foreground font-medium">{city.name}</span>
+            {activeTopic && (
+              <>
+                <span>›</span>
+                <span className="text-primary">{activeTopic}</span>
+              </>
+            )}
+          </div>
+          <div className="flex items-center gap-1">
+            {prevCity && (
+              <button
+                onClick={() => onCityChange(prevCity)}
+                className="flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground px-2 py-1 rounded hover:bg-muted transition-colors"
+              >
+                <ChevronLeft className="h-3 w-3" /> {prevCity.name}
+              </button>
+            )}
+            {nextCity && (
+              <button
+                onClick={() => onCityChange(nextCity)}
+                className="flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground px-2 py-1 rounded hover:bg-muted transition-colors"
+              >
+                {nextCity.name} <ChevronRight className="h-3 w-3" />
+              </button>
+            )}
+          </div>
+        </div>
+      </div>
+
       {/* Top bar */}
-      <div className="border-b border-border bg-card px-6 py-4 shrink-0">
+      <div className="border-b border-border bg-card px-4 md:px-6 py-3 md:py-4 shrink-0">
         <div className="flex items-start justify-between max-w-7xl mx-auto">
-          <div className="flex-1">
+          <div className="flex-1 min-w-0">
             <div className="flex items-center gap-3 flex-wrap">
-              <h2 className="font-serif text-3xl font-bold text-foreground">{city.name}</h2>
+              <h2 className="font-serif text-2xl md:text-3xl font-bold text-foreground">{city.name}</h2>
               {city.epistleName && (
-                <span className="text-sm px-3 py-1 rounded-full bg-primary/10 text-primary font-medium">
+                <span className="text-xs md:text-sm px-2 md:px-3 py-0.5 md:py-1 rounded-full bg-primary/10 text-primary font-medium">
                   {city.epistleName}
                 </span>
               )}
             </div>
-            <div className="flex items-center gap-4 mt-2 text-sm text-muted-foreground flex-wrap">
+            <div className="flex items-center gap-3 md:gap-4 mt-1.5 md:mt-2 text-xs md:text-sm text-muted-foreground flex-wrap">
               <span className="flex items-center gap-1">
-                <MapPin className="h-3.5 w-3.5" /> {city.label}
+                <MapPin className="h-3 md:h-3.5 w-3 md:w-3.5" /> {city.label}
               </span>
               <span className="italic">{city.estimatedAge}</span>
               {city.writerAges && Object.entries(city.writerAges).map(([w, age]) => (
@@ -130,25 +171,25 @@ const CityDetailPanel = ({ city, onClose, activeTopic }: CityDetailPanelProps) =
                 </span>
               ))}
             </div>
-            <div className="flex items-center gap-6 mt-2 text-xs text-muted-foreground flex-wrap">
+            <div className="flex items-center gap-4 md:gap-6 mt-1.5 md:mt-2 text-[10px] md:text-xs text-muted-foreground flex-wrap">
               {city.summerTempC !== undefined && (
                 <span className="flex items-center gap-1">
-                  <Thermometer className="h-3.5 w-3.5" />
+                  <Thermometer className="h-3 md:h-3.5 w-3 md:w-3.5" />
                   Summer: <strong className="text-foreground">{city.summerTempC}°C / {Math.round(city.summerTempC * 9 / 5 + 32)}°F</strong>
                   {city.summerPrecipMm !== undefined && (
                     <span className="flex items-center gap-1 ml-1">
-                      <Droplets className="h-3 w-3" /> <strong className="text-foreground">{city.summerPrecipMm} mm</strong> precip
+                      <Droplets className="h-2.5 md:h-3 w-2.5 md:w-3" /> <strong className="text-foreground">{city.summerPrecipMm} mm</strong>
                     </span>
                   )}
                 </span>
               )}
               {city.winterTempC !== undefined && (
                 <span className="flex items-center gap-1">
-                  <Thermometer className="h-3.5 w-3.5" />
+                  <Thermometer className="h-3 md:h-3.5 w-3 md:w-3.5" />
                   Winter: <strong className="text-foreground">{city.winterTempC}°C / {Math.round(city.winterTempC * 9 / 5 + 32)}°F</strong>
                   {city.winterPrecipMm !== undefined && (
                     <span className="flex items-center gap-1 ml-1">
-                      <Droplets className="h-3 w-3" /> <strong className="text-foreground">{city.winterPrecipMm} mm</strong> precip
+                      <Droplets className="h-2.5 md:h-3 w-2.5 md:w-3" /> <strong className="text-foreground">{city.winterPrecipMm} mm</strong>
                     </span>
                   )}
                 </span>
@@ -159,14 +200,14 @@ const CityDetailPanel = ({ city, onClose, activeTopic }: CityDetailPanelProps) =
             onClick={onClose}
             className="p-2 rounded-md hover:bg-muted transition-colors ml-4"
           >
-            <X className="h-6 w-6" />
+            <X className="h-5 md:h-6 w-5 md:w-6" />
           </button>
         </div>
       </div>
 
       {/* Scrollable scripture cards */}
       <div className="flex-1 overflow-y-auto">
-        <div className="max-w-7xl mx-auto px-6 py-6 space-y-6">
+        <div className="max-w-7xl mx-auto px-4 md:px-6 py-4 md:py-6 space-y-4 md:space-y-6">
           {filteredScriptures.length === 0 && (
             <p className="text-muted-foreground italic text-center py-12">No scriptures match the selected topic.</p>
           )}
@@ -178,69 +219,102 @@ const CityDetailPanel = ({ city, onClose, activeTopic }: CityDetailPanelProps) =
             const showBookTransition = currentBook !== prevBook;
             const contextMap = bookContextInfo[city.name];
             const contextNote = contextMap ? contextMap[currentBook] : undefined;
+            const isMarked = bookmarks.has(s.reference);
             return (
               <div key={s.reference}>
                 {showBookTransition && contextNote && (
-                  <div className="flex items-center gap-3 mb-4 mt-2 px-1">
+                  <div className="flex items-center gap-3 mb-3 md:mb-4 mt-2 px-1">
                     <Scroll className="h-4 w-4 text-primary shrink-0" />
-                    <p className="text-sm text-muted-foreground italic">{contextNote}</p>
+                    <p className="text-xs md:text-sm text-muted-foreground italic">{contextNote}</p>
                   </div>
                 )}
                 <div className="border border-border rounded-lg overflow-hidden bg-card">
-                {/* Scripture header */}
-                <div className="px-5 py-3 border-b border-border bg-muted/30">
-                  <div className="flex items-center justify-between flex-wrap gap-2">
-                    <div className="flex items-center gap-3">
-                      <BookOpen className="h-4 w-4 text-primary" />
-                      <span className="font-serif text-lg font-bold text-foreground">{s.reference}</span>
-                      <span className="text-xs text-muted-foreground">— {writerNames[s.writer]}</span>
+                  {/* Scripture header */}
+                  <div className="px-4 md:px-5 py-2.5 md:py-3 border-b border-border bg-muted/30">
+                    <div className="flex items-center justify-between flex-wrap gap-2">
+                      <div className="flex items-center gap-2 md:gap-3">
+                        <BookOpen className="h-4 w-4 text-primary" />
+                        <span className="font-serif text-base md:text-lg font-bold text-foreground">{s.reference}</span>
+                        <span className="text-xs text-muted-foreground">— {writerNames[s.writer]}</span>
+                        <button
+                          onClick={() => onToggleBookmark(s.reference)}
+                          className="p-0.5 rounded hover:bg-muted transition-colors"
+                          title={isMarked ? "Remove bookmark" : "Bookmark this scripture"}
+                        >
+                          <Bookmark className={`h-3.5 w-3.5 ${isMarked ? "fill-primary text-primary" : "text-muted-foreground"}`} />
+                        </button>
+                      </div>
+                      <div className="flex items-center gap-1.5 md:gap-2 flex-wrap">
+                        {s.topics.map((t) => (
+                          <span key={t} className="text-[9px] md:text-[10px] px-1.5 md:px-2 py-0.5 rounded-full bg-primary/10 text-primary flex items-center gap-0.5">
+                            <Tag className="h-2 md:h-2.5 w-2 md:w-2.5" /> {t}
+                          </span>
+                        ))}
+                      </div>
                     </div>
-                    <div className="flex items-center gap-2 flex-wrap">
-                      {s.topics.map((t) => (
-                        <span key={t} className="text-[10px] px-2 py-0.5 rounded-full bg-primary/10 text-primary flex items-center gap-0.5">
-                          <Tag className="h-2.5 w-2.5" /> {t}
-                        </span>
-                      ))}
-                    </div>
+                    <a
+                      href={churchUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-xs md:text-sm text-primary hover:text-primary/80 flex items-center gap-1 mt-1.5 underline"
+                    >
+                      <ExternalLink className="h-3 md:h-3.5 w-3 md:w-3.5" /> Read on ChurchofJesusChrist.org
+                    </a>
                   </div>
-                  <a
-                    href={churchUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-sm text-primary hover:text-primary/80 flex items-center gap-1 mt-1.5 underline"
-                  >
-                    <ExternalLink className="h-3.5 w-3.5" /> Read on ChurchofJesusChrist.org
-                  </a>
-                </div>
 
-                {/* Three columns */}
-                <div className="grid grid-cols-1 md:grid-cols-3 md:divide-x divide-y md:divide-y-0 divide-border min-h-[120px]">
-                  {/* KJV */}
-                  <div className="p-5">
-                    <h4 className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-3">KJV</h4>
-                    <p className="text-base leading-relaxed text-foreground font-rosarivo">
-                      {s.kjv}
-                    </p>
+                  {/* Mobile tabs */}
+                  <div className="md:hidden border-b border-border flex">
+                    {(["kjv", "nrsv", "app"] as const).map((tab) => (
+                      <button
+                        key={tab}
+                        onClick={() => setMobileTab(tab)}
+                        className={`flex-1 py-2 text-xs font-semibold uppercase tracking-wide transition-colors ${
+                          mobileTab === tab
+                            ? "text-primary border-b-2 border-primary"
+                            : "text-muted-foreground hover:text-foreground"
+                        }`}
+                      >
+                        {tab === "kjv" ? "KJV" : tab === "nrsv" ? "NRSV" : "Application"}
+                      </button>
+                    ))}
                   </div>
-                  {/* NRSV */}
-                  <div className="p-5">
-                    <h4 className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-3">NRSV (2021)</h4>
-                    <p className="text-base leading-relaxed text-foreground font-rosarivo">
-                      {s.nrsv}
-                    </p>
+
+                  {/* Desktop: Three columns / Mobile: Tab content */}
+                  <div className="hidden md:grid md:grid-cols-3 md:divide-x divide-border min-h-[120px]">
+                    <div className="p-5">
+                      <h4 className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-3">KJV</h4>
+                      <p className="text-base leading-relaxed text-foreground font-rosarivo">{s.kjv}</p>
+                    </div>
+                    <div className="p-5">
+                      <h4 className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-3">NRSV (2021)</h4>
+                      <p className="text-base leading-relaxed text-foreground font-rosarivo">{s.nrsv}</p>
+                    </div>
+                    <div className="p-5">
+                      <h4 className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-3">Application</h4>
+                      {commentary ? (
+                        <p className="text-base leading-relaxed text-foreground font-rosarivo">{commentary}</p>
+                      ) : (
+                        <p className="text-sm text-muted-foreground italic">No commentary available.</p>
+                      )}
+                    </div>
                   </div>
-                  {/* Application */}
-                  <div className="p-5">
-                    <h4 className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-3">Application</h4>
-                    {commentary ? (
-                      <p className="text-base leading-relaxed text-foreground font-rosarivo">
-                        {commentary}
-                      </p>
-                    ) : (
-                      <p className="text-sm text-muted-foreground italic">No commentary available.</p>
+
+                  {/* Mobile single-tab view */}
+                  <div className="md:hidden p-4">
+                    {mobileTab === "kjv" && (
+                      <p className="text-sm leading-relaxed text-foreground font-rosarivo">{s.kjv}</p>
+                    )}
+                    {mobileTab === "nrsv" && (
+                      <p className="text-sm leading-relaxed text-foreground font-rosarivo">{s.nrsv}</p>
+                    )}
+                    {mobileTab === "app" && (
+                      commentary ? (
+                        <p className="text-sm leading-relaxed text-foreground font-rosarivo">{commentary}</p>
+                      ) : (
+                        <p className="text-sm text-muted-foreground italic">No commentary available.</p>
+                      )
                     )}
                   </div>
-                </div>
                 </div>
               </div>
             );
