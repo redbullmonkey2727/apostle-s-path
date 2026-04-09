@@ -3,7 +3,7 @@ import { useState, useMemo, useEffect, useCallback, useRef } from "react";
 import { useSearchParams } from "react-router-dom";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
-import { cities, journeys, tileOptions, CityData } from "@/data/paulData";
+import { cities, journeys, tileOptions, CityData, allTopics } from "@/data/paulData";
 import { smoothPath } from "@/lib/smoothPath";
 import CityMarker from "./CityMarker";
 import CityDetailPanel from "./CityDetailPanel";
