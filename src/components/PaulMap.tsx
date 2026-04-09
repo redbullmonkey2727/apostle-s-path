@@ -306,10 +306,56 @@ function SplashEffect({ position, color }: { position: [number, number]; color: 
   );
 }
 
+// Haversine distance in miles
+function haversineMi(a: [number, number], b: [number, number]): number {
+  const R = 3959;
+  const dLat = ((b[0] - a[0]) * Math.PI) / 180;
+  const dLng = ((b[1] - a[1]) * Math.PI) / 180;
+  const x = Math.sin(dLat / 2) ** 2 + Math.cos((a[0] * Math.PI) / 180) * Math.cos((b[0] * Math.PI) / 180) * Math.sin(dLng / 2) ** 2;
+  return R * 2 * Math.atan2(Math.sqrt(x), Math.sqrt(1 - x));
+}
+
+// Invisible polyline segments with distance tooltip on hover
+function JourneyDistanceSegments({ path, color }: { path: [number, number][]; color: string }) {
+  // Create segments between key points (every ~20 smoothed points)
+  const segments = useMemo(() => {
+    const result: { from: [number, number]; to: [number, number]; mid: [number, number]; miles: number }[] = [];
+    const step = 20;
+    for (let i = 0; i + step < path.length; i += step) {
+      const from = path[i];
+      const to = path[Math.min(i + step, path.length - 1)];
+      let segDist = 0;
+      for (let j = i; j < Math.min(i + step, path.length - 1); j++) {
+        segDist += haversineMi(path[j], path[j + 1]);
+      }
+      const midIdx = Math.min(i + Math.floor(step / 2), path.length - 1);
+      result.push({ from, to, mid: path[midIdx], miles: Math.round(segDist) });
+    }
+    return result;
+  }, [path]);
+
+  return (
+    <>
+      {segments.map((seg, i) => (
+        <Polyline
+          key={i}
+          positions={[seg.from, seg.to]}
+          pathOptions={{ color: "transparent", weight: 12, opacity: 0 }}
+        >
+          <Tooltip direction="top" sticky>
+            <span style={{ fontSize: 11, fontWeight: 600 }}>~{seg.miles} mi</span>
+          </Tooltip>
+        </Polyline>
+      ))}
+    </>
+  );
+}
+
 const PaulMap = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const { isDark, toggle: toggleDark } = useDarkMode();
   const { bookmarks, toggle: toggleBookmark } = useBookmarks();
+  const { viewedCount, totalScriptures, markViewed } = useScriptureProgress();
   const [showTour, setShowTour] = useState(false);
   const [showWelcome, setShowWelcome] = useState(false);
   const mapInstanceRef = useRef<L.Map | null>(null);
