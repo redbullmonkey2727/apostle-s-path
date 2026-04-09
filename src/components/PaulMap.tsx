@@ -561,7 +561,7 @@ const PaulMap = () => {
                     />
                   );
                   items.push(
-                    <JourneyDistanceSegments key={`dist-${j.id}`} path={smooth} color={j.color} />
+                    <JourneyDistanceSegments key={`dist-${j.id}`} rawPath={j.path} color={j.color} />
                   );
                 });
               return items;
