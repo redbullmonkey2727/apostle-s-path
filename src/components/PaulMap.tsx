@@ -324,10 +324,7 @@ function JourneyDistanceSegments({ path, color }: { path: [number, number][]; co
     for (let i = 0; i + step < path.length; i += step) {
       const from = path[i];
       const to = path[Math.min(i + step, path.length - 1)];
-      let segDist = 0;
-      for (let j = i; j < Math.min(i + step, path.length - 1); j++) {
-        segDist += haversineMi(path[j], path[j + 1]);
-      }
+      const segDist = haversineMi(from, to);
       const midIdx = Math.min(i + Math.floor(step / 2), path.length - 1);
       result.push({ from, to, mid: path[midIdx], miles: Math.round(segDist) });
     }
