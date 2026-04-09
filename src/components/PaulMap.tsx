@@ -637,6 +637,7 @@ const PaulMap = () => {
           onCityChange={setSelectedCity}
           bookmarks={bookmarks}
           onToggleBookmark={toggleBookmark}
+          onScriptureView={markViewed}
         />
       )}
 
