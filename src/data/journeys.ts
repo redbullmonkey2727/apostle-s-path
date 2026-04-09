@@ -1,4 +1,4 @@
-import type { JourneyData, TileOption } from "./types";
+import type { JourneyData, TileOption, ShipwreckPoint } from "./types";
 
 export const journeys: JourneyData[] = [
   {
@@ -63,6 +63,14 @@ export const journeys: JourneyData[] = [
       [36.05, 35.50],
       [36.12, 35.95],
       [36.20, 36.15],   // Antioch
+    ],
+    shipwrecks: [
+      {
+        lat: 35.10, lng: 31.50,
+        label: "Shipwreck off Pamphylia",
+        reference: "2 Corinthians 11:25",
+        description: "One of three shipwrecks Paul mentions before writing 2 Corinthians. Likely occurred crossing from Cyprus to the coast of Pamphylia — a notoriously rough stretch of open Mediterranean."
+      }
     ],
   },
   {
@@ -147,6 +155,14 @@ export const journeys: JourneyData[] = [
       [35.50, 36.10],
       [36.20, 36.15],   // Antioch
     ],
+    shipwrecks: [
+      {
+        lat: 40.55, lng: 26.80,
+        label: "Shipwreck near Samothrace",
+        reference: "2 Corinthians 11:25",
+        description: "Paul's crossing from Troas to Macedonia passed through notoriously treacherous waters around Samothrace. Scholars suggest one of his three pre-AD 56 shipwrecks may have occurred here."
+      }
+    ],
   },
   {
     id: "third",
@@ -223,6 +239,14 @@ export const journeys: JourneyData[] = [
       [31.90, 35.10],
       [31.77, 35.21],   // Jerusalem (arrest)
     ],
+    shipwrecks: [
+      {
+        lat: 37.30, lng: 28.50,
+        label: "Shipwreck off Asia Minor coast",
+        reference: "2 Corinthians 11:25",
+        description: "The third of Paul's shipwrecks mentioned in 2 Corinthians, likely on the return voyage from Miletus along the rugged Aegean coast. Paul also spent 'a night and a day in the deep' (2 Cor 11:25)."
+      }
+    ],
   },
   {
     id: "rome",
@@ -280,6 +304,14 @@ export const journeys: JourneyData[] = [
       [41.40, 13.00],
       [41.60, 12.80],
       [41.90, 12.50],   // Rome
+    ],
+    shipwrecks: [
+      {
+        lat: 35.90, lng: 14.42,
+        label: "Shipwreck at Malta",
+        reference: "Acts 27:41-44",
+        description: "The most famous shipwreck in the Bible. After 14 days adrift in the Euraquilo storm, the Alexandrian grain ship ran aground on a sandbar off Malta. All 276 passengers survived by swimming or clinging to planks, fulfilling the angel's promise to Paul (Acts 27:24)."
+      }
     ],
   },
 ];

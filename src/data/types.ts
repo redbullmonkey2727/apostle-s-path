@@ -29,6 +29,14 @@ export interface CityData {
   winterPrecipMm?: number;
 }
 
+export interface ShipwreckPoint {
+  lat: number;
+  lng: number;
+  label: string;
+  reference: string;
+  description: string;
+}
+
 export interface JourneyData {
   id: string;
   name: string;
@@ -37,6 +45,7 @@ export interface JourneyData {
   dateRange: string;
   durationNote: string;
   travelNote: string;
+  shipwrecks?: ShipwreckPoint[];
 }
 
 export interface TileOption {
