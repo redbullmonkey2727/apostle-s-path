@@ -69,6 +69,8 @@ export const journeys: JourneyData[] = [
         lat: 35.10, lng: 31.50,
         label: "Shipwreck off Pamphylia",
         reference: "2 Corinthians 11:25",
+        date: "~AD 47",
+        summary: "During the first missionary journey, Paul and Barnabas sailed from Paphos on Cyprus across the open Mediterranean toward the coast of Pamphylia. This stretch was notorious for sudden squalls. Paul later recounted to the Corinthians that he had been shipwrecked three times and spent 'a night and a day in the deep' (2 Cor 11:25). Scholars believe this crossing was the likely site of one of those ordeals. All aboard survived, and the missionaries continued overland to Perga and then into the interior.",
         description: "One of three shipwrecks Paul mentions before writing 2 Corinthians. Likely occurred crossing from Cyprus to the coast of Pamphylia — a notoriously rough stretch of open Mediterranean."
       }
     ],
@@ -160,6 +162,8 @@ export const journeys: JourneyData[] = [
         lat: 40.55, lng: 26.80,
         label: "Shipwreck near Samothrace",
         reference: "2 Corinthians 11:25",
+        date: "~AD 50",
+        summary: "On the second journey, after receiving the vision of the Macedonian man at Troas (Acts 16:9-10), Paul, Silas, and Timothy set sail across the northern Aegean. The waters around Samothrace were well-known for treacherous currents and sudden storms. Scholars suggest this crossing may have been the site of Paul's second shipwreck. Despite the peril, the party reached Neapolis and pressed on to Philippi, where Lydia and the jailer would become early European converts.",
         description: "Paul's crossing from Troas to Macedonia passed through notoriously treacherous waters around Samothrace. Scholars suggest one of his three pre-AD 56 shipwrecks may have occurred here."
       }
     ],
@@ -244,6 +248,8 @@ export const journeys: JourneyData[] = [
         lat: 37.30, lng: 28.50,
         label: "Shipwreck off Asia Minor coast",
         reference: "2 Corinthians 11:25",
+        date: "~AD 55",
+        summary: "During the third missionary journey, Paul traveled extensively along the Aegean coastline, sailing between Troas, Assos, Mitylene, Chios, and Miletus. The rugged coast of Asia Minor was fraught with rocky shoals and unpredictable winds. Paul's third shipwreck likely occurred along this route. He later wrote to the Corinthians from Ephesus (or Macedonia) cataloguing his sufferings, including being 'a night and a day in the deep' — possibly clinging to wreckage before rescue.",
         description: "The third of Paul's shipwrecks mentioned in 2 Corinthians, likely on the return voyage from Miletus along the rugged Aegean coast. Paul also spent 'a night and a day in the deep' (2 Cor 11:25)."
       }
     ],
@@ -309,8 +315,10 @@ export const journeys: JourneyData[] = [
       {
         lat: 35.90, lng: 14.42,
         label: "Shipwreck at Malta",
-        reference: "Acts 27:41-44",
-        description: "The most famous shipwreck in the Bible. After 14 days adrift in the Euraquilo storm, the Alexandrian grain ship ran aground on a sandbar off Malta. All 276 passengers survived by swimming or clinging to planks, fulfilling the angel's promise to Paul (Acts 27:24)."
+        reference: "Acts 27:41-44; Acts 28:1-6",
+        date: "~AD 60, late autumn",
+        summary: "The most detailed shipwreck in Scripture. Paul, a prisoner bound for trial in Rome, sailed with 275 others aboard an Alexandrian grain ship under centurion Julius. Ignoring Paul's warning at Fair Havens, they departed Crete and were caught by the Euraquilo — a violent northeaster. For 14 days they drifted without sun or stars, jettisoning cargo and tackle. An angel appeared to Paul promising all lives would be spared (Acts 27:24). The ship struck a sandbar off Malta and broke apart, but every soul reached shore on planks and debris. Paul spent three months on Malta, where he was bitten by a viper and healed the father of Publius, the island chief (Acts 28:3-8).",
+        description: "The most famous shipwreck in the Bible. After 14 days adrift in the Euraquilo storm, the Alexandrian grain ship ran aground on a sandbar off Malta. All 276 passengers survived."
       }
     ],
   },
