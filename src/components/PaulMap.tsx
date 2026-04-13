@@ -553,6 +553,9 @@ const PaulMap = () => {
             className="h-full w-full"
             zoomControl={true}
             scrollWheelZoom={true}
+            maxBounds={[[-5, -20], [65, 80]]}
+            maxBoundsViscosity={1.0}
+            minZoom={4}
           >
             <TileUpdater tileId={activeTile} />
             <MapLoadingIndicator />
