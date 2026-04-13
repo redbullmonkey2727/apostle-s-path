@@ -134,7 +134,17 @@ const CityDetailPanel = ({ city, onClose, activeTopic, allCities, onCityChange, 
   const nextCity = cityIndex < allCities.length - 1 ? allCities[cityIndex + 1] : null;
 
   // Mobile tab state for KJV/NRSV/Application
-  const [mobileTab, setMobileTab] = useState<"kjv" | "nrsv" | "app">("kjv");
+  const [mobileTab, setMobileTab] = useState<"translation" | "app">("translation");
+
+  // Get scripture text for the active translation
+  const getTranslationText = (s: ScriptureEntry): string | null => {
+    if (activeTranslation === "kjv") return s.kjv;
+    if (activeTranslation === "nrsv") return s.nrsv;
+    return s.translations?.[activeTranslation] || null;
+  };
+
+  const translationLabel = translationMeta[activeTranslation].label;
+  const isNonEnglish = !["kjv", "nrsv"].includes(activeTranslation);
 
   return (
     <div className="fixed inset-x-0 bottom-0 top-auto h-[55vh] lg:inset-0 lg:h-auto bg-background z-[1000] flex flex-col animate-slide-in-right lg:animate-fade-in rounded-t-2xl lg:rounded-none shadow-[0_-4px_20px_rgba(0,0,0,0.15)] lg:shadow-none">
