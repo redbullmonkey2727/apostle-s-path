@@ -148,7 +148,7 @@ const CityDetailPanel = ({ city, onClose, activeTopic, allCities, onCityChange, 
         <div className="flex items-center justify-between max-w-7xl mx-auto">
           <div className="flex items-center gap-1 text-xs text-muted-foreground">
             <button onClick={onClose} className="flex items-center gap-1 hover:text-foreground transition-colors">
-              <Home className="h-3 w-3" /> Map
+              <Home className="h-3 w-3" /> {t.map}
             </button>
             <span>›</span>
             <span className="text-foreground font-medium">{city.name}</span>
