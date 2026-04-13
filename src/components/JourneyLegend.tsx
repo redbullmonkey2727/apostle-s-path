@@ -184,12 +184,22 @@ const JourneyLegend = ({
         <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-wide flex items-center gap-1">
           <PenTool className="h-3 w-3" /> Writers &amp; Marker Colors
         </h3>
-        {Object.entries(writerLabels).map(([key, { label, color }]) => (
-          <div key={key} className="flex items-center gap-2 text-sm">
-            <div className="w-3 h-3 rounded-full" style={{ backgroundColor: color }} />
-            <span>{label}</span>
-          </div>
-        ))}
+        {Object.entries(writerLabels).map(([key, { label, color, bio }]) => {
+          const isMatch = searchQuery.trim().length > 0 && label.toLowerCase().includes(searchQuery.trim().toLowerCase());
+          return (
+            <div key={key}>
+              <div className="flex items-center gap-2 text-sm">
+                <div className="w-3 h-3 rounded-full" style={{ backgroundColor: color }} />
+                <span>{label}</span>
+              </div>
+              {isMatch && (
+                <p className="ml-5 mt-1 text-[11px] leading-snug text-muted-foreground bg-muted/50 rounded-md p-2">
+                  {bio}
+                </p>
+              )}
+            </div>
+          );
+        })}
         <p className="text-[10px] text-muted-foreground mt-1">Dot size reflects scripture count</p>
       </div>
 
