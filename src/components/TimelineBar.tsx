@@ -107,15 +107,22 @@ const TimelineBar = ({ onCitySelect, selectedCityId }: TimelineBarProps) => {
                 }`}
               />
               <span
-                className={`absolute top-4 left-1/2 -translate-x-1/2 whitespace-nowrap text-[9px] transition-opacity z-10 ${
+                className={`absolute left-1/2 -translate-x-1/2 whitespace-nowrap transition-opacity z-10 ${
+                  isEvent ? "bottom-full mb-1" : "top-4"
+                } ${
                   isSelected
-                    ? "text-primary font-semibold opacity-100"
+                    ? "text-primary font-semibold opacity-100 text-[10px]"
                     : isHovered
-                    ? `${isEvent ? "text-amber-500" : "text-primary"} font-medium opacity-100`
-                    : "text-muted-foreground opacity-0"
+                    ? `${isEvent ? "text-amber-500" : "text-primary"} font-medium opacity-100 text-[10px]`
+                    : "text-muted-foreground opacity-0 text-[10px]"
                 }`}
               >
                 {isEvent ? e.event?.name : e.city?.name}
+                {isEvent && isHovered && e.event?.description && (
+                  <span className="block text-[9px] text-muted-foreground font-normal max-w-[200px] whitespace-normal text-center">
+                    {e.event.description}
+                  </span>
+                )}
               </span>
             </button>
           );
