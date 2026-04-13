@@ -1,42 +1,40 @@
 import { Globe } from "lucide-react";
-import { TranslationKey, translationMeta } from "@/data/types";
+import { useTranslation, languageLabels, type UILanguage } from "@/i18n/LanguageContext";
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
-interface LanguageSelectorProps {
-  value: TranslationKey;
-  onChange: (key: TranslationKey) => void;
-}
+const langs: UILanguage[] = ["en", "es", "fr", "pt", "sv", "no"];
 
-const keys: TranslationKey[] = ["kjv", "nrsv", "es", "fr", "pt", "sv", "no"];
+const LanguageSelector = () => {
+  const { lang, setLang } = useTranslation();
 
-const LanguageSelector = ({ value, onChange }: LanguageSelectorProps) => {
   return (
-    <div className="space-y-1">
-      <label className="flex items-center gap-1.5 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
-        <Globe className="h-3 w-3" /> Translation
-      </label>
-      <Select value={value} onValueChange={(v) => onChange(v as TranslationKey)}>
-        <SelectTrigger className="h-8 text-xs">
-          <SelectValue />
-        </SelectTrigger>
-        <SelectContent>
-          {keys.map((k) => (
-            <SelectItem key={k} value={k} className="text-xs">
-              <span className="font-medium">{translationMeta[k].label}</span>
-              <span className="ml-1.5 text-muted-foreground text-[10px]">
-                — {translationMeta[k].fullName}
-              </span>
-            </SelectItem>
-          ))}
-        </SelectContent>
-      </Select>
-    </div>
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <button
+          className="p-2 rounded-md hover:bg-muted transition-colors flex items-center gap-1.5 text-xs text-muted-foreground hover:text-foreground"
+          title="Language"
+        >
+          <Globe className="h-4 w-4" />
+          <span className="hidden sm:inline">{languageLabels[lang]}</span>
+        </button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="end" className="min-w-[140px]">
+        {langs.map((l) => (
+          <DropdownMenuItem
+            key={l}
+            onClick={() => setLang(l)}
+            className={`text-sm cursor-pointer ${l === lang ? "font-semibold text-primary" : ""}`}
+          >
+            {languageLabels[l]}
+          </DropdownMenuItem>
+        ))}
+      </DropdownMenuContent>
+    </DropdownMenu>
   );
 };
 
