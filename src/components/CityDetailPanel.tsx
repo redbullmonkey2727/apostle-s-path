@@ -215,7 +215,7 @@ const CityDetailPanel = ({ city, onClose, activeTopic, allCities, onCityChange, 
               {city.summerTempC !== undefined && (
                 <span className="flex items-center gap-1">
                   <Thermometer className="h-3 md:h-3.5 w-3 md:w-3.5" />
-                  Summer: <strong className="text-foreground">{city.summerTempC}°C / {Math.round(city.summerTempC * 9 / 5 + 32)}°F</strong>
+                  {t.summer}: <strong className="text-foreground">{city.summerTempC}°C / {Math.round(city.summerTempC * 9 / 5 + 32)}°F</strong>
                   {city.summerPrecipMm !== undefined && (
                     <span className="flex items-center gap-1 ml-1">
                       <Droplets className="h-2.5 md:h-3 w-2.5 md:w-3" /> <strong className="text-foreground">{city.summerPrecipMm} mm</strong>
@@ -226,7 +226,7 @@ const CityDetailPanel = ({ city, onClose, activeTopic, allCities, onCityChange, 
               {city.winterTempC !== undefined && (
                 <span className="flex items-center gap-1">
                   <Thermometer className="h-3 md:h-3.5 w-3 md:w-3.5" />
-                  Winter: <strong className="text-foreground">{city.winterTempC}°C / {Math.round(city.winterTempC * 9 / 5 + 32)}°F</strong>
+                  {t.winter}: <strong className="text-foreground">{city.winterTempC}°C / {Math.round(city.winterTempC * 9 / 5 + 32)}°F</strong>
                   {city.winterPrecipMm !== undefined && (
                     <span className="flex items-center gap-1 ml-1">
                       <Droplets className="h-2.5 md:h-3 w-2.5 md:w-3" /> <strong className="text-foreground">{city.winterPrecipMm} mm</strong>
