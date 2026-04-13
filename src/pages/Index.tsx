@@ -1,6 +1,17 @@
 import PaulMap from "@/components/PaulMap";
 import WelcomeOverlay from "@/components/WelcomeOverlay";
-import { BookOpen } from "lucide-react";
+import { BookOpen, Share2 } from "lucide-react";
+
+const handleShare = () => {
+  navigator.clipboard.writeText(window.location.href).then(() => {
+    const el = document.createElement("div");
+    el.textContent = "📋 Link copied!";
+    el.className = "fixed top-4 left-1/2 -translate-x-1/2 z-[3000] bg-card border border-border rounded-lg px-4 py-2 text-sm shadow-lg animate-fade-in";
+    document.body.appendChild(el);
+    setTimeout(() => { el.style.opacity = "0"; el.style.transition = "opacity 0.3s"; }, 1500);
+    setTimeout(() => el.remove(), 2000);
+  });
+};
 
 const Index = () => {
   return (
@@ -19,14 +30,23 @@ const Index = () => {
               </p>
             </div>
           </div>
-          <a
-            href="https://docs.google.com/spreadsheets/d/1hbUzM5Y4RCZxo-xGVh7ySGKpXRRVeEumqqPabqQhjFQ/edit?usp=sharing"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-[10px] leading-tight text-primary hover:underline ml-4 max-w-[10rem] text-right hidden sm:block"
-          >
-            Bible List with all included References for further reading ↗
-          </a>
+          <div className="flex items-center gap-3 ml-4">
+            <button
+              onClick={handleShare}
+              className="flex items-center gap-1 text-[10px] text-muted-foreground hover:text-foreground transition-colors"
+              title="Copy shareable link"
+            >
+              <Share2 className="h-3 w-3" /> Share
+            </button>
+            <a
+              href="https://docs.google.com/spreadsheets/d/1hbUzM5Y4RCZxo-xGVh7ySGKpXRRVeEumqqPabqQhjFQ/edit?usp=sharing"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-[10px] leading-tight text-primary hover:underline max-w-[10rem] text-right hidden sm:block"
+            >
+              Bible List with all included References for further reading ↗
+            </a>
+          </div>
         </div>
       </header>
 
