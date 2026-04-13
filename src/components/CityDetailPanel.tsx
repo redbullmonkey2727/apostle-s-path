@@ -4,6 +4,8 @@ import { commentaries } from "@/data/commentaries";
 import { ScriptureEntry } from "@/data/types";
 import { useState, useEffect } from "react";
 import { useTranslation } from "@/i18n/LanguageContext";
+import { bibleTranslationLabels } from "@/i18n/translations";
+import { verseTranslations } from "@/data/verseTranslations";
 
 interface CityDetailPanelProps {
   city: CityData;
