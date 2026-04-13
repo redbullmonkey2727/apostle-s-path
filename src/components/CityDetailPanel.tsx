@@ -19,6 +19,7 @@ const writerNames: Record<string, string> = {
   paul: "Paul",
   peter: "Peter",
   john: "John",
+  luke: "Luke",
   james: "James",
   jude: "Jude",
   "hebrews-author": "Hebrews Author",
