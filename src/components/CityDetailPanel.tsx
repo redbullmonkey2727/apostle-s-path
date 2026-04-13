@@ -1,7 +1,7 @@
 import { CityData } from "@/data/paulData";
 import { X, MapPin, Tag, Thermometer, BookOpen, Droplets, ExternalLink, Scroll, ChevronLeft, ChevronRight, Bookmark, Home, Navigation } from "lucide-react";
 import { commentaries } from "@/data/commentaries";
-import { ScriptureEntry } from "@/data/types";
+import { ScriptureEntry, TranslationKey, translationMeta } from "@/data/types";
 import { useState, useEffect } from "react";
 
 interface CityDetailPanelProps {
@@ -13,6 +13,7 @@ interface CityDetailPanelProps {
   bookmarks: Set<string>;
   onToggleBookmark: (ref: string) => void;
   onScriptureView?: (reference: string) => void;
+  activeTranslation: TranslationKey;
 }
 
 const writerNames: Record<string, string> = {
@@ -116,7 +117,7 @@ function getChurchUrl(reference: string): string {
   return `https://www.churchofjesuschrist.org/study/scriptures/nt/${slug}/${match[2]}?lang=eng`;
 }
 
-const CityDetailPanel = ({ city, onClose, activeTopic, allCities, onCityChange, bookmarks, onToggleBookmark, onScriptureView }: CityDetailPanelProps) => {
+const CityDetailPanel = ({ city, onClose, activeTopic, allCities, onCityChange, bookmarks, onToggleBookmark, onScriptureView, activeTranslation }: CityDetailPanelProps) => {
   const filteredScriptures = activeTopic
     ? city.scriptures.filter((s) => s.topics.includes(activeTopic))
     : city.scriptures;
