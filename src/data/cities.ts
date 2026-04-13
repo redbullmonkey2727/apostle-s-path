@@ -9,7 +9,7 @@ export const cities: CityData[] = [
     label: "Starting point, Council & Epistle origin",
     estimatedAge: "~30–60 AD",
     type: "both",
-    writers: ["paul","james","peter"],
+    writers: ["paul","james","peter","luke"],
     epistleName: "James, Acts",
     writerAges: {"paul":"~30–60","james":"~40–62","peter":"~30–65"},
     summerTempC: 30, winterTempC: 9,
