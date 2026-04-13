@@ -1,7 +1,7 @@
 import { CityData } from "@/data/paulData";
 import { X, MapPin, Tag, Thermometer, BookOpen, Droplets, ExternalLink, Scroll, ChevronLeft, ChevronRight, Bookmark, Home, Navigation } from "lucide-react";
 import { commentaries } from "@/data/commentaries";
-import { ScriptureEntry, TranslationKey, translationMeta } from "@/data/types";
+import { ScriptureEntry } from "@/data/types";
 import { useState, useEffect } from "react";
 
 interface CityDetailPanelProps {
@@ -13,7 +13,6 @@ interface CityDetailPanelProps {
   bookmarks: Set<string>;
   onToggleBookmark: (ref: string) => void;
   onScriptureView?: (reference: string) => void;
-  activeTranslation: TranslationKey;
 }
 
 const writerNames: Record<string, string> = {
@@ -117,7 +116,7 @@ function getChurchUrl(reference: string): string {
   return `https://www.churchofjesuschrist.org/study/scriptures/nt/${slug}/${match[2]}?lang=eng`;
 }
 
-const CityDetailPanel = ({ city, onClose, activeTopic, allCities, onCityChange, bookmarks, onToggleBookmark, onScriptureView, activeTranslation }: CityDetailPanelProps) => {
+const CityDetailPanel = ({ city, onClose, activeTopic, allCities, onCityChange, bookmarks, onToggleBookmark, onScriptureView }: CityDetailPanelProps) => {
   const filteredScriptures = activeTopic
     ? city.scriptures.filter((s) => s.topics.includes(activeTopic))
     : city.scriptures;
@@ -134,17 +133,7 @@ const CityDetailPanel = ({ city, onClose, activeTopic, allCities, onCityChange, 
   const nextCity = cityIndex < allCities.length - 1 ? allCities[cityIndex + 1] : null;
 
   // Mobile tab state for KJV/NRSV/Application
-  const [mobileTab, setMobileTab] = useState<"translation" | "app">("translation");
-
-  // Get scripture text for the active translation
-  const getTranslationText = (s: ScriptureEntry): string | null => {
-    if (activeTranslation === "kjv") return s.kjv;
-    if (activeTranslation === "nrsv") return s.nrsv;
-    return s.translations?.[activeTranslation] || null;
-  };
-
-  const translationLabel = translationMeta[activeTranslation].label;
-  const isNonEnglish = !["kjv", "nrsv"].includes(activeTranslation);
+  const [mobileTab, setMobileTab] = useState<"kjv" | "nrsv" | "app">("kjv");
 
   return (
     <div className="fixed inset-x-0 bottom-0 top-auto h-[55vh] lg:inset-0 lg:h-auto bg-background z-[1000] flex flex-col animate-slide-in-right lg:animate-fade-in rounded-t-2xl lg:rounded-none shadow-[0_-4px_20px_rgba(0,0,0,0.15)] lg:shadow-none">
