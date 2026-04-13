@@ -87,6 +87,7 @@ const JourneyLegend = ({
   isDark,
   onToggleDark,
   onStartTour,
+  onShowWelcome,
 }: JourneyLegendProps) => {
   const [topicOpen, setTopicOpen] = useState(false);
 
