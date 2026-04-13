@@ -521,6 +521,7 @@ const PaulMap = () => {
             >
               <PanelLeftClose className="h-3.5 w-3.5" /> Hide Panel
             </button>
+            <LanguageSelector value={activeTranslation} onChange={setActiveTranslation} />
             <JourneyLegend
               activeJourneys={activeJourneys}
               onToggleJourney={toggleJourney}
@@ -680,6 +681,7 @@ const PaulMap = () => {
           bookmarks={bookmarks}
           onToggleBookmark={toggleBookmark}
           onScriptureView={markViewed}
+          activeTranslation={activeTranslation}
         />
       )}
 
