@@ -398,6 +398,11 @@ const PaulMap = () => {
 
   const closeCity = useCallback(() => setSelectedCity(null), []);
 
+  const selectCity = useCallback((city: CityData | null) => {
+    setSelectedCity(city);
+    if (city) trackCityView(city.id);
+  }, [trackCityView]);
+
   // Keyboard shortcuts: Esc, arrows, T, D
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
