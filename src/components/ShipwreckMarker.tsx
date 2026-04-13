@@ -5,11 +5,11 @@ import shipImg from "@/assets/ship.png";
 
 const createShipwreckIcon = () => {
   return L.divIcon({
-    html: `<img src="${shipImg}" style="width:18px;height:18px;object-fit:contain;filter:drop-shadow(0 1px 3px rgba(0,0,0,0.5));opacity:0.85;" />`,
+    html: `<img src="${shipImg}" style="width:16px;height:16px;object-fit:contain;filter:drop-shadow(0 1px 3px rgba(0,0,0,0.5));opacity:0.85;" />`,
     className: "shipwreck-marker",
-    iconSize: [18, 18],
-    iconAnchor: [9, 9],
-    popupAnchor: [0, -9],
+    iconSize: [16, 16],
+    iconAnchor: [8, 8],
+    popupAnchor: [0, -8],
   });
 };
 
