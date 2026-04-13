@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { cities, journeys, CityData } from "@/data/paulData";
 import { X, ChevronRight, ChevronLeft, MapPin, Play, Pause } from "lucide-react";
+import { useTranslation } from "@/i18n/LanguageContext";
 
 interface GuidedTourProps {
   onClose: () => void;
@@ -28,6 +29,7 @@ const tourSteps = [
 const GuidedTour = ({ onClose, onCitySelect, onPanTo }: GuidedTourProps) => {
   const [step, setStep] = useState(0);
   const [autoPlay, setAutoPlay] = useState(false);
+  const { t } = useTranslation();
 
   const currentStep = tourSteps[step];
   const city = cities.find((c) => c.id === currentStep.cityId);
@@ -98,7 +100,7 @@ const GuidedTour = ({ onClose, onCitySelect, onPanTo }: GuidedTourProps) => {
               onClick={() => onCitySelect(city)}
               className="text-xs px-3 py-1.5 rounded-md bg-primary text-primary-foreground hover:bg-primary/90 transition-colors"
             >
-              View {city.scriptures.length} scripture{city.scriptures.length !== 1 ? "s" : ""}
+              {t.viewScriptures.replace("{count}", String(city.scriptures.length)).replace("{s}", city.scriptures.length !== 1 ? "s" : "")}
             </button>
           )}
         </div>
