@@ -122,7 +122,7 @@ const CityMarker = ({ city, onClick }: CityMarkerProps) => {
   }, [city, onClick]);
 
   // Dynamic radius based on scripture count
-  const radius = Math.min(6 + totalRefs * 0.4, 14) * 0.95;
+  const radius = Math.min(6 + totalRefs * 0.4, 14) * 0.95 * 1.042;
 
   return (
     <>

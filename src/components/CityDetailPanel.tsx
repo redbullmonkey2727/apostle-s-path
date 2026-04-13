@@ -1,5 +1,5 @@
 import { CityData } from "@/data/paulData";
-import { X, MapPin, Tag, Thermometer, BookOpen, Droplets, ExternalLink, Scroll, ChevronLeft, ChevronRight, Bookmark, Home } from "lucide-react";
+import { X, MapPin, Tag, Thermometer, BookOpen, Droplets, ExternalLink, Scroll, ChevronLeft, ChevronRight, Bookmark, Home, Navigation } from "lucide-react";
 import { commentaries } from "@/data/commentaries";
 import { ScriptureEntry } from "@/data/types";
 import { useState, useEffect } from "react";
@@ -23,6 +23,23 @@ const writerNames: Record<string, string> = {
   jude: "Jude",
   "hebrews-author": "Hebrews Author",
 };
+
+// Antioch (Syria) coordinates — Paul's home base
+const ANTIOCH_LAT = 36.2;
+const ANTIOCH_LNG = 36.15;
+
+function haversineKm(lat1: number, lng1: number, lat2: number, lng2: number): number {
+  const R = 6371;
+  const dLat = ((lat2 - lat1) * Math.PI) / 180;
+  const dLng = ((lng2 - lng1) * Math.PI) / 180;
+  const a = Math.sin(dLat / 2) ** 2 + Math.cos((lat1 * Math.PI) / 180) * Math.cos((lat2 * Math.PI) / 180) * Math.sin(dLng / 2) ** 2;
+  return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+}
+
+function distFromAntioch(city: CityData): { km: number; mi: number } {
+  const km = Math.round(haversineKm(ANTIOCH_LAT, ANTIOCH_LNG, city.lat, city.lng));
+  return { km, mi: Math.round(km * 0.621371) };
+}
 
 function getCommentary(reference: string): string {
   if (commentaries[reference]) return commentaries[reference];
@@ -176,12 +193,20 @@ const CityDetailPanel = ({ city, onClose, activeTopic, allCities, onCityChange, 
               <span className="flex items-center gap-1">
                 <MapPin className="h-3 md:h-3.5 w-3 md:w-3.5" /> {city.label}
               </span>
-              <span className="italic">{city.estimatedAge}</span>
               {city.writerAges && Object.entries(city.writerAges).map(([w, age]) => (
                 <span key={w} className="px-2 py-0.5 rounded bg-muted text-xs">
                   {writerNames[w] || w}: {age} yrs old
                 </span>
               ))}
+              {(() => {
+                const d = distFromAntioch(city);
+                return (
+                  <span className="flex items-center gap-1 px-2 py-0.5 rounded bg-primary/10 text-primary text-xs font-medium">
+                    <Navigation className="h-3 w-3" /> ~{d.mi.toLocaleString()} mi from Antioch
+                  </span>
+                );
+              })()}
+              <span className="italic">{city.estimatedAge}</span>
             </div>
             <div className="flex items-center gap-4 md:gap-6 mt-1.5 md:mt-2 text-[10px] md:text-xs text-muted-foreground flex-wrap">
               {city.summerTempC !== undefined && (
