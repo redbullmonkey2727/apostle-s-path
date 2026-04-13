@@ -16,6 +16,7 @@ interface JourneyLegendProps {
   isDark: boolean;
   onToggleDark: () => void;
   onStartTour: () => void;
+  onShowWelcome: () => void;
 }
 
 const writerLabels: Record<string, { label: string; color: string; bio: string }> = {
@@ -86,6 +87,7 @@ const JourneyLegend = ({
   isDark,
   onToggleDark,
   onStartTour,
+  onShowWelcome,
 }: JourneyLegendProps) => {
   const [topicOpen, setTopicOpen] = useState(false);
 
@@ -253,6 +255,14 @@ const JourneyLegend = ({
           );
         })}
       </div>
+
+      {/* Re-show intro */}
+      <button
+        onClick={onShowWelcome}
+        className="w-full flex items-center justify-center gap-1.5 py-1.5 rounded-md text-[11px] text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-colors"
+      >
+        <BookOpen className="h-3 w-3" /> Show Introduction
+      </button>
     </div>
   );
 };

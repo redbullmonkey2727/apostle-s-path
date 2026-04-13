@@ -540,6 +540,7 @@ const PaulMap = () => {
             isDark={isDark}
             onToggleDark={toggleDark}
             onStartTour={() => setShowTour(true)}
+            onShowWelcome={() => setShowWelcome(true)}
           />
         </div>
 
@@ -697,7 +698,7 @@ const PaulMap = () => {
         />
       )}
 
-      <WelcomeOverlay onStartTour={() => setShowTour(true)} />
+      <WelcomeOverlay onStartTour={() => setShowTour(true)} forceShow={showWelcome} onForceClose={() => setShowWelcome(false)} />
     </div>
   );
 };
