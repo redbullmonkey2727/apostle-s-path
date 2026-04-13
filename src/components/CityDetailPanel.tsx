@@ -298,7 +298,7 @@ const CityDetailPanel = ({ city, onClose, activeTopic, allCities, onCityChange, 
                       rel="noopener noreferrer"
                       className="text-xs md:text-sm text-primary hover:text-primary/80 flex items-center gap-1 mt-1.5 underline"
                     >
-                      <ExternalLink className="h-3 md:h-3.5 w-3 md:w-3.5" /> Read on ChurchofJesusChrist.org
+                      <ExternalLink className="h-3 md:h-3.5 w-3 md:w-3.5" /> {t.readOnChurch}
                     </a>
                   </div>
 
@@ -314,7 +314,7 @@ const CityDetailPanel = ({ city, onClose, activeTopic, allCities, onCityChange, 
                             : "text-muted-foreground hover:text-foreground"
                         }`}
                       >
-                        {tab === "kjv" ? "KJV" : tab === "nrsv" ? "NRSV" : "Application"}
+                        {tab === "kjv" ? t.kjv : tab === "nrsv" ? t.nrsv : t.application}
                       </button>
                     ))}
                   </div>
@@ -322,19 +322,19 @@ const CityDetailPanel = ({ city, onClose, activeTopic, allCities, onCityChange, 
                   {/* Desktop: Three columns */}
                   <div className="hidden md:grid md:grid-cols-3 md:divide-x divide-border min-h-[120px]">
                     <div className="p-5">
-                      <h4 className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-3">KJV</h4>
+                      <h4 className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-3">{t.kjv}</h4>
                       <p className="text-base leading-relaxed text-foreground font-rosarivo">{s.kjv}</p>
                     </div>
                     <div className="p-5">
-                      <h4 className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-3">NRSV (2021)</h4>
+                      <h4 className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-3">{t.nrsv}</h4>
                       <p className="text-base leading-relaxed text-foreground font-rosarivo">{s.nrsv}</p>
                     </div>
                     <div className="p-5">
-                      <h4 className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-3">Application</h4>
+                      <h4 className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-3">{t.application}</h4>
                       {commentary ? (
                         <p className="text-base leading-relaxed text-foreground font-rosarivo">{commentary}</p>
                       ) : (
-                        <p className="text-sm text-muted-foreground italic">No commentary available.</p>
+                        <p className="text-sm text-muted-foreground italic">{t.noCommentary}</p>
                       )}
                     </div>
                   </div>
