@@ -16,6 +16,7 @@ interface JourneyLegendProps {
   isDark: boolean;
   onToggleDark: () => void;
   onStartTour: () => void;
+  onShowWelcome: () => void;
 }
 
 const writerLabels: Record<string, { label: string; color: string; bio: string }> = {

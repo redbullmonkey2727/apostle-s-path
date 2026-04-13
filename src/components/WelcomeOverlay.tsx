@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { BookOpen, MapPin, Search, Compass, Keyboard, X } from "lucide-react";
 
-const WelcomeOverlay = ({ onStartTour }: { onStartTour?: () => void }) => {
+const WelcomeOverlay = ({ onStartTour, forceShow, onForceClose }: { onStartTour?: () => void; forceShow?: boolean; onForceClose?: () => void }) => {
   const [show, setShow] = useState(false);
 
   useEffect(() => {
@@ -9,9 +9,14 @@ const WelcomeOverlay = ({ onStartTour }: { onStartTour?: () => void }) => {
     if (!seen) setShow(true);
   }, []);
 
+  useEffect(() => {
+    if (forceShow) setShow(true);
+  }, [forceShow]);
+
   const dismiss = () => {
     setShow(false);
     localStorage.setItem("welcome-seen", "1");
+    onForceClose?.();
   };
 
   const startTour = () => {
