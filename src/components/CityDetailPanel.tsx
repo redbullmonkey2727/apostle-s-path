@@ -120,12 +120,20 @@ function getChurchUrl(reference: string): string {
 }
 
 const CityDetailPanel = ({ city, onClose, activeTopic, allCities, onCityChange, bookmarks, onToggleBookmark, onScriptureView }: CityDetailPanelProps) => {
-  const { t } = useTranslation();
+  const { t, lang } = useTranslation();
+  const isNonEnglish = lang !== "en";
+  const translationLabel = bibleTranslationLabels[lang];
+
+  const getTranslatedVerse = (reference: string): string | null => {
+    if (!isNonEnglish) return null;
+    const langKey = lang as "es" | "fr" | "pt" | "sv" | "no";
+    return verseTranslations[reference]?.[langKey] || null;
+  };
+
   const filteredScriptures = activeTopic
     ? city.scriptures.filter((s) => s.topics.includes(activeTopic))
     : city.scriptures;
 
-  // Mark scriptures as viewed when panel opens
   useEffect(() => {
     if (onScriptureView) {
       for (const s of filteredScriptures) onScriptureView(s.reference);
@@ -136,8 +144,7 @@ const CityDetailPanel = ({ city, onClose, activeTopic, allCities, onCityChange, 
   const prevCity = cityIndex > 0 ? allCities[cityIndex - 1] : null;
   const nextCity = cityIndex < allCities.length - 1 ? allCities[cityIndex + 1] : null;
 
-  // Mobile tab state for KJV/NRSV/Application
-  const [mobileTab, setMobileTab] = useState<"kjv" | "nrsv" | "app">("kjv");
+  const [mobileTab, setMobileTab] = useState<"translation" | "kjv" | "nrsv" | "app">(isNonEnglish ? "translation" : "kjv");
 
   return (
     <div className="fixed inset-x-0 bottom-0 top-auto h-[55vh] lg:inset-0 lg:h-auto bg-background z-[1000] flex flex-col animate-slide-in-right lg:animate-fade-in rounded-t-2xl lg:rounded-none shadow-[0_-4px_20px_rgba(0,0,0,0.15)] lg:shadow-none">
