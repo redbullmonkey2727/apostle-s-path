@@ -313,31 +313,49 @@ const CityDetailPanel = ({ city, onClose, activeTopic, allCities, onCityChange, 
 
                   {/* Mobile tabs */}
                   <div className="md:hidden border-b border-border flex">
-                    {(["kjv", "nrsv", "app"] as const).map((tab) => (
+                    {(isNonEnglish
+                      ? (["translation", "kjv", "app"] as const)
+                      : (["kjv", "nrsv", "app"] as const)
+                    ).map((tab) => (
                       <button
                         key={tab}
-                        onClick={() => setMobileTab(tab)}
+                        onClick={() => setMobileTab(tab as any)}
                         className={`flex-1 py-2 text-xs font-semibold uppercase tracking-wide transition-colors ${
                           mobileTab === tab
                             ? "text-primary border-b-2 border-primary"
                             : "text-muted-foreground hover:text-foreground"
                         }`}
                       >
-                        {tab === "kjv" ? t.kjv : tab === "nrsv" ? t.nrsv : t.application}
+                        {tab === "translation" ? translationLabel : tab === "kjv" ? t.kjv : tab === "nrsv" ? t.nrsv : t.application}
                       </button>
                     ))}
                   </div>
 
-                  {/* Desktop: Three columns */}
-                  <div className="hidden md:grid md:grid-cols-3 md:divide-x divide-border min-h-[120px]">
+                  {/* Desktop columns */}
+                  <div className={`hidden md:grid md:divide-x divide-border min-h-[120px] ${isNonEnglish ? "md:grid-cols-3" : "md:grid-cols-3"}`}>
+                    {isNonEnglish && (() => {
+                      const translated = getTranslatedVerse(s.reference);
+                      return (
+                        <div className="p-5">
+                          <h4 className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-3">{translationLabel}</h4>
+                          {translated ? (
+                            <p className="text-base leading-relaxed text-foreground font-rosarivo">{translated}</p>
+                          ) : (
+                            <p className="text-sm text-muted-foreground italic">Translation not available</p>
+                          )}
+                        </div>
+                      );
+                    })()}
                     <div className="p-5">
                       <h4 className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-3">{t.kjv}</h4>
                       <p className="text-base leading-relaxed text-foreground font-rosarivo">{s.kjv}</p>
                     </div>
-                    <div className="p-5">
-                      <h4 className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-3">{t.nrsv}</h4>
-                      <p className="text-base leading-relaxed text-foreground font-rosarivo">{s.nrsv}</p>
-                    </div>
+                    {!isNonEnglish && (
+                      <div className="p-5">
+                        <h4 className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-3">{t.nrsv}</h4>
+                        <p className="text-base leading-relaxed text-foreground font-rosarivo">{s.nrsv}</p>
+                      </div>
+                    )}
                     <div className="p-5">
                       <h4 className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-3">{t.application}</h4>
                       {commentary ? (
@@ -350,6 +368,14 @@ const CityDetailPanel = ({ city, onClose, activeTopic, allCities, onCityChange, 
 
                   {/* Mobile single-tab view */}
                   <div className="md:hidden p-4">
+                    {mobileTab === "translation" && (() => {
+                      const translated = getTranslatedVerse(s.reference);
+                      return translated ? (
+                        <p className="text-sm leading-relaxed text-foreground font-rosarivo">{translated}</p>
+                      ) : (
+                        <p className="text-sm text-muted-foreground italic">Translation not available</p>
+                      );
+                    })()}
                     {mobileTab === "kjv" && (
                       <p className="text-sm leading-relaxed text-foreground font-rosarivo">{s.kjv}</p>
                     )}
