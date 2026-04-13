@@ -1,4 +1,4 @@
-export type WriterType = "paul" | "peter" | "john" | "james" | "jude" | "hebrews-author";
+export type WriterType = "paul" | "peter" | "john" | "james" | "jude" | "hebrews-author" | "luke";
 export type CityType = "visited" | "letter" | "both";
 
 export interface ScriptureEntry {
