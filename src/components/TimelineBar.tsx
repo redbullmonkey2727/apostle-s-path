@@ -1,6 +1,7 @@
 import { cities, CityData, historicalEvents, HistoricalEvent } from "@/data/paulData";
 import { Calendar, Landmark } from "lucide-react";
 import { useMemo, useState } from "react";
+import { useTranslation } from "@/i18n/LanguageContext";
 
 interface TimelineBarProps {
   onCitySelect: (city: CityData) => void;
@@ -23,6 +24,7 @@ function parseYear(age: string): number {
 
 const TimelineBar = ({ onCitySelect, selectedCityId }: TimelineBarProps) => {
   const [hoveredId, setHoveredId] = useState<string | null>(null);
+  const { t } = useTranslation();
 
   const entries = useMemo<TimelineEntry[]>(() => {
     const epistleEntries: TimelineEntry[] = cities
@@ -57,16 +59,16 @@ const TimelineBar = ({ onCitySelect, selectedCityId }: TimelineBarProps) => {
       <div className="flex items-center gap-4 mb-2">
         <div className="flex items-center gap-1.5">
           <Calendar className="h-3.5 w-3.5 text-primary" />
-          <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">Timeline</h3>
+          <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">{t.timeline}</h3>
         </div>
         <div className="flex items-center gap-3 ml-auto">
           <div className="flex items-center gap-1">
             <div className="w-2 h-2 rounded-full bg-primary" />
-            <span className="text-[9px] text-muted-foreground">Epistles</span>
+            <span className="text-[9px] text-muted-foreground">{t.epistles}</span>
           </div>
           <div className="flex items-center gap-1">
             <div className="w-2 h-2 rounded-full bg-amber-500" />
-            <span className="text-[9px] text-muted-foreground">Historical Events</span>
+            <span className="text-[9px] text-muted-foreground">{t.historicalEvents}</span>
           </div>
         </div>
       </div>
