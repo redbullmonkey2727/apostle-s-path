@@ -1,5 +1,4 @@
 import PaulMap from "@/components/PaulMap";
-import WelcomeOverlay from "@/components/WelcomeOverlay";
 import { BookOpen, Share2 } from "lucide-react";
 
 const handleShare = () => {
@@ -16,7 +15,6 @@ const handleShare = () => {
 const Index = () => {
   return (
     <div className="min-h-screen bg-background">
-      <WelcomeOverlay />
       <header className="px-4 lg:px-6 py-2 landscape:py-1 border-b border-border bg-card">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2 sm:gap-3">
