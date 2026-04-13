@@ -495,39 +495,51 @@ const PaulMap = () => {
   }, []);
 
   return (
-    <div className="flex flex-col gap-3 h-[calc(100vh-5rem)]">
+    <div className="flex flex-col gap-2 sm:gap-3 h-[calc(100vh-4rem)] sm:h-[calc(100vh-5rem)]">
       {/* Timeline */}
       <TimelineBar onCitySelect={setSelectedCity} selectedCityId={selectedCity?.id} />
 
-      <div className="flex flex-col lg:flex-row gap-4 flex-1 min-h-0">
-        <div className="w-full lg:w-72 space-y-3">
-          <ScriptureProgressBar viewedCount={viewedCount} totalScriptures={totalScriptures} />
-          <JourneyLegend
-            activeJourneys={activeJourneys}
-            onToggleJourney={toggleJourney}
-            activeTile={activeTile}
-            onTileChange={setActiveTile}
-            searchQuery={searchQuery}
-            onSearchChange={setSearchQuery}
-            activeTopic={activeTopic}
-            onTopicChange={setActiveTopic}
-            isDark={isDark}
-            onToggleDark={toggleDark}
-            onStartTour={() => setShowTour(true)}
-          />
-        </div>
+      <div className="flex flex-col lg:flex-row gap-2 sm:gap-4 flex-1 min-h-0">
+        {sidebarOpen && (
+          <div className="w-full lg:w-60 xl:w-64 space-y-2 sm:space-y-3 lg:max-h-full lg:overflow-y-auto shrink-0 animate-fade-in">
+            <ScriptureProgressBar viewedCount={viewedCount} totalScriptures={totalScriptures} />
+            {/* Sidebar toggle inside panel */}
+            <button
+              onClick={() => setSidebarOpen(false)}
+              className="w-full flex items-center justify-center gap-1.5 py-1.5 rounded-md border border-border text-[11px] text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-colors"
+            >
+              <PanelLeftClose className="h-3.5 w-3.5" /> Hide Panel
+            </button>
+            <JourneyLegend
+              activeJourneys={activeJourneys}
+              onToggleJourney={toggleJourney}
+              activeTile={activeTile}
+              onTileChange={setActiveTile}
+              searchQuery={searchQuery}
+              onSearchChange={setSearchQuery}
+              activeTopic={activeTopic}
+              onTopicChange={setActiveTopic}
+              isDark={isDark}
+              onToggleDark={toggleDark}
+              onStartTour={() => setShowTour(true)}
+              onShowWelcome={() => setShowWelcome(true)}
+            />
+          </div>
+        )}
 
         <div className="flex-1 rounded-lg overflow-hidden border border-border shadow-sm relative">
-          {/* Top-left: Share */}
-          <div className="absolute top-3 left-3 z-[1000]">
-            <button
-              onClick={handleShareLink}
-              className="bg-card/90 border border-border rounded-lg px-3 py-1.5 flex items-center gap-1.5 text-xs text-muted-foreground hover:text-foreground hover:bg-card shadow-sm transition-colors"
-              title="Copy shareable link"
-            >
-              <Share2 className="h-3.5 w-3.5" /> Share
-            </button>
-          </div>
+          {/* Show panel button when hidden */}
+          {!sidebarOpen && (
+            <div className="absolute top-3 left-3 z-[1000]">
+              <button
+                onClick={() => setSidebarOpen(true)}
+                className="bg-card/90 border border-border rounded-lg px-2.5 py-1.5 flex items-center gap-1.5 text-xs text-muted-foreground hover:text-foreground hover:bg-card shadow-sm transition-colors"
+                title="Show panel"
+              >
+                <PanelLeftOpen className="h-3.5 w-3.5" /> Menu
+              </button>
+            </div>
+          )}
           {/* Top-right: PDF */}
           <div className="absolute top-3 right-3 z-[1000]">
             <button
