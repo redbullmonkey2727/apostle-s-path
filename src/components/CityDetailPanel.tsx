@@ -205,7 +205,7 @@ const CityDetailPanel = ({ city, onClose, activeTopic, allCities, onCityChange, 
                 const d = distFromAntioch(city);
                 return (
                   <span className="flex items-center gap-1 px-2 py-0.5 rounded bg-primary/10 text-primary text-xs font-medium">
-                    <Navigation className="h-3 w-3" /> ~{d.mi.toLocaleString()} mi from Antioch
+                    <Navigation className="h-3 w-3" /> ~{d.mi.toLocaleString()} mi {t.fromAntioch}
                   </span>
                 );
               })()}
