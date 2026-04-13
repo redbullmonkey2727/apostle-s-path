@@ -3,6 +3,7 @@ import { X, MapPin, Tag, Thermometer, BookOpen, Droplets, ExternalLink, Scroll, 
 import { commentaries } from "@/data/commentaries";
 import { ScriptureEntry } from "@/data/types";
 import { useState, useEffect } from "react";
+import { useTranslation } from "@/i18n/LanguageContext";
 
 interface CityDetailPanelProps {
   city: CityData;
@@ -117,6 +118,7 @@ function getChurchUrl(reference: string): string {
 }
 
 const CityDetailPanel = ({ city, onClose, activeTopic, allCities, onCityChange, bookmarks, onToggleBookmark, onScriptureView }: CityDetailPanelProps) => {
+  const { t } = useTranslation();
   const filteredScriptures = activeTopic
     ? city.scriptures.filter((s) => s.topics.includes(activeTopic))
     : city.scriptures;
