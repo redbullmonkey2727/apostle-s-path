@@ -1,5 +1,6 @@
 import { MapContainer, TileLayer, Polyline, Marker, useMap, CircleMarker, Tooltip } from "react-leaflet";
 import { useState, useMemo, useEffect, useCallback, useRef } from "react";
+import { PanelLeftClose, PanelLeftOpen } from "lucide-react";
 import { useSearchParams } from "react-router-dom";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
@@ -368,6 +369,7 @@ const PaulMap = () => {
   const [showTour, setShowTour] = useState(false);
   const [showWelcome, setShowWelcome] = useState(false);
   const mapInstanceRef = useRef<L.Map | null>(null);
+  const [sidebarOpen, setSidebarOpen] = useState(true);
 
   const [activeJourneys, setActiveJourneys] = useState<string[]>(() => {
     const param = searchParams.get("journeys");
@@ -528,25 +530,38 @@ const PaulMap = () => {
       </div>
 
       <div className="flex flex-col landscape:flex-row lg:flex-row gap-2 sm:gap-4 flex-1 min-h-0">
-        <div className="w-full landscape:w-56 lg:w-72 space-y-2 sm:space-y-3 landscape:max-h-full landscape:overflow-y-auto landscape:shrink-0">
-          <ScriptureProgressBar viewedCount={viewedCount} totalScriptures={totalScriptures} />
-          <JourneyLegend
-            activeJourneys={activeJourneys}
-            onToggleJourney={toggleJourney}
-            activeTile={activeTile}
-            onTileChange={setActiveTile}
-            searchQuery={searchQuery}
-            onSearchChange={setSearchQuery}
-            activeTopic={activeTopic}
-            onTopicChange={setActiveTopic}
-            isDark={isDark}
-            onToggleDark={toggleDark}
-            onStartTour={() => setShowTour(true)}
-            onShowWelcome={() => setShowWelcome(true)}
-          />
-        </div>
+        {sidebarOpen && (
+          <div className="w-full landscape:w-56 lg:w-72 space-y-2 sm:space-y-3 landscape:max-h-full landscape:overflow-y-auto landscape:shrink-0 animate-fade-in">
+            <ScriptureProgressBar viewedCount={viewedCount} totalScriptures={totalScriptures} />
+            <JourneyLegend
+              activeJourneys={activeJourneys}
+              onToggleJourney={toggleJourney}
+              activeTile={activeTile}
+              onTileChange={setActiveTile}
+              searchQuery={searchQuery}
+              onSearchChange={setSearchQuery}
+              activeTopic={activeTopic}
+              onTopicChange={setActiveTopic}
+              isDark={isDark}
+              onToggleDark={toggleDark}
+              onStartTour={() => setShowTour(true)}
+              onShowWelcome={() => setShowWelcome(true)}
+            />
+          </div>
+        )}
 
         <div className="flex-1 rounded-lg overflow-hidden border border-border shadow-sm relative">
+          {/* Toggle sidebar */}
+          <div className="absolute top-3 left-3 z-[1000]">
+            <button
+              onClick={() => setSidebarOpen((p) => !p)}
+              className="bg-card/90 border border-border rounded-lg px-2.5 py-1.5 flex items-center gap-1.5 text-xs text-muted-foreground hover:text-foreground hover:bg-card shadow-sm transition-colors"
+              title={sidebarOpen ? "Hide panel" : "Show panel"}
+            >
+              {sidebarOpen ? <PanelLeftClose className="h-3.5 w-3.5" /> : <PanelLeftOpen className="h-3.5 w-3.5" />}
+              <span className="hidden sm:inline">{sidebarOpen ? "Hide" : "Menu"}</span>
+            </button>
+          </div>
           {/* Top-right: PDF */}
           <div className="absolute top-3 right-3 z-[1000]">
             <button
