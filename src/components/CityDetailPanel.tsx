@@ -313,7 +313,7 @@ const CityDetailPanel = ({ city, onClose, activeTopic, allCities, onCityChange, 
 
                   {/* Mobile tabs */}
                   <div className="md:hidden border-b border-border flex">
-                    {(["kjv", "nrsv", "app"] as const).map((tab) => (
+                    {(["translation", "app"] as const).map((tab) => (
                       <button
                         key={tab}
                         onClick={() => setMobileTab(tab)}
@@ -323,20 +323,28 @@ const CityDetailPanel = ({ city, onClose, activeTopic, allCities, onCityChange, 
                             : "text-muted-foreground hover:text-foreground"
                         }`}
                       >
-                        {tab === "kjv" ? "KJV" : tab === "nrsv" ? "NRSV" : "Application"}
+                        {tab === "translation" ? translationLabel : "Application"}
                       </button>
                     ))}
                   </div>
 
-                  {/* Desktop: Three columns / Mobile: Tab content */}
-                  <div className="hidden md:grid md:grid-cols-3 md:divide-x divide-border min-h-[120px]">
+                  {/* Desktop: Two columns — Translation + Application */}
+                  <div className="hidden md:grid md:grid-cols-2 md:divide-x divide-border min-h-[120px]">
                     <div className="p-5">
-                      <h4 className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-3">KJV</h4>
-                      <p className="text-base leading-relaxed text-foreground font-rosarivo">{s.kjv}</p>
-                    </div>
-                    <div className="p-5">
-                      <h4 className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-3">NRSV (2021)</h4>
-                      <p className="text-base leading-relaxed text-foreground font-rosarivo">{s.nrsv}</p>
+                      <h4 className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-3">
+                        {translationMeta[activeTranslation].fullName}
+                      </h4>
+                      {(() => {
+                        const text = getTranslationText(s);
+                        return text ? (
+                          <p className="text-base leading-relaxed text-foreground font-rosarivo">{text}</p>
+                        ) : (
+                          <p className="text-sm text-muted-foreground italic">
+                            Translation not yet available. Showing KJV:
+                            <span className="block mt-2 text-foreground font-rosarivo text-base">{s.kjv}</span>
+                          </p>
+                        );
+                      })()}
                     </div>
                     <div className="p-5">
                       <h4 className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-3">Application</h4>
@@ -350,11 +358,18 @@ const CityDetailPanel = ({ city, onClose, activeTopic, allCities, onCityChange, 
 
                   {/* Mobile single-tab view */}
                   <div className="md:hidden p-4">
-                    {mobileTab === "kjv" && (
-                      <p className="text-sm leading-relaxed text-foreground font-rosarivo">{s.kjv}</p>
-                    )}
-                    {mobileTab === "nrsv" && (
-                      <p className="text-sm leading-relaxed text-foreground font-rosarivo">{s.nrsv}</p>
+                    {mobileTab === "translation" && (
+                      (() => {
+                        const text = getTranslationText(s);
+                        return text ? (
+                          <p className="text-sm leading-relaxed text-foreground font-rosarivo">{text}</p>
+                        ) : (
+                          <p className="text-sm text-muted-foreground italic">
+                            Translation not yet available.
+                            <span className="block mt-2 text-foreground font-rosarivo">{s.kjv}</span>
+                          </p>
+                        );
+                      })()
                     )}
                     {mobileTab === "app" && (
                       commentary ? (
