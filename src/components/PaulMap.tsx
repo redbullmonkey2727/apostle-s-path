@@ -4,7 +4,6 @@ import { useSearchParams } from "react-router-dom";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import { cities, journeys, tileOptions, CityData, allTopics } from "@/data/paulData";
-import type { TranslationKey } from "@/data/types";
 import { smoothPath } from "@/lib/smoothPath";
 import CityMarker from "./CityMarker";
 import CityDetailPanel from "./CityDetailPanel";
@@ -15,11 +14,11 @@ import ShipwreckMarkerComponent from "./ShipwreckMarker";
 import WelcomeOverlay from "./WelcomeOverlay";
 import ScriptureProgressBar from "./ScriptureProgressBar";
 import { Loader2, FileDown, PanelLeftClose, PanelLeftOpen } from "lucide-react";
-import LanguageSelector from "./LanguageSelector";
 import { useBookmarks } from "@/hooks/useBookmarks";
 import { useDarkMode } from "@/hooks/useDarkMode";
 import { useScriptureProgress } from "@/hooks/useScriptureProgress";
 import { useLocalAnalytics } from "@/hooks/useLocalAnalytics";
+import { useTranslation } from "@/i18n/LanguageContext";
 import { generateScripturePdf } from "@/lib/generatePdf";
 import type { ShipwreckPoint } from "@/data/types";
 import shipImg from "@/assets/ship.png";
@@ -372,8 +371,8 @@ const PaulMap = () => {
   const [showWelcome, setShowWelcome] = useState(false);
   const mapInstanceRef = useRef<L.Map | null>(null);
   const [sidebarOpen, setSidebarOpen] = useState(true);
-  const [activeTranslation, setActiveTranslation] = useState<TranslationKey>("kjv");
   const { trackCityView, trackTopicView, getPopularCities } = useLocalAnalytics();
+  const { t } = useTranslation();
   const popularCityIds = getPopularCities(3);
 
   const [activeJourneys, setActiveJourneys] = useState<string[]>(() => {
@@ -441,7 +440,7 @@ const PaulMap = () => {
     navigator.clipboard.writeText(window.location.href).then(() => {
       // Brief visual feedback via a toast-like approach
       const el = document.createElement("div");
-      el.textContent = "📋 Link copied!";
+      el.textContent = t.linkCopied;
       el.className = "fixed top-4 left-1/2 -translate-x-1/2 z-[3000] bg-card border border-border rounded-lg px-4 py-2 text-sm shadow-lg animate-fade-in";
       document.body.appendChild(el);
       setTimeout(() => { el.style.opacity = "0"; el.style.transition = "opacity 0.3s"; }, 1500);
@@ -519,9 +518,8 @@ const PaulMap = () => {
               onClick={() => setSidebarOpen(false)}
               className="w-full flex items-center justify-center gap-1.5 py-1.5 rounded-md border border-border text-[11px] text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-colors"
             >
-              <PanelLeftClose className="h-3.5 w-3.5" /> Hide Panel
+              <PanelLeftClose className="h-3.5 w-3.5" /> {t.hidePanel}
             </button>
-            <LanguageSelector value={activeTranslation} onChange={setActiveTranslation} />
             <JourneyLegend
               activeJourneys={activeJourneys}
               onToggleJourney={toggleJourney}
@@ -548,7 +546,7 @@ const PaulMap = () => {
                 className="bg-card/90 border border-border rounded-lg px-2.5 py-1.5 flex items-center gap-1.5 text-xs text-muted-foreground hover:text-foreground hover:bg-card shadow-sm transition-colors"
                 title="Show panel"
               >
-                <PanelLeftOpen className="h-3.5 w-3.5" /> Menu
+                <PanelLeftOpen className="h-3.5 w-3.5" /> {t.menu}
               </button>
             </div>
           )}
@@ -557,16 +555,16 @@ const PaulMap = () => {
             <button
               onClick={() => generateScripturePdf(activeTopic)}
               className="bg-card/90 border border-border rounded-lg px-3 py-1.5 flex items-center gap-1.5 text-xs text-muted-foreground hover:text-foreground hover:bg-card shadow-sm transition-colors"
-              title="Download scripture PDF"
+              title={t.downloadPdf}
             >
-              <FileDown className="h-3.5 w-3.5" /> PDF
+              <FileDown className="h-3.5 w-3.5" /> {t.pdf}
             </button>
           </div>
           {/* Mobile floating search bar */}
           <div className="lg:hidden absolute top-3 left-20 right-3 z-[1000]">
             <input
               type="text"
-              placeholder="Search topics, cities, writers…"
+              placeholder={t.searchMobile}
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="w-full px-3 py-2 text-sm rounded-md border border-input bg-card/95 backdrop-blur text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-ring shadow-sm"
@@ -681,7 +679,6 @@ const PaulMap = () => {
           bookmarks={bookmarks}
           onToggleBookmark={toggleBookmark}
           onScriptureView={markViewed}
-          activeTranslation={activeTranslation}
         />
       )}
 

@@ -1,8 +1,12 @@
 import PaulMap from "@/components/PaulMap";
 import WelcomeOverlay from "@/components/WelcomeOverlay";
 import { BookOpen } from "lucide-react";
+import LanguageSelector from "@/components/LanguageSelector";
+import { useTranslation } from "@/i18n/LanguageContext";
 
 const Index = () => {
+  const { t } = useTranslation();
+
   return (
     <div className="min-h-screen bg-background">
       <WelcomeOverlay />
@@ -12,21 +16,24 @@ const Index = () => {
             <BookOpen className="h-6 w-6 text-primary" />
             <div>
               <h1 className="font-serif text-xl font-bold text-foreground leading-tight">
-                The New Testament World: Apostles, Epistles &amp; Journeys
+                {t.siteTitle}
               </h1>
               <p className="text-xs text-muted-foreground">
-                Deep dive into the circumstances of the New Testament References that Point to the Restored Church of Jesus Christ.
+                {t.siteSubtitle}
               </p>
             </div>
           </div>
-          <a
-            href="https://docs.google.com/spreadsheets/d/1hbUzM5Y4RCZxo-xGVh7ySGKpXRRVeEumqqPabqQhjFQ/edit?usp=sharing"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-[10px] leading-tight text-primary hover:underline ml-4 max-w-[10rem] text-right"
-          >
-            Bible List with all included References for further reading ↗
-          </a>
+          <div className="flex items-center gap-2">
+            <LanguageSelector />
+            <a
+              href="https://docs.google.com/spreadsheets/d/1hbUzM5Y4RCZxo-xGVh7ySGKpXRRVeEumqqPabqQhjFQ/edit?usp=sharing"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-[10px] leading-tight text-primary hover:underline ml-2 max-w-[10rem] text-right"
+            >
+              {t.bibleListLink}
+            </a>
+          </div>
         </div>
       </header>
 

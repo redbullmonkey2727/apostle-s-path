@@ -1,8 +1,9 @@
 import { CityData } from "@/data/paulData";
 import { X, MapPin, Tag, Thermometer, BookOpen, Droplets, ExternalLink, Scroll, ChevronLeft, ChevronRight, Bookmark, Home, Navigation } from "lucide-react";
 import { commentaries } from "@/data/commentaries";
-import { ScriptureEntry, TranslationKey, translationMeta } from "@/data/types";
+import { ScriptureEntry } from "@/data/types";
 import { useState, useEffect } from "react";
+import { useTranslation } from "@/i18n/LanguageContext";
 
 interface CityDetailPanelProps {
   city: CityData;
@@ -13,7 +14,6 @@ interface CityDetailPanelProps {
   bookmarks: Set<string>;
   onToggleBookmark: (ref: string) => void;
   onScriptureView?: (reference: string) => void;
-  activeTranslation: TranslationKey;
 }
 
 const writerNames: Record<string, string> = {
@@ -117,7 +117,8 @@ function getChurchUrl(reference: string): string {
   return `https://www.churchofjesuschrist.org/study/scriptures/nt/${slug}/${match[2]}?lang=eng`;
 }
 
-const CityDetailPanel = ({ city, onClose, activeTopic, allCities, onCityChange, bookmarks, onToggleBookmark, onScriptureView, activeTranslation }: CityDetailPanelProps) => {
+const CityDetailPanel = ({ city, onClose, activeTopic, allCities, onCityChange, bookmarks, onToggleBookmark, onScriptureView }: CityDetailPanelProps) => {
+  const { t } = useTranslation();
   const filteredScriptures = activeTopic
     ? city.scriptures.filter((s) => s.topics.includes(activeTopic))
     : city.scriptures;
@@ -134,17 +135,7 @@ const CityDetailPanel = ({ city, onClose, activeTopic, allCities, onCityChange, 
   const nextCity = cityIndex < allCities.length - 1 ? allCities[cityIndex + 1] : null;
 
   // Mobile tab state for KJV/NRSV/Application
-  const [mobileTab, setMobileTab] = useState<"translation" | "app">("translation");
-
-  // Get scripture text for the active translation
-  const getTranslationText = (s: ScriptureEntry): string | null => {
-    if (activeTranslation === "kjv") return s.kjv;
-    if (activeTranslation === "nrsv") return s.nrsv;
-    return s.translations?.[activeTranslation] || null;
-  };
-
-  const translationLabel = translationMeta[activeTranslation].label;
-  const isNonEnglish = !["kjv", "nrsv"].includes(activeTranslation);
+  const [mobileTab, setMobileTab] = useState<"kjv" | "nrsv" | "app">("kjv");
 
   return (
     <div className="fixed inset-x-0 bottom-0 top-auto h-[55vh] lg:inset-0 lg:h-auto bg-background z-[1000] flex flex-col animate-slide-in-right lg:animate-fade-in rounded-t-2xl lg:rounded-none shadow-[0_-4px_20px_rgba(0,0,0,0.15)] lg:shadow-none">
@@ -157,7 +148,7 @@ const CityDetailPanel = ({ city, onClose, activeTopic, allCities, onCityChange, 
         <div className="flex items-center justify-between max-w-7xl mx-auto">
           <div className="flex items-center gap-1 text-xs text-muted-foreground">
             <button onClick={onClose} className="flex items-center gap-1 hover:text-foreground transition-colors">
-              <Home className="h-3 w-3" /> Map
+              <Home className="h-3 w-3" /> {t.map}
             </button>
             <span>›</span>
             <span className="text-foreground font-medium">{city.name}</span>
@@ -214,7 +205,7 @@ const CityDetailPanel = ({ city, onClose, activeTopic, allCities, onCityChange, 
                 const d = distFromAntioch(city);
                 return (
                   <span className="flex items-center gap-1 px-2 py-0.5 rounded bg-primary/10 text-primary text-xs font-medium">
-                    <Navigation className="h-3 w-3" /> ~{d.mi.toLocaleString()} mi from Antioch
+                    <Navigation className="h-3 w-3" /> ~{d.mi.toLocaleString()} mi {t.fromAntioch}
                   </span>
                 );
               })()}
@@ -224,7 +215,7 @@ const CityDetailPanel = ({ city, onClose, activeTopic, allCities, onCityChange, 
               {city.summerTempC !== undefined && (
                 <span className="flex items-center gap-1">
                   <Thermometer className="h-3 md:h-3.5 w-3 md:w-3.5" />
-                  Summer: <strong className="text-foreground">{city.summerTempC}°C / {Math.round(city.summerTempC * 9 / 5 + 32)}°F</strong>
+                  {t.summer}: <strong className="text-foreground">{city.summerTempC}°C / {Math.round(city.summerTempC * 9 / 5 + 32)}°F</strong>
                   {city.summerPrecipMm !== undefined && (
                     <span className="flex items-center gap-1 ml-1">
                       <Droplets className="h-2.5 md:h-3 w-2.5 md:w-3" /> <strong className="text-foreground">{city.summerPrecipMm} mm</strong>
@@ -235,7 +226,7 @@ const CityDetailPanel = ({ city, onClose, activeTopic, allCities, onCityChange, 
               {city.winterTempC !== undefined && (
                 <span className="flex items-center gap-1">
                   <Thermometer className="h-3 md:h-3.5 w-3 md:w-3.5" />
-                  Winter: <strong className="text-foreground">{city.winterTempC}°C / {Math.round(city.winterTempC * 9 / 5 + 32)}°F</strong>
+                  {t.winter}: <strong className="text-foreground">{city.winterTempC}°C / {Math.round(city.winterTempC * 9 / 5 + 32)}°F</strong>
                   {city.winterPrecipMm !== undefined && (
                     <span className="flex items-center gap-1 ml-1">
                       <Droplets className="h-2.5 md:h-3 w-2.5 md:w-3" /> <strong className="text-foreground">{city.winterPrecipMm} mm</strong>
@@ -258,7 +249,7 @@ const CityDetailPanel = ({ city, onClose, activeTopic, allCities, onCityChange, 
       <div className="flex-1 overflow-y-auto">
         <div className="max-w-7xl mx-auto px-4 md:px-6 py-4 md:py-6 space-y-4 md:space-y-6">
           {filteredScriptures.length === 0 && (
-            <p className="text-muted-foreground italic text-center py-12">No scriptures match the selected topic.</p>
+            <p className="text-muted-foreground italic text-center py-12">{t.noScripturesMatch}</p>
           )}
           {filteredScriptures.map((s, idx) => {
             const commentary = getCommentary(s.reference);
@@ -288,7 +279,7 @@ const CityDetailPanel = ({ city, onClose, activeTopic, allCities, onCityChange, 
                         <button
                           onClick={() => onToggleBookmark(s.reference)}
                           className="p-0.5 rounded hover:bg-muted transition-colors"
-                          title={isMarked ? "Remove bookmark" : "Bookmark this scripture"}
+                          title={isMarked ? t.removeBookmark : t.bookmarkScripture}
                         >
                           <Bookmark className={`h-3.5 w-3.5 ${isMarked ? "fill-primary text-primary" : "text-muted-foreground"}`} />
                         </button>
@@ -307,13 +298,13 @@ const CityDetailPanel = ({ city, onClose, activeTopic, allCities, onCityChange, 
                       rel="noopener noreferrer"
                       className="text-xs md:text-sm text-primary hover:text-primary/80 flex items-center gap-1 mt-1.5 underline"
                     >
-                      <ExternalLink className="h-3 md:h-3.5 w-3 md:w-3.5" /> Read on ChurchofJesusChrist.org
+                      <ExternalLink className="h-3 md:h-3.5 w-3 md:w-3.5" /> {t.readOnChurch}
                     </a>
                   </div>
 
                   {/* Mobile tabs */}
                   <div className="md:hidden border-b border-border flex">
-                    {(["translation", "app"] as const).map((tab) => (
+                    {(["kjv", "nrsv", "app"] as const).map((tab) => (
                       <button
                         key={tab}
                         onClick={() => setMobileTab(tab)}
@@ -323,59 +314,44 @@ const CityDetailPanel = ({ city, onClose, activeTopic, allCities, onCityChange, 
                             : "text-muted-foreground hover:text-foreground"
                         }`}
                       >
-                        {tab === "translation" ? translationLabel : "Application"}
+                        {tab === "kjv" ? t.kjv : tab === "nrsv" ? t.nrsv : t.application}
                       </button>
                     ))}
                   </div>
 
-                  {/* Desktop: Two columns — Translation + Application */}
-                  <div className="hidden md:grid md:grid-cols-2 md:divide-x divide-border min-h-[120px]">
+                  {/* Desktop: Three columns */}
+                  <div className="hidden md:grid md:grid-cols-3 md:divide-x divide-border min-h-[120px]">
                     <div className="p-5">
-                      <h4 className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-3">
-                        {translationMeta[activeTranslation].fullName}
-                      </h4>
-                      {(() => {
-                        const text = getTranslationText(s);
-                        return text ? (
-                          <p className="text-base leading-relaxed text-foreground font-rosarivo">{text}</p>
-                        ) : (
-                          <p className="text-sm text-muted-foreground italic">
-                            Translation not yet available. Showing KJV:
-                            <span className="block mt-2 text-foreground font-rosarivo text-base">{s.kjv}</span>
-                          </p>
-                        );
-                      })()}
+                      <h4 className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-3">{t.kjv}</h4>
+                      <p className="text-base leading-relaxed text-foreground font-rosarivo">{s.kjv}</p>
                     </div>
                     <div className="p-5">
-                      <h4 className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-3">Application</h4>
+                      <h4 className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-3">{t.nrsv}</h4>
+                      <p className="text-base leading-relaxed text-foreground font-rosarivo">{s.nrsv}</p>
+                    </div>
+                    <div className="p-5">
+                      <h4 className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-3">{t.application}</h4>
                       {commentary ? (
                         <p className="text-base leading-relaxed text-foreground font-rosarivo">{commentary}</p>
                       ) : (
-                        <p className="text-sm text-muted-foreground italic">No commentary available.</p>
+                        <p className="text-sm text-muted-foreground italic">{t.noCommentary}</p>
                       )}
                     </div>
                   </div>
 
                   {/* Mobile single-tab view */}
                   <div className="md:hidden p-4">
-                    {mobileTab === "translation" && (
-                      (() => {
-                        const text = getTranslationText(s);
-                        return text ? (
-                          <p className="text-sm leading-relaxed text-foreground font-rosarivo">{text}</p>
-                        ) : (
-                          <p className="text-sm text-muted-foreground italic">
-                            Translation not yet available.
-                            <span className="block mt-2 text-foreground font-rosarivo">{s.kjv}</span>
-                          </p>
-                        );
-                      })()
+                    {mobileTab === "kjv" && (
+                      <p className="text-sm leading-relaxed text-foreground font-rosarivo">{s.kjv}</p>
+                    )}
+                    {mobileTab === "nrsv" && (
+                      <p className="text-sm leading-relaxed text-foreground font-rosarivo">{s.nrsv}</p>
                     )}
                     {mobileTab === "app" && (
                       commentary ? (
                         <p className="text-sm leading-relaxed text-foreground font-rosarivo">{commentary}</p>
                       ) : (
-                        <p className="text-sm text-muted-foreground italic">No commentary available.</p>
+                        <p className="text-sm text-muted-foreground italic">{t.noCommentary}</p>
                       )
                     )}
                   </div>

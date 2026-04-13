@@ -1,8 +1,10 @@
 import { useState, useEffect } from "react";
 import { BookOpen, MapPin, Search, Compass, Keyboard, X } from "lucide-react";
+import { useTranslation } from "@/i18n/LanguageContext";
 
 const WelcomeOverlay = ({ onStartTour, forceShow, onForceClose }: { onStartTour?: () => void; forceShow?: boolean; onForceClose?: () => void }) => {
   const [show, setShow] = useState(false);
+  const { t } = useTranslation();
 
   useEffect(() => {
     const seen = localStorage.getItem("welcome-seen");
@@ -39,39 +41,32 @@ const WelcomeOverlay = ({ onStartTour, forceShow, onForceClose }: { onStartTour?
         <div className="flex items-center gap-3 mb-4">
           <BookOpen className="h-8 w-8 text-primary" />
           <h2 className="font-serif text-2xl font-bold text-foreground">
-            The New Testament World
+            {t.welcomeTitle}
           </h2>
         </div>
 
         <p className="text-base leading-relaxed text-foreground" style={{ fontFamily: "'Rosarivo', serif" }}>
-          Welcome to an interactive map of the Apostles' journeys — tracing when and under what
-          circumstances they wrote doctrine pointing to the Restored Church of Jesus Christ.
-          My intent was to allow students of the Bible to see a closer, more intimate view into
-          how difficult and special the circumstances were that the young apostles faced as they
-          attempted to record doctrines and build up the Church of God (Acts 15:4-23, 39; 2 Cor 11:25-33).
-          Their words, written amid affliction and revelation, carry great relevance today.
-          Try switching between map styles (street, terrain, satellite) in the layer control —
-          each view highlights different details of the ancient world.
+          {t.welcomeBody}
         </p>
 
         <div className="mt-5 space-y-2.5">
-          <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">How to explore</h3>
+          <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">{t.howToExplore}</h3>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
             <div className="flex items-start gap-2 p-2 rounded-md bg-muted/50">
               <MapPin className="h-4 w-4 text-primary mt-0.5 shrink-0" />
-              <p className="text-xs text-foreground"><strong>Click a city dot</strong> to see its epistles, scriptures, and commentary</p>
+              <p className="text-xs text-foreground"><strong>{t.clickCityDot.split(" to ")[0]}</strong> {t.clickCityDot.includes(" to ") ? "to " + t.clickCityDot.split(" to ").slice(1).join(" to ") : ""}</p>
             </div>
             <div className="flex items-start gap-2 p-2 rounded-md bg-muted/50">
               <Search className="h-4 w-4 text-primary mt-0.5 shrink-0" />
-              <p className="text-xs text-foreground"><strong>Search topics</strong> like "Godhead" or "Priesthood" for a full scripture list</p>
+              <p className="text-xs text-foreground">{t.searchTopics}</p>
             </div>
             <div className="flex items-start gap-2 p-2 rounded-md bg-muted/50">
               <Compass className="h-4 w-4 text-primary mt-0.5 shrink-0" />
-              <p className="text-xs text-foreground"><strong>Guided Tour</strong> walks you through Paul's journeys step by step</p>
+              <p className="text-xs text-foreground">{t.guidedTourDesc}</p>
             </div>
             <div className="flex items-start gap-2 p-2 rounded-md bg-muted/50">
               <Keyboard className="h-4 w-4 text-primary mt-0.5 shrink-0" />
-              <p className="text-xs text-foreground"><strong>Shortcuts:</strong> ← → cities, T tour, D dark mode, Esc close</p>
+              <p className="text-xs text-foreground">{t.shortcutsDesc}</p>
             </div>
           </div>
         </div>
@@ -81,13 +76,13 @@ const WelcomeOverlay = ({ onStartTour, forceShow, onForceClose }: { onStartTour?
             onClick={dismiss}
             className="flex-1 py-2.5 rounded-lg bg-primary text-primary-foreground font-medium hover:bg-primary/90 transition-colors"
           >
-            Start Exploring
+            {t.startExploring}
           </button>
           <button
             onClick={startTour}
             className="flex-1 py-2.5 rounded-lg border border-primary text-primary font-medium hover:bg-primary/10 transition-colors"
           >
-            Take the Tour
+            {t.takeTheTour}
           </button>
         </div>
       </div>

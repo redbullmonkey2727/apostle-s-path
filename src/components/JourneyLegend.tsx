@@ -3,6 +3,7 @@ import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 import { MapPin, BookOpen, Navigation, Tag, PenTool, ChevronDown, Ruler, Clock, Calendar, Moon, Sun, Compass } from "lucide-react";
 import { useState } from "react";
+import { useTranslation } from "@/i18n/LanguageContext";
 
 interface JourneyLegendProps {
   activeJourneys: string[];
@@ -90,6 +91,7 @@ const JourneyLegend = ({
   onShowWelcome,
 }: JourneyLegendProps) => {
   const [topicOpen, setTopicOpen] = useState(false);
+  const { t } = useTranslation();
 
   return (
     <div className="w-full lg:w-72 bg-card border border-border rounded-lg p-4 shadow-sm space-y-5 overflow-y-auto max-h-[calc(100vh-6rem)]">
@@ -97,9 +99,9 @@ const JourneyLegend = ({
         <div>
           <h2 className="font-serif text-lg font-bold text-foreground flex items-center gap-2">
             <Navigation className="h-4 w-4 text-primary" />
-            Apostolic Journeys
+            {t.apostolicJourneys}
           </h2>
-          <p className="text-xs text-muted-foreground mt-1">Toggle to show/hide routes</p>
+          <p className="text-xs text-muted-foreground mt-1">{t.toggleToShowHide}</p>
         </div>
         <button
           onClick={onToggleDark}
@@ -115,13 +117,13 @@ const JourneyLegend = ({
         onClick={onStartTour}
         className="w-full flex items-center justify-center gap-2 py-2 rounded-md bg-primary/10 text-primary text-sm font-medium hover:bg-primary/20 transition-colors"
       >
-        <Compass className="h-4 w-4" /> Guided Tour
+        <Compass className="h-4 w-4" /> {t.guidedTour}
       </button>
 
       {/* Search */}
       <input
         type="text"
-        placeholder="Search cities, doctrinal topics, or writers…"
+        placeholder={t.searchPlaceholder}
         value={searchQuery}
         onChange={(e) => onSearchChange(e.target.value)}
         className="w-full px-3 py-2 text-sm rounded-md border border-input bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-ring"
@@ -133,7 +135,7 @@ const JourneyLegend = ({
           onClick={() => setTopicOpen(!topicOpen)}
           className="w-full flex items-center justify-between text-xs font-semibold text-muted-foreground uppercase tracking-wide"
         >
-          <span className="flex items-center gap-1"><Tag className="h-3.5 w-3.5" /> Filter by Topic</span>
+          <span className="flex items-center gap-1"><Tag className="h-3.5 w-3.5" /> {t.filterByTopic}</span>
           <ChevronDown className={`h-3.5 w-3.5 transition-transform ${topicOpen ? "rotate-180" : ""}`} />
         </button>
         {topicOpen && (
@@ -144,7 +146,7 @@ const JourneyLegend = ({
                 !activeTopic ? "bg-primary text-primary-foreground" : "hover:bg-muted text-foreground"
               }`}
             >
-              All Topics
+              {t.allTopics}
             </button>
             {allTopics.map((topic) => (
               <button
@@ -170,7 +172,7 @@ const JourneyLegend = ({
 
       {/* Map style */}
       <div className="border-t border-border pt-3 space-y-2">
-        <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">Map Style</h3>
+        <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">{t.mapStyle}</h3>
         {tileOptions.map((t) => (
           <button
             key={t.id}
@@ -189,7 +191,7 @@ const JourneyLegend = ({
       {/* Writer legend (also serves as marker legend) */}
       <div className="border-t border-border pt-3 space-y-2">
         <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-wide flex items-center gap-1">
-          <PenTool className="h-3 w-3" /> Writers &amp; Marker Colors
+          <PenTool className="h-3 w-3" /> {t.writersAndMarkers}
         </h3>
         {Object.entries(writerLabels).map(([key, { label, color, bio }]) => {
           const isMatch = searchQuery.trim().length > 0 && label.toLowerCase().includes(searchQuery.trim().toLowerCase());
@@ -207,12 +209,12 @@ const JourneyLegend = ({
             </div>
           );
         })}
-        <p className="text-[10px] text-muted-foreground mt-1">Dot size reflects scripture count</p>
+        <p className="text-[10px] text-muted-foreground mt-1">{t.dotSizeReflects}</p>
       </div>
 
       {/* Journey toggles with distance */}
       <div className="border-t border-border pt-3 space-y-3">
-        <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">Journey Routes</h3>
+        <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">{t.journeyRoutes}</h3>
         {journeys.map((j) => {
           const distKm = totalJourneyKm(j.path);
           const distMi = Math.round(distKm * 0.621371);
@@ -244,7 +246,7 @@ const JourneyLegend = ({
                   </p>
                   <p className="text-[11px] text-muted-foreground flex items-center gap-1">
                     <Ruler className="h-3 w-3" />
-                    ~{distMi.toLocaleString()} mi ({distKm.toLocaleString()} km) traveled
+                    ~{distMi.toLocaleString()} mi ({distKm.toLocaleString()} km) {t.traveled}
                   </p>
                   <p className="text-[10px] text-muted-foreground/80 mt-1 leading-snug">
                     {j.travelNote}
@@ -261,7 +263,7 @@ const JourneyLegend = ({
         onClick={onShowWelcome}
         className="w-full flex items-center justify-center gap-1.5 py-1.5 rounded-md text-[11px] text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-colors"
       >
-        <BookOpen className="h-3 w-3" /> Show Introduction
+        <BookOpen className="h-3 w-3" /> {t.showIntroduction}
       </button>
     </div>
   );
