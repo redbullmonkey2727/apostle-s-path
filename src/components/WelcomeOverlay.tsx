@@ -43,7 +43,7 @@ const WelcomeOverlay = ({ onStartTour }: { onStartTour?: () => void }) => {
           circumstances they wrote doctrine pointing to the Restored Church of Jesus Christ.
           My intent was to allow students of the Bible to see a closer, more intimate view into
           how difficult and special the circumstances were that the young apostles faced as they
-          attempted to record doctrines and build up the Church of God (Acts 15:4-23, 39; 2 Cor 11:25).
+          attempted to record doctrines and build up the Church of God (Acts 15:4-23, 39; 2 Cor 11:25-33).
           Their words, written amid affliction and revelation, carry great relevance today.
           Try switching between map styles (street, terrain, satellite) in the layer control —
           each view highlights different details of the ancient world.
