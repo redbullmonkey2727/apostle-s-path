@@ -445,10 +445,24 @@ const PaulMap = () => {
 
   const tile = tileOptions.find((t) => t.id === activeTile) || tileOptions[0];
 
-  // Collect all scriptures matching a topic search
+  // Collect all scriptures matching a topic OR scripture reference search
   const topicSearchResults = useMemo(() => {
     if (!searchQuery.trim()) return null;
     const q = searchQuery.trim().toLowerCase();
+
+    // Check for scripture reference match (e.g. "Luke 10:1" or "Acts 2")
+    const refResults: { city: string; cityData: CityData; reference: string; writer: string; topics: string[] }[] = [];
+    for (const c of cities) {
+      for (const s of c.scriptures) {
+        if (s.reference.toLowerCase().includes(q)) {
+          refResults.push({ city: c.name, cityData: c, reference: s.reference, writer: s.writer, topics: s.topics });
+        }
+      }
+    }
+    if (refResults.length > 0) {
+      return { topic: `"${searchQuery.trim()}"`, results: refResults };
+    }
+
     // Check if query matches any topic name
     const matchedTopic = allTopics.find((t) => t.toLowerCase().includes(q));
     if (!matchedTopic) return null;
