@@ -17,6 +17,7 @@ import { Loader2, FileDown, PanelLeftClose, PanelLeftOpen } from "lucide-react";
 import { useBookmarks } from "@/hooks/useBookmarks";
 import { useDarkMode } from "@/hooks/useDarkMode";
 import { useScriptureProgress } from "@/hooks/useScriptureProgress";
+import { useLocalAnalytics } from "@/hooks/useLocalAnalytics";
 import { generateScripturePdf } from "@/lib/generatePdf";
 import type { ShipwreckPoint } from "@/data/types";
 import shipImg from "@/assets/ship.png";
@@ -369,6 +370,8 @@ const PaulMap = () => {
   const [showWelcome, setShowWelcome] = useState(false);
   const mapInstanceRef = useRef<L.Map | null>(null);
   const [sidebarOpen, setSidebarOpen] = useState(true);
+  const { trackCityView, trackTopicView, getPopularCities } = useLocalAnalytics();
+  const popularCityIds = getPopularCities(3);
 
   const [activeJourneys, setActiveJourneys] = useState<string[]>(() => {
     const param = searchParams.get("journeys");
