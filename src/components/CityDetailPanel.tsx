@@ -249,7 +249,7 @@ const CityDetailPanel = ({ city, onClose, activeTopic, allCities, onCityChange, 
       <div className="flex-1 overflow-y-auto">
         <div className="max-w-7xl mx-auto px-4 md:px-6 py-4 md:py-6 space-y-4 md:space-y-6">
           {filteredScriptures.length === 0 && (
-            <p className="text-muted-foreground italic text-center py-12">No scriptures match the selected topic.</p>
+            <p className="text-muted-foreground italic text-center py-12">{t.noScripturesMatch}</p>
           )}
           {filteredScriptures.map((s, idx) => {
             const commentary = getCommentary(s.reference);
