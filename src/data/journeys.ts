@@ -326,16 +326,16 @@ export const journeys: JourneyData[] = [
 
 export const tileOptions: TileOption[] = [
   {
-    id: "osm",
-    name: "OpenStreetMap",
-    url: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-    attribution: '&copy; <a href="https://openstreetmap.org">OpenStreetMap</a>',
-  },
-  {
     id: "google",
     name: "Google Maps",
     url: "https://mt1.google.com/vt/lyrs=m&x={x}&y={y}&z={z}",
     attribution: '&copy; Google Maps',
+  },
+  {
+    id: "osm",
+    name: "OpenStreetMap",
+    url: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+    attribution: '&copy; <a href="https://openstreetmap.org">OpenStreetMap</a>',
   },
   {
     id: "terrain",

@@ -107,7 +107,7 @@
 }
 
 .animated-path path {
-  animation: dash-flow 1s linear infinite;
+  animation: dash-flow 0.955s linear infinite;
 }
 
 .shipwreck-marker {
