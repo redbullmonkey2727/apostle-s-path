@@ -33,7 +33,7 @@ const Index = () => {
           <div className="flex items-center gap-3 ml-4">
             <button
               onClick={handleShare}
-              className="flex items-center gap-1 text-[9px] text-muted-foreground hover:text-foreground transition-colors whitespace-nowrap"
+              className="flex items-center gap-1 text-[10px] text-muted-foreground hover:text-foreground transition-colors whitespace-nowrap"
               title="Copy shareable link"
             >
               <Share2 className="h-2.5 w-2.5" /> Share with Friends
