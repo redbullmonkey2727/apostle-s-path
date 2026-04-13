@@ -355,7 +355,7 @@ export const cities: CityData[] = [
     lng: 21.7346,
     label: "Gospel of Luke origin",
     estimatedAge: "~59–63 AD",
-    type: "epistle",
+    type: "letter",
     writers: ["luke"],
     epistleName: "Luke",
     writerAges: {"luke":"~50–62"},
