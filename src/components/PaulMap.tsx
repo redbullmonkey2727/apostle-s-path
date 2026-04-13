@@ -372,6 +372,7 @@ const PaulMap = () => {
   const [showWelcome, setShowWelcome] = useState(false);
   const mapInstanceRef = useRef<L.Map | null>(null);
   const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [activeTranslation, setActiveTranslation] = useState<TranslationKey>("kjv");
   const { trackCityView, trackTopicView, getPopularCities } = useLocalAnalytics();
   const popularCityIds = getPopularCities(3);
 
