@@ -13,7 +13,7 @@ import GuidedTour from "./GuidedTour";
 import ShipwreckMarkerComponent from "./ShipwreckMarker";
 import WelcomeOverlay from "./WelcomeOverlay";
 import ScriptureProgressBar from "./ScriptureProgressBar";
-import { Loader2, Share2, FileDown } from "lucide-react";
+import { Loader2, FileDown, PanelLeftClose, PanelLeftOpen } from "lucide-react";
 import { useBookmarks } from "@/hooks/useBookmarks";
 import { useDarkMode } from "@/hooks/useDarkMode";
 import { useScriptureProgress } from "@/hooks/useScriptureProgress";
@@ -368,6 +368,7 @@ const PaulMap = () => {
   const [showTour, setShowTour] = useState(false);
   const [showWelcome, setShowWelcome] = useState(false);
   const mapInstanceRef = useRef<L.Map | null>(null);
+  const [sidebarOpen, setSidebarOpen] = useState(true);
 
   const [activeJourneys, setActiveJourneys] = useState<string[]>(() => {
     const param = searchParams.get("journeys");
