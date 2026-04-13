@@ -521,12 +521,14 @@ const PaulMap = () => {
   }, []);
 
   return (
-    <div className="flex flex-col gap-2 sm:gap-3 h-[calc(100vh-5rem)] sm:h-[calc(100vh-5rem)]">
-      {/* Timeline */}
-      <TimelineBar onCitySelect={setSelectedCity} selectedCityId={selectedCity?.id} />
+    <div className="flex flex-col gap-2 sm:gap-3 h-[calc(100vh-4rem)] sm:h-[calc(100vh-5rem)] landscape:h-[calc(100vh-3rem)]">
+      {/* Timeline - hide in landscape mobile to save space */}
+      <div className="landscape:hidden sm:landscape:block">
+        <TimelineBar onCitySelect={setSelectedCity} selectedCityId={selectedCity?.id} />
+      </div>
 
-      <div className="flex flex-col lg:flex-row gap-4 flex-1 min-h-0">
-        <div className="w-full lg:w-72 space-y-3">
+      <div className="flex flex-col landscape:flex-row lg:flex-row gap-2 sm:gap-4 flex-1 min-h-0">
+        <div className="w-full landscape:w-56 lg:w-72 space-y-2 sm:space-y-3 landscape:max-h-full landscape:overflow-y-auto landscape:shrink-0">
           <ScriptureProgressBar viewedCount={viewedCount} totalScriptures={totalScriptures} />
           <JourneyLegend
             activeJourneys={activeJourneys}
