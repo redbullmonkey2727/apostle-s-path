@@ -394,6 +394,19 @@ const PaulMap = () => {
 
   const closeCity = useCallback(() => setSelectedCity(null), []);
 
+  // Auto-pan to city from deep link on initial load
+  useEffect(() => {
+    const cityId = searchParams.get("city");
+    if (cityId && mapInstanceRef.current) {
+      const city = cities.find((c) => c.id === cityId);
+      if (city) {
+        setTimeout(() => {
+          mapInstanceRef.current?.flyTo([city.lat, city.lng], 8, { duration: 1.2 });
+        }, 500);
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   // Keyboard shortcuts: Esc, arrows, T, D
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
@@ -508,7 +521,7 @@ const PaulMap = () => {
   }, []);
 
   return (
-    <div className="flex flex-col gap-3 h-[calc(100vh-5rem)]">
+    <div className="flex flex-col gap-2 sm:gap-3 h-[calc(100vh-5rem)] sm:h-[calc(100vh-5rem)]">
       {/* Timeline */}
       <TimelineBar onCitySelect={setSelectedCity} selectedCityId={selectedCity?.id} />
 
@@ -552,13 +565,13 @@ const PaulMap = () => {
             </button>
           </div>
           {/* Mobile floating search bar */}
-          <div className="lg:hidden absolute top-3 left-20 right-3 z-[1000]">
+          <div className="lg:hidden absolute top-3 left-20 right-16 z-[1000]">
             <input
               type="text"
-              placeholder="Search topics, cities, writers…"
+              placeholder="Search verses, topics…"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full px-3 py-2 text-sm rounded-md border border-input bg-card/95 backdrop-blur text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-ring shadow-sm"
+              className="w-full px-3 py-1.5 text-xs rounded-md border border-input bg-card/95 backdrop-blur text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-ring shadow-sm"
             />
           </div>
           <MapContainer
