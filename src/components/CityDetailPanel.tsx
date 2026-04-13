@@ -1,7 +1,7 @@
 import { CityData } from "@/data/paulData";
 import { X, MapPin, Tag, Thermometer, BookOpen, Droplets, ExternalLink, Scroll, ChevronLeft, ChevronRight, Bookmark, Home, Navigation } from "lucide-react";
 import { commentaries } from "@/data/commentaries";
-import { ScriptureEntry } from "@/data/types";
+import { ScriptureEntry, TranslationKey, translationMeta } from "@/data/types";
 import { useState, useEffect } from "react";
 
 interface CityDetailPanelProps {
@@ -13,6 +13,7 @@ interface CityDetailPanelProps {
   bookmarks: Set<string>;
   onToggleBookmark: (ref: string) => void;
   onScriptureView?: (reference: string) => void;
+  activeTranslation: TranslationKey;
 }
 
 const writerNames: Record<string, string> = {
@@ -116,7 +117,7 @@ function getChurchUrl(reference: string): string {
   return `https://www.churchofjesuschrist.org/study/scriptures/nt/${slug}/${match[2]}?lang=eng`;
 }
 
-const CityDetailPanel = ({ city, onClose, activeTopic, allCities, onCityChange, bookmarks, onToggleBookmark, onScriptureView }: CityDetailPanelProps) => {
+const CityDetailPanel = ({ city, onClose, activeTopic, allCities, onCityChange, bookmarks, onToggleBookmark, onScriptureView, activeTranslation }: CityDetailPanelProps) => {
   const filteredScriptures = activeTopic
     ? city.scriptures.filter((s) => s.topics.includes(activeTopic))
     : city.scriptures;
@@ -133,7 +134,17 @@ const CityDetailPanel = ({ city, onClose, activeTopic, allCities, onCityChange, 
   const nextCity = cityIndex < allCities.length - 1 ? allCities[cityIndex + 1] : null;
 
   // Mobile tab state for KJV/NRSV/Application
-  const [mobileTab, setMobileTab] = useState<"kjv" | "nrsv" | "app">("kjv");
+  const [mobileTab, setMobileTab] = useState<"translation" | "app">("translation");
+
+  // Get scripture text for the active translation
+  const getTranslationText = (s: ScriptureEntry): string | null => {
+    if (activeTranslation === "kjv") return s.kjv;
+    if (activeTranslation === "nrsv") return s.nrsv;
+    return s.translations?.[activeTranslation] || null;
+  };
+
+  const translationLabel = translationMeta[activeTranslation].label;
+  const isNonEnglish = !["kjv", "nrsv"].includes(activeTranslation);
 
   return (
     <div className="fixed inset-x-0 bottom-0 top-auto h-[55vh] lg:inset-0 lg:h-auto bg-background z-[1000] flex flex-col animate-slide-in-right lg:animate-fade-in rounded-t-2xl lg:rounded-none shadow-[0_-4px_20px_rgba(0,0,0,0.15)] lg:shadow-none">
@@ -302,7 +313,7 @@ const CityDetailPanel = ({ city, onClose, activeTopic, allCities, onCityChange, 
 
                   {/* Mobile tabs */}
                   <div className="md:hidden border-b border-border flex">
-                    {(["kjv", "nrsv", "app"] as const).map((tab) => (
+                    {(["translation", "app"] as const).map((tab) => (
                       <button
                         key={tab}
                         onClick={() => setMobileTab(tab)}
@@ -312,20 +323,28 @@ const CityDetailPanel = ({ city, onClose, activeTopic, allCities, onCityChange, 
                             : "text-muted-foreground hover:text-foreground"
                         }`}
                       >
-                        {tab === "kjv" ? "KJV" : tab === "nrsv" ? "NRSV" : "Application"}
+                        {tab === "translation" ? translationLabel : "Application"}
                       </button>
                     ))}
                   </div>
 
-                  {/* Desktop: Three columns / Mobile: Tab content */}
-                  <div className="hidden md:grid md:grid-cols-3 md:divide-x divide-border min-h-[120px]">
+                  {/* Desktop: Two columns — Translation + Application */}
+                  <div className="hidden md:grid md:grid-cols-2 md:divide-x divide-border min-h-[120px]">
                     <div className="p-5">
-                      <h4 className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-3">KJV</h4>
-                      <p className="text-base leading-relaxed text-foreground font-rosarivo">{s.kjv}</p>
-                    </div>
-                    <div className="p-5">
-                      <h4 className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-3">NRSV (2021)</h4>
-                      <p className="text-base leading-relaxed text-foreground font-rosarivo">{s.nrsv}</p>
+                      <h4 className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-3">
+                        {translationMeta[activeTranslation].fullName}
+                      </h4>
+                      {(() => {
+                        const text = getTranslationText(s);
+                        return text ? (
+                          <p className="text-base leading-relaxed text-foreground font-rosarivo">{text}</p>
+                        ) : (
+                          <p className="text-sm text-muted-foreground italic">
+                            Translation not yet available. Showing KJV:
+                            <span className="block mt-2 text-foreground font-rosarivo text-base">{s.kjv}</span>
+                          </p>
+                        );
+                      })()}
                     </div>
                     <div className="p-5">
                       <h4 className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-3">Application</h4>
@@ -339,11 +358,18 @@ const CityDetailPanel = ({ city, onClose, activeTopic, allCities, onCityChange, 
 
                   {/* Mobile single-tab view */}
                   <div className="md:hidden p-4">
-                    {mobileTab === "kjv" && (
-                      <p className="text-sm leading-relaxed text-foreground font-rosarivo">{s.kjv}</p>
-                    )}
-                    {mobileTab === "nrsv" && (
-                      <p className="text-sm leading-relaxed text-foreground font-rosarivo">{s.nrsv}</p>
+                    {mobileTab === "translation" && (
+                      (() => {
+                        const text = getTranslationText(s);
+                        return text ? (
+                          <p className="text-sm leading-relaxed text-foreground font-rosarivo">{text}</p>
+                        ) : (
+                          <p className="text-sm text-muted-foreground italic">
+                            Translation not yet available.
+                            <span className="block mt-2 text-foreground font-rosarivo">{s.kjv}</span>
+                          </p>
+                        );
+                      })()
                     )}
                     {mobileTab === "app" && (
                       commentary ? (

@@ -4,6 +4,7 @@ import { useSearchParams } from "react-router-dom";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import { cities, journeys, tileOptions, CityData, allTopics } from "@/data/paulData";
+import type { TranslationKey } from "@/data/types";
 import { smoothPath } from "@/lib/smoothPath";
 import CityMarker from "./CityMarker";
 import CityDetailPanel from "./CityDetailPanel";
@@ -14,6 +15,7 @@ import ShipwreckMarkerComponent from "./ShipwreckMarker";
 import WelcomeOverlay from "./WelcomeOverlay";
 import ScriptureProgressBar from "./ScriptureProgressBar";
 import { Loader2, FileDown, PanelLeftClose, PanelLeftOpen } from "lucide-react";
+import LanguageSelector from "./LanguageSelector";
 import { useBookmarks } from "@/hooks/useBookmarks";
 import { useDarkMode } from "@/hooks/useDarkMode";
 import { useScriptureProgress } from "@/hooks/useScriptureProgress";
@@ -370,6 +372,7 @@ const PaulMap = () => {
   const [showWelcome, setShowWelcome] = useState(false);
   const mapInstanceRef = useRef<L.Map | null>(null);
   const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [activeTranslation, setActiveTranslation] = useState<TranslationKey>("kjv");
   const { trackCityView, trackTopicView, getPopularCities } = useLocalAnalytics();
   const popularCityIds = getPopularCities(3);
 
@@ -518,6 +521,7 @@ const PaulMap = () => {
             >
               <PanelLeftClose className="h-3.5 w-3.5" /> Hide Panel
             </button>
+            <LanguageSelector value={activeTranslation} onChange={setActiveTranslation} />
             <JourneyLegend
               activeJourneys={activeJourneys}
               onToggleJourney={toggleJourney}
@@ -677,6 +681,7 @@ const PaulMap = () => {
           bookmarks={bookmarks}
           onToggleBookmark={toggleBookmark}
           onScriptureView={markViewed}
+          activeTranslation={activeTranslation}
         />
       )}
 
