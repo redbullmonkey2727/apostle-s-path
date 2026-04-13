@@ -107,9 +107,7 @@ const TimelineBar = ({ onCitySelect, selectedCityId }: TimelineBarProps) => {
                 }`}
               />
               <span
-                className={`absolute left-1/2 -translate-x-1/2 whitespace-nowrap transition-opacity z-10 ${
-                  isEvent ? "bottom-full mb-1" : "top-4"
-                } ${
+                className={`absolute left-1/2 -translate-x-1/2 whitespace-nowrap transition-opacity z-10 bottom-full mb-1 ${
                   isSelected
                     ? "text-primary font-semibold opacity-100 text-[10px]"
                     : isHovered
