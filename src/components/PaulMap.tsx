@@ -551,6 +551,17 @@ const PaulMap = () => {
         )}
 
         <div className="flex-1 rounded-lg overflow-hidden border border-border shadow-sm relative">
+          {/* Toggle sidebar */}
+          <div className="absolute top-3 left-3 z-[1000]">
+            <button
+              onClick={() => setSidebarOpen((p) => !p)}
+              className="bg-card/90 border border-border rounded-lg px-2.5 py-1.5 flex items-center gap-1.5 text-xs text-muted-foreground hover:text-foreground hover:bg-card shadow-sm transition-colors"
+              title={sidebarOpen ? "Hide panel" : "Show panel"}
+            >
+              {sidebarOpen ? <PanelLeftClose className="h-3.5 w-3.5" /> : <PanelLeftOpen className="h-3.5 w-3.5" />}
+              <span className="hidden sm:inline">{sidebarOpen ? "Hide" : "Menu"}</span>
+            </button>
+          </div>
           {/* Top-right: PDF */}
           <div className="absolute top-3 right-3 z-[1000]">
             <button
