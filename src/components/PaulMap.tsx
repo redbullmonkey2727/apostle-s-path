@@ -683,7 +683,7 @@ const PaulMap = () => {
         />
       )}
 
-      <WelcomeOverlay onStartTour={() => setShowTour(true)} />
+      <WelcomeOverlay onStartTour={() => setShowTour(true)} forceShow={showWelcome} onForceClose={() => setShowWelcome(false)} />
     </div>
   );
 };
