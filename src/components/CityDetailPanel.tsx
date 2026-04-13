@@ -351,7 +351,7 @@ const CityDetailPanel = ({ city, onClose, activeTopic, allCities, onCityChange, 
                       commentary ? (
                         <p className="text-sm leading-relaxed text-foreground font-rosarivo">{commentary}</p>
                       ) : (
-                        <p className="text-sm text-muted-foreground italic">No commentary available.</p>
+                        <p className="text-sm text-muted-foreground italic">{t.noCommentary}</p>
                       )
                     )}
                   </div>
