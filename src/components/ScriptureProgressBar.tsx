@@ -1,4 +1,5 @@
 import { BookOpen } from "lucide-react";
+import { useTranslation } from "@/i18n/LanguageContext";
 
 interface ScriptureProgressBarProps {
   viewedCount: number;
@@ -7,12 +8,13 @@ interface ScriptureProgressBarProps {
 
 const ScriptureProgressBar = ({ viewedCount, totalScriptures }: ScriptureProgressBarProps) => {
   const pct = totalScriptures > 0 ? Math.round((viewedCount / totalScriptures) * 100) : 0;
+  const { t } = useTranslation();
 
   return (
     <div className="space-y-1.5">
       <div className="flex items-center justify-between text-xs">
         <span className="flex items-center gap-1 text-muted-foreground font-medium">
-          <BookOpen className="h-3.5 w-3.5" /> Scriptures Explored
+          <BookOpen className="h-3.5 w-3.5" /> {t.scripturesExplored}
         </span>
         <span className="text-foreground font-semibold">{viewedCount} / {totalScriptures}</span>
       </div>
@@ -22,7 +24,7 @@ const ScriptureProgressBar = ({ viewedCount, totalScriptures }: ScriptureProgres
           style={{ width: `${pct}%` }}
         />
       </div>
-      <p className="text-[10px] text-muted-foreground text-right">{pct}% explored</p>
+      <p className="text-[10px] text-muted-foreground text-right">{pct}% {t.explored}</p>
     </div>
   );
 };
