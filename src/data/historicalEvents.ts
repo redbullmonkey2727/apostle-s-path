@@ -119,4 +119,25 @@ export const historicalEvents: HistoricalEvent[] = [
     location: "Rome / Patmos",
     description: "Emperor Domitian intensifies persecution of Christians. John the Revelator is exiled to the island of Patmos.",
   },
+  {
+    id: "paul-shipwreck-malta",
+    name: "Paul's Shipwreck at Malta",
+    year: 60,
+    location: "Malta",
+    description: "Paul is shipwrecked on the island of Malta while being transported to Rome as a prisoner (Acts 27:39–28:1).",
+  },
+  {
+    id: "nero-suicide",
+    name: "Suicide of Emperor Nero",
+    year: 68,
+    location: "Rome",
+    description: "Nero, the emperor who persecuted Christians after the Great Fire, takes his own life, ending the Julio-Claudian dynasty.",
+  },
+  {
+    id: "paul-arrest-jerusalem",
+    name: "Paul's Arrest in Jerusalem",
+    year: 57,
+    location: "Jerusalem",
+    description: "Paul is arrested in the Temple after being accused of bringing Gentiles into the inner courts (Acts 21:27–36). He appeals to Caesar.",
+  },
 ];
