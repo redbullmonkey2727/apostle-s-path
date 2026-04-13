@@ -279,7 +279,7 @@ const CityDetailPanel = ({ city, onClose, activeTopic, allCities, onCityChange, 
                         <button
                           onClick={() => onToggleBookmark(s.reference)}
                           className="p-0.5 rounded hover:bg-muted transition-colors"
-                          title={isMarked ? "Remove bookmark" : "Bookmark this scripture"}
+                          title={isMarked ? t.removeBookmark : t.bookmarkScripture}
                         >
                           <Bookmark className={`h-3.5 w-3.5 ${isMarked ? "fill-primary text-primary" : "text-muted-foreground"}`} />
                         </button>
