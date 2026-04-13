@@ -369,6 +369,7 @@ const PaulMap = () => {
   const [showTour, setShowTour] = useState(false);
   const [showWelcome, setShowWelcome] = useState(false);
   const mapInstanceRef = useRef<L.Map | null>(null);
+  const [sidebarOpen, setSidebarOpen] = useState(true);
 
   const [activeJourneys, setActiveJourneys] = useState<string[]>(() => {
     const param = searchParams.get("journeys");
@@ -529,23 +530,25 @@ const PaulMap = () => {
       </div>
 
       <div className="flex flex-col landscape:flex-row lg:flex-row gap-2 sm:gap-4 flex-1 min-h-0">
-        <div className="w-full landscape:w-56 lg:w-72 space-y-2 sm:space-y-3 landscape:max-h-full landscape:overflow-y-auto landscape:shrink-0">
-          <ScriptureProgressBar viewedCount={viewedCount} totalScriptures={totalScriptures} />
-          <JourneyLegend
-            activeJourneys={activeJourneys}
-            onToggleJourney={toggleJourney}
-            activeTile={activeTile}
-            onTileChange={setActiveTile}
-            searchQuery={searchQuery}
-            onSearchChange={setSearchQuery}
-            activeTopic={activeTopic}
-            onTopicChange={setActiveTopic}
-            isDark={isDark}
-            onToggleDark={toggleDark}
-            onStartTour={() => setShowTour(true)}
-            onShowWelcome={() => setShowWelcome(true)}
-          />
-        </div>
+        {sidebarOpen && (
+          <div className="w-full landscape:w-56 lg:w-72 space-y-2 sm:space-y-3 landscape:max-h-full landscape:overflow-y-auto landscape:shrink-0 animate-fade-in">
+            <ScriptureProgressBar viewedCount={viewedCount} totalScriptures={totalScriptures} />
+            <JourneyLegend
+              activeJourneys={activeJourneys}
+              onToggleJourney={toggleJourney}
+              activeTile={activeTile}
+              onTileChange={setActiveTile}
+              searchQuery={searchQuery}
+              onSearchChange={setSearchQuery}
+              activeTopic={activeTopic}
+              onTopicChange={setActiveTopic}
+              isDark={isDark}
+              onToggleDark={toggleDark}
+              onStartTour={() => setShowTour(true)}
+              onShowWelcome={() => setShowWelcome(true)}
+            />
+          </div>
+        )}
 
         <div className="flex-1 rounded-lg overflow-hidden border border-border shadow-sm relative">
           {/* Top-right: PDF */}
