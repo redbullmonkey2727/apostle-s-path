@@ -1,6 +1,6 @@
-import { cities, CityData } from "@/data/paulData";
-import { Calendar, ChevronLeft, ChevronRight } from "lucide-react";
-import { useMemo } from "react";
+import { cities, CityData, historicalEvents, HistoricalEvent } from "@/data/paulData";
+import { Calendar, Landmark } from "lucide-react";
+import { useMemo, useState } from "react";
 
 interface TimelineBarProps {
   onCitySelect: (city: CityData) => void;
@@ -8,9 +8,12 @@ interface TimelineBarProps {
 }
 
 interface TimelineEntry {
-  city: CityData;
+  type: "epistle" | "event";
+  city?: CityData;
+  event?: HistoricalEvent;
   year: number;
   label: string;
+  id: string;
 }
 
 function parseYear(age: string): number {
@@ -19,15 +22,28 @@ function parseYear(age: string): number {
 }
 
 const TimelineBar = ({ onCitySelect, selectedCityId }: TimelineBarProps) => {
+  const [hoveredId, setHoveredId] = useState<string | null>(null);
+
   const entries = useMemo<TimelineEntry[]>(() => {
-    return cities
+    const epistleEntries: TimelineEntry[] = cities
       .filter((c) => c.epistleName && c.scriptures.length > 0)
       .map((c) => ({
+        type: "epistle" as const,
         city: c,
         year: parseYear(c.estimatedAge),
         label: c.epistleName || c.name,
-      }))
-      .sort((a, b) => a.year - b.year);
+        id: `epistle-${c.id}`,
+      }));
+
+    const eventEntries: TimelineEntry[] = historicalEvents.map((e) => ({
+      type: "event" as const,
+      event: e,
+      year: e.year,
+      label: e.name,
+      id: `event-${e.id}`,
+    }));
+
+    return [...epistleEntries, ...eventEntries].sort((a, b) => a.year - b.year);
   }, []);
 
   if (entries.length === 0) return null;
@@ -38,39 +54,68 @@ const TimelineBar = ({ onCitySelect, selectedCityId }: TimelineBarProps) => {
 
   return (
     <div className="bg-card border border-border rounded-lg p-3 shadow-sm">
-      <div className="flex items-center gap-2 mb-2">
-        <Calendar className="h-3.5 w-3.5 text-primary" />
-        <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">Epistle Timeline</h3>
+      <div className="flex items-center gap-4 mb-2">
+        <div className="flex items-center gap-1.5">
+          <Calendar className="h-3.5 w-3.5 text-primary" />
+          <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">Timeline</h3>
+        </div>
+        <div className="flex items-center gap-3 ml-auto">
+          <div className="flex items-center gap-1">
+            <div className="w-2 h-2 rounded-full bg-primary" />
+            <span className="text-[9px] text-muted-foreground">Epistles</span>
+          </div>
+          <div className="flex items-center gap-1">
+            <div className="w-2 h-2 rounded-full bg-amber-500" />
+            <span className="text-[9px] text-muted-foreground">Historical Events</span>
+          </div>
+        </div>
       </div>
-      <div className="relative h-12 mx-2">
+      <div className="relative h-14 mx-2">
         {/* Timeline line */}
         <div className="absolute top-5 left-0 right-0 h-0.5 bg-border" />
         {/* Year labels */}
-        <span className="absolute top-8 left-0 text-[10px] text-muted-foreground">{minYear} AD</span>
-        <span className="absolute top-8 right-0 text-[10px] text-muted-foreground">{maxYear} AD</span>
+        <span className="absolute top-9 left-0 text-[10px] text-muted-foreground">{minYear} AD</span>
+        <span className="absolute top-9 right-0 text-[10px] text-muted-foreground">{maxYear} AD</span>
         {/* Entries */}
-        {entries.map((e, i) => {
+        {entries.map((e) => {
           const pct = ((e.year - minYear) / range) * 100;
-          const isSelected = e.city.id === selectedCityId;
+          const isSelected = e.type === "epistle" && e.city?.id === selectedCityId;
+          const isHovered = hoveredId === e.id;
+          const isEvent = e.type === "event";
+
           return (
             <button
-              key={e.city.id}
-              onClick={() => onCitySelect(e.city)}
+              key={e.id}
+              onClick={() => {
+                if (e.type === "epistle" && e.city) onCitySelect(e.city);
+              }}
+              onMouseEnter={() => setHoveredId(e.id)}
+              onMouseLeave={() => setHoveredId(null)}
               className="absolute -translate-x-1/2 group"
-              style={{ left: `${Math.min(Math.max(pct, 3), 97)}%`, top: 0 }}
-              title={`${e.label} (~${e.year} AD)`}
+              style={{ left: `${Math.min(Math.max(pct, 2), 98)}%`, top: 0 }}
+              title={`${e.label} (~${e.year} AD)${isEvent && e.event ? `\n${e.event.description}` : ""}`}
             >
               <div
-                className={`w-3 h-3 rounded-full border-2 transition-all ${
-                  isSelected
-                    ? "bg-primary border-primary scale-125"
-                    : "bg-card border-primary/50 hover:border-primary hover:scale-110"
+                className={`rounded-full border-2 transition-all ${
+                  isEvent
+                    ? `w-2.5 h-2.5 mt-[1px] ${isHovered ? "bg-amber-500 border-amber-500 scale-125" : "bg-amber-500/20 border-amber-500/70 hover:border-amber-500 hover:scale-110"}`
+                    : `w-3 h-3 ${
+                        isSelected
+                          ? "bg-primary border-primary scale-125"
+                          : "bg-card border-primary/50 hover:border-primary hover:scale-110"
+                      }`
                 }`}
               />
-              <span className={`absolute top-4 left-1/2 -translate-x-1/2 whitespace-nowrap text-[9px] ${
-                isSelected ? "text-primary font-semibold" : "text-muted-foreground opacity-0 group-hover:opacity-100"
-              } transition-opacity`}>
-                {e.city.name}
+              <span
+                className={`absolute top-4 left-1/2 -translate-x-1/2 whitespace-nowrap text-[9px] transition-opacity z-10 ${
+                  isSelected
+                    ? "text-primary font-semibold opacity-100"
+                    : isHovered
+                    ? `${isEvent ? "text-amber-500" : "text-primary"} font-medium opacity-100`
+                    : "text-muted-foreground opacity-0"
+                }`}
+              >
+                {isEvent ? e.event?.name : e.city?.name}
               </span>
             </button>
           );
