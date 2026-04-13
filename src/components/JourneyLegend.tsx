@@ -34,6 +34,11 @@ const writerLabels: Record<string, { label: string; color: string; bio: string }
     color: "hsl(280, 50%, 45%)",
     bio: "The 'beloved disciple,' son of Zebedee. John was among the inner circle (with Peter and James) and the only apostle tradition says was not martyred. Exiled to Patmos under Domitian, he wrote three epistles and the book of Revelation, emphasizing love and testimony of Christ.",
   },
+  luke: {
+    label: "Luke",
+    color: "hsl(170, 50%, 35%)",
+    bio: "A Gentile physician and companion of Paul (Col 4:14), Luke authored both the Gospel of Luke and the Acts of the Apostles — together comprising roughly a quarter of the New Testament. His meticulous, orderly accounts (Luke 1:3) preserve the most detailed record of the early Church's expansion.",
+  },
   james: {
     label: "James",
     color: "hsl(140, 50%, 35%)",

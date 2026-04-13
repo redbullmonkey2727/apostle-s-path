@@ -94,9 +94,13 @@ const TimelineBar = ({ onCitySelect, selectedCityId }: TimelineBarProps) => {
           }
           return ticks;
         })()}
-        {/* Year labels */}
-        <span className="absolute top-11 left-0 text-[10px] text-muted-foreground font-medium">{minYear} AD</span>
-        <span className="absolute top-11 right-0 text-[10px] text-muted-foreground font-medium">{maxYear} AD</span>
+        {/* Year labels — only show if not already a 5-year tick */}
+        {minYear % 5 !== 0 && (
+          <span className="absolute top-11 left-0 text-[10px] text-muted-foreground font-medium">{minYear} AD</span>
+        )}
+        {maxYear % 5 !== 0 && (
+          <span className="absolute top-11 right-0 text-[10px] text-muted-foreground font-medium">{maxYear} AD</span>
+        )}
         {/* Entries */}
         {entries.map((e) => {
           const pct = ((e.year - minYear) / range) * 100;
