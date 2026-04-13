@@ -23,7 +23,7 @@ const Index = () => {
             href="https://docs.google.com/spreadsheets/d/1hbUzM5Y4RCZxo-xGVh7ySGKpXRRVeEumqqPabqQhjFQ/edit?usp=sharing"
             target="_blank"
             rel="noopener noreferrer"
-            className="text-[11px] text-primary hover:underline whitespace-nowrap ml-4"
+            className="text-[10px] leading-tight text-primary hover:underline ml-4 max-w-[10rem] text-right"
           >
             Bible List with all included References for further reading ↗
           </a>
