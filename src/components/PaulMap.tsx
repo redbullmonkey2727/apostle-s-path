@@ -1,6 +1,5 @@
 import { MapContainer, TileLayer, Polyline, Marker, useMap, CircleMarker, Tooltip } from "react-leaflet";
 import { useState, useMemo, useEffect, useCallback, useRef } from "react";
-import { PanelLeftClose, PanelLeftOpen } from "lucide-react";
 import { useSearchParams } from "react-router-dom";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
@@ -14,10 +13,11 @@ import GuidedTour from "./GuidedTour";
 import ShipwreckMarkerComponent from "./ShipwreckMarker";
 import WelcomeOverlay from "./WelcomeOverlay";
 import ScriptureProgressBar from "./ScriptureProgressBar";
-import { Loader2, Share2, FileDown } from "lucide-react";
+import { Loader2, FileDown, PanelLeftClose, PanelLeftOpen } from "lucide-react";
 import { useBookmarks } from "@/hooks/useBookmarks";
 import { useDarkMode } from "@/hooks/useDarkMode";
 import { useScriptureProgress } from "@/hooks/useScriptureProgress";
+import { useLocalAnalytics } from "@/hooks/useLocalAnalytics";
 import { generateScripturePdf } from "@/lib/generatePdf";
 import type { ShipwreckPoint } from "@/data/types";
 import shipImg from "@/assets/ship.png";
@@ -370,6 +370,8 @@ const PaulMap = () => {
   const [showWelcome, setShowWelcome] = useState(false);
   const mapInstanceRef = useRef<L.Map | null>(null);
   const [sidebarOpen, setSidebarOpen] = useState(true);
+  const { trackCityView, trackTopicView, getPopularCities } = useLocalAnalytics();
+  const popularCityIds = getPopularCities(3);
 
   const [activeJourneys, setActiveJourneys] = useState<string[]>(() => {
     const param = searchParams.get("journeys");
@@ -396,19 +398,11 @@ const PaulMap = () => {
 
   const closeCity = useCallback(() => setSelectedCity(null), []);
 
-  // Auto-pan to city from deep link on initial load
-  useEffect(() => {
-    const cityId = searchParams.get("city");
-    if (cityId && mapInstanceRef.current) {
-      const city = cities.find((c) => c.id === cityId);
-      if (city) {
-        setTimeout(() => {
-          mapInstanceRef.current?.flyTo([city.lat, city.lng], 8, { duration: 1.2 });
-        }, 500);
-      }
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  const selectCity = useCallback((city: CityData | null) => {
+    setSelectedCity(city);
+    if (city) trackCityView(city.id);
+  }, [trackCityView]);
+
   // Keyboard shortcuts: Esc, arrows, T, D
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
@@ -460,24 +454,10 @@ const PaulMap = () => {
 
   const tile = tileOptions.find((t) => t.id === activeTile) || tileOptions[0];
 
-  // Collect all scriptures matching a topic OR scripture reference search
+  // Collect all scriptures matching a topic search
   const topicSearchResults = useMemo(() => {
     if (!searchQuery.trim()) return null;
     const q = searchQuery.trim().toLowerCase();
-
-    // Check for scripture reference match (e.g. "Luke 10:1" or "Acts 2")
-    const refResults: { city: string; cityData: CityData; reference: string; writer: string; topics: string[] }[] = [];
-    for (const c of cities) {
-      for (const s of c.scriptures) {
-        if (s.reference.toLowerCase().includes(q)) {
-          refResults.push({ city: c.name, cityData: c, reference: s.reference, writer: s.writer, topics: s.topics });
-        }
-      }
-    }
-    if (refResults.length > 0) {
-      return { topic: `"${searchQuery.trim()}"`, results: refResults };
-    }
-
     // Check if query matches any topic name
     const matchedTopic = allTopics.find((t) => t.toLowerCase().includes(q));
     if (!matchedTopic) return null;
@@ -523,16 +503,21 @@ const PaulMap = () => {
   }, []);
 
   return (
-    <div className="flex flex-col gap-2 sm:gap-3 h-[calc(100vh-4rem)] sm:h-[calc(100vh-5rem)] landscape:h-[calc(100vh-3rem)]">
-      {/* Timeline - hide in landscape mobile to save space */}
-      <div className="landscape:hidden sm:landscape:block">
-        <TimelineBar onCitySelect={setSelectedCity} selectedCityId={selectedCity?.id} />
-      </div>
+    <div className="flex flex-col gap-2 sm:gap-3 h-[calc(100vh-4rem)] sm:h-[calc(100vh-5rem)]">
+      {/* Timeline */}
+      <TimelineBar onCitySelect={setSelectedCity} selectedCityId={selectedCity?.id} />
 
-      <div className="flex flex-col landscape:flex-row lg:flex-row gap-2 sm:gap-4 flex-1 min-h-0">
+      <div className="flex flex-col lg:flex-row gap-2 sm:gap-4 flex-1 min-h-0">
         {sidebarOpen && (
-          <div className="w-full landscape:w-56 lg:w-72 space-y-2 sm:space-y-3 landscape:max-h-full landscape:overflow-y-auto landscape:shrink-0 animate-fade-in">
+          <div className="w-full lg:w-60 xl:w-64 space-y-2 sm:space-y-3 lg:max-h-full lg:overflow-y-auto shrink-0 animate-fade-in">
             <ScriptureProgressBar viewedCount={viewedCount} totalScriptures={totalScriptures} />
+            {/* Sidebar toggle inside panel */}
+            <button
+              onClick={() => setSidebarOpen(false)}
+              className="w-full flex items-center justify-center gap-1.5 py-1.5 rounded-md border border-border text-[11px] text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-colors"
+            >
+              <PanelLeftClose className="h-3.5 w-3.5" /> Hide Panel
+            </button>
             <JourneyLegend
               activeJourneys={activeJourneys}
               onToggleJourney={toggleJourney}
@@ -551,17 +536,18 @@ const PaulMap = () => {
         )}
 
         <div className="flex-1 rounded-lg overflow-hidden border border-border shadow-sm relative">
-          {/* Toggle sidebar */}
-          <div className="absolute top-3 left-3 z-[1000]">
-            <button
-              onClick={() => setSidebarOpen((p) => !p)}
-              className="bg-card/90 border border-border rounded-lg px-2.5 py-1.5 flex items-center gap-1.5 text-xs text-muted-foreground hover:text-foreground hover:bg-card shadow-sm transition-colors"
-              title={sidebarOpen ? "Hide panel" : "Show panel"}
-            >
-              {sidebarOpen ? <PanelLeftClose className="h-3.5 w-3.5" /> : <PanelLeftOpen className="h-3.5 w-3.5" />}
-              <span className="hidden sm:inline">{sidebarOpen ? "Hide" : "Menu"}</span>
-            </button>
-          </div>
+          {/* Show panel button when hidden */}
+          {!sidebarOpen && (
+            <div className="absolute top-3 left-3 z-[1000]">
+              <button
+                onClick={() => setSidebarOpen(true)}
+                className="bg-card/90 border border-border rounded-lg px-2.5 py-1.5 flex items-center gap-1.5 text-xs text-muted-foreground hover:text-foreground hover:bg-card shadow-sm transition-colors"
+                title="Show panel"
+              >
+                <PanelLeftOpen className="h-3.5 w-3.5" /> Menu
+              </button>
+            </div>
+          )}
           {/* Top-right: PDF */}
           <div className="absolute top-3 right-3 z-[1000]">
             <button
@@ -573,13 +559,13 @@ const PaulMap = () => {
             </button>
           </div>
           {/* Mobile floating search bar */}
-          <div className="lg:hidden absolute top-3 left-20 right-16 z-[1000]">
+          <div className="lg:hidden absolute top-3 left-20 right-3 z-[1000]">
             <input
               type="text"
-              placeholder="Search verses, topics…"
+              placeholder="Search topics, cities, writers…"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full px-3 py-1.5 text-xs rounded-md border border-input bg-card/95 backdrop-blur text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-ring shadow-sm"
+              className="w-full px-3 py-2 text-sm rounded-md border border-input bg-card/95 backdrop-blur text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-ring shadow-sm"
             />
           </div>
           <MapContainer

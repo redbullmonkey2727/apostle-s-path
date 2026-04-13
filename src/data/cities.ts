@@ -350,7 +350,7 @@ export const cities: CityData[] = [
   },
   {
     id: "achaia",
-    name: "Achaia (Patrai)",
+    name: "Achaia (Patras)",
     lat: 38.2466,
     lng: 21.7346,
     label: "Gospel of Luke origin",

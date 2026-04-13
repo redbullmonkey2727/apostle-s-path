@@ -121,7 +121,7 @@ const JourneyLegend = ({
       {/* Search */}
       <input
         type="text"
-        placeholder="Search cities, topics, writers, or verses (e.g. Luke 10:1)…"
+        placeholder="Search cities, doctrinal topics, or writers…"
         value={searchQuery}
         onChange={(e) => onSearchChange(e.target.value)}
         className="w-full px-3 py-2 text-sm rounded-md border border-input bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-ring"
