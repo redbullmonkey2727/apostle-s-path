@@ -18,13 +18,37 @@ interface JourneyLegendProps {
   onStartTour: () => void;
 }
 
-const writerLabels: Record<string, { label: string; color: string }> = {
-  paul: { label: "Paul", color: "hsl(25, 60%, 30%)" },
-  peter: { label: "Peter", color: "hsl(200, 60%, 40%)" },
-  john: { label: "John", color: "hsl(280, 50%, 45%)" },
-  james: { label: "James", color: "hsl(140, 50%, 35%)" },
-  jude: { label: "Jude", color: "hsl(340, 50%, 45%)" },
-  "hebrews-author": { label: "Hebrews Author", color: "hsl(30, 60%, 45%)" },
+const writerLabels: Record<string, { label: string; color: string; bio: string }> = {
+  paul: {
+    label: "Paul",
+    color: "hsl(25, 60%, 30%)",
+    bio: "Originally Saul of Tarsus, a Pharisee and persecutor of Christians. After his dramatic conversion on the road to Damascus (Acts 9), he became the most prolific apostolic writer, authoring at least 13 epistles while enduring imprisonments, shipwrecks, and beatings across the Roman Empire.",
+  },
+  peter: {
+    label: "Peter",
+    color: "hsl(200, 60%, 40%)",
+    bio: "A Galilean fisherman called by Jesus to be the chief apostle (Matt 16:18). He led the early Church in Jerusalem, opened the gospel to the Gentiles (Acts 10), and wrote two epistles from Rome near the end of his life, likely martyred under Nero around AD 64–67.",
+  },
+  john: {
+    label: "John",
+    color: "hsl(280, 50%, 45%)",
+    bio: "The 'beloved disciple,' son of Zebedee. John was among the inner circle (with Peter and James) and the only apostle tradition says was not martyred. Exiled to Patmos under Domitian, he wrote three epistles and the book of Revelation, emphasizing love and testimony of Christ.",
+  },
+  james: {
+    label: "James",
+    color: "hsl(140, 50%, 35%)",
+    bio: "Known as 'the Lord's brother' (Gal 1:19), James led the Jerusalem church and presided over the apostolic council (Acts 15). His epistle stresses practical faith, good works, and enduring trials — earning him the early title 'James the Just.'",
+  },
+  jude: {
+    label: "Jude",
+    color: "hsl(340, 50%, 45%)",
+    bio: "Also a brother of Jesus (Jude 1:1), Jude wrote a brief but urgent epistle warning against false teachers who had crept into the Church, exhorting the Saints to 'contend for the faith once delivered' (Jude 1:3).",
+  },
+  "hebrews-author": {
+    label: "Hebrews Author",
+    color: "hsl(30, 60%, 45%)",
+    bio: "The author of Hebrews remains debated — Paul, Apollos, Barnabas, and others have been proposed. The epistle masterfully connects Old Testament priesthood and sacrifice to Christ's atoning role, likely written before the destruction of the Temple in AD 70.",
+  },
 };
 
 function haversineKm(lat1: number, lng1: number, lat2: number, lng2: number): number {
@@ -160,12 +184,22 @@ const JourneyLegend = ({
         <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-wide flex items-center gap-1">
           <PenTool className="h-3 w-3" /> Writers &amp; Marker Colors
         </h3>
-        {Object.entries(writerLabels).map(([key, { label, color }]) => (
-          <div key={key} className="flex items-center gap-2 text-sm">
-            <div className="w-3 h-3 rounded-full" style={{ backgroundColor: color }} />
-            <span>{label}</span>
-          </div>
-        ))}
+        {Object.entries(writerLabels).map(([key, { label, color, bio }]) => {
+          const isMatch = searchQuery.trim().length > 0 && label.toLowerCase().includes(searchQuery.trim().toLowerCase());
+          return (
+            <div key={key}>
+              <div className="flex items-center gap-2 text-sm">
+                <div className="w-3 h-3 rounded-full" style={{ backgroundColor: color }} />
+                <span>{label}</span>
+              </div>
+              {isMatch && (
+                <p className="ml-5 mt-1 text-[11px] leading-snug text-muted-foreground bg-muted/50 rounded-md p-2">
+                  {bio}
+                </p>
+              )}
+            </div>
+          );
+        })}
         <p className="text-[10px] text-muted-foreground mt-1">Dot size reflects scripture count</p>
       </div>
 
