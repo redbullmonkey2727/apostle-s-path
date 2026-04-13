@@ -193,12 +193,20 @@ const CityDetailPanel = ({ city, onClose, activeTopic, allCities, onCityChange, 
               <span className="flex items-center gap-1">
                 <MapPin className="h-3 md:h-3.5 w-3 md:w-3.5" /> {city.label}
               </span>
-              <span className="italic">{city.estimatedAge}</span>
               {city.writerAges && Object.entries(city.writerAges).map(([w, age]) => (
                 <span key={w} className="px-2 py-0.5 rounded bg-muted text-xs">
                   {writerNames[w] || w}: {age} yrs old
                 </span>
               ))}
+              {(() => {
+                const d = distFromAntioch(city);
+                return (
+                  <span className="flex items-center gap-1 px-2 py-0.5 rounded bg-primary/10 text-primary text-xs font-medium">
+                    <Navigation className="h-3 w-3" /> ~{d.mi.toLocaleString()} mi from Antioch
+                  </span>
+                );
+              })()}
+              <span className="italic">{city.estimatedAge}</span>
             </div>
             <div className="flex items-center gap-4 md:gap-6 mt-1.5 md:mt-2 text-[10px] md:text-xs text-muted-foreground flex-wrap">
               {city.summerTempC !== undefined && (
