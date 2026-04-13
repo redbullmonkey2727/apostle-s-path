@@ -365,7 +365,7 @@ export const cities: CityData[] = [
 ];
 
 // Extract all unique topics from scripture data
-export const allTopics: string[,"Faith & Works"] = Array.from(
+export const allTopics: string[] = Array.from(
   new Set(
     cities.flatMap((c) => c.scriptures.flatMap((s) => s.topics))
   )
