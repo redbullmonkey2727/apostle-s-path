@@ -70,12 +70,33 @@ const TimelineBar = ({ onCitySelect, selectedCityId }: TimelineBarProps) => {
           </div>
         </div>
       </div>
-      <div className="relative h-14 mx-2">
+      <div className="relative h-20 mx-2">
         {/* Timeline line */}
-        <div className="absolute top-5 left-0 right-0 h-0.5 bg-border" />
+        <div className="absolute top-8 left-0 right-0 h-0.5 bg-border" />
+        {/* Tick marks every 5 years */}
+        {(() => {
+          const ticks: React.ReactNode[] = [];
+          const firstTick = Math.ceil(minYear / 5) * 5;
+          for (let yr = firstTick; yr <= maxYear; yr += 5) {
+            const pct = ((yr - minYear) / range) * 100;
+            ticks.push(
+              <div
+                key={`tick-${yr}`}
+                className="absolute"
+                style={{ left: `${Math.min(Math.max(pct, 0.5), 99.5)}%`, top: "32px" }}
+              >
+                <div className="w-px h-2 bg-border -translate-x-1/2" />
+                <span className="absolute top-2.5 left-1/2 -translate-x-1/2 text-[8px] text-muted-foreground/60 whitespace-nowrap">
+                  {yr}
+                </span>
+              </div>
+            );
+          }
+          return ticks;
+        })()}
         {/* Year labels */}
-        <span className="absolute top-9 left-0 text-[10px] text-muted-foreground">{minYear} AD</span>
-        <span className="absolute top-9 right-0 text-[10px] text-muted-foreground">{maxYear} AD</span>
+        <span className="absolute top-11 left-0 text-[10px] text-muted-foreground font-medium">{minYear} AD</span>
+        <span className="absolute top-11 right-0 text-[10px] text-muted-foreground font-medium">{maxYear} AD</span>
         {/* Entries */}
         {entries.map((e) => {
           const pct = ((e.year - minYear) / range) * 100;
@@ -92,7 +113,7 @@ const TimelineBar = ({ onCitySelect, selectedCityId }: TimelineBarProps) => {
               onMouseEnter={() => setHoveredId(e.id)}
               onMouseLeave={() => setHoveredId(null)}
               className="absolute -translate-x-1/2 group"
-              style={{ left: `${Math.min(Math.max(pct, 2), 98)}%`, top: 0 }}
+              style={{ left: `${Math.min(Math.max(pct, 2), 98)}%`, top: "12px" }}
               title={`${e.label} (~${e.year} AD)${isEvent && e.event ? `\n${e.event.description}` : ""}`}
             >
               <div
