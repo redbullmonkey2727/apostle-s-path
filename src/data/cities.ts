@@ -127,15 +127,15 @@ export const cities: CityData[] = [
     name: "Corinth",
     lat: 37.9057,
     lng: 22.8765,
-    label: "Letter recipient & Gospel of Luke origin (Achaia)",
-    estimatedAge: "~50–62 AD",
+    label: "Letter recipient",
+    estimatedAge: "~50–52 AD",
     type: "both",
-    writers: ["paul","luke"],
-    epistleName: "1 & 2 Corinthians, Luke",
+    writers: ["paul"],
+    epistleName: "1 & 2 Corinthians",
     writerAges: {"paul":"~45–47"},
     summerTempC: 32, winterTempC: 10,
     summerPrecipMm: 6, winterPrecipMm: 55,
-    references: ["1 Corinthians 1:12-13","1 Corinthians 8:6","1 Corinthians 12:27-28","1 Corinthians 14:33","1 Corinthians 15:29","1 Corinthians 15:40-42","2 Corinthians 1:2-3","2 Corinthians 11:31","2 Corinthians 12:2","2 Corinthians 13:1","1 Corinthians 6:9-10","2 Corinthians 5:9-10","Luke 4:41","Luke 6:46","Luke 13:3, 5","Luke 13:23-28"],
+    references: ["1 Corinthians 1:12-13","1 Corinthians 8:6","1 Corinthians 12:27-28","1 Corinthians 14:33","1 Corinthians 15:29","1 Corinthians 15:40-42","2 Corinthians 1:2-3","2 Corinthians 11:31","2 Corinthians 12:2","2 Corinthians 13:1","1 Corinthians 6:9-10","2 Corinthians 5:9-10"],
     scriptures: [
       { reference: "1 Corinthians 1:12-13", kjv: "Now this I say, that every one of you saith, I am of Paul; and I of Apollos; and I of Cephas; and I of Christ. Is Christ divided? was Paul crucified for you? or were ye baptized in the name of Paul?", nrsv: "What I mean is that each of you says, \"I belong to Paul,\" or \"I belong to Apollos,\" or \"I belong to Cephas,\" or \"I belong to Christ.\" Has Christ been divided? Was Paul crucified for you? Or were you baptized in the name of Paul?", topics: ["Name of Church"], writer: "paul" },
       { reference: "1 Corinthians 8:6", kjv: "But to us there is but one God, the Father, of whom are all things, and we in him; and one Lord Jesus Christ, by whom are all things, and we by him.", nrsv: "Yet for us there is one God, the Father, from whom are all things and for whom we exist, and one Lord, Jesus Christ, through whom are all things and through whom we exist.", topics: ["Godhead"], writer: "paul" },
@@ -150,10 +150,6 @@ export const cities: CityData[] = [
     
       { reference: "1 Corinthians 6:9-10", kjv: "Know ye not that the unrighteous shall not inherit the kingdom of God? Be not deceived: neither fornicators, nor idolaters, nor adulterers, nor effeminate, nor abusers of themselves with mankind, Nor thieves, nor covetous, nor drunkards, nor revilers, nor extortioners, shall inherit the kingdom of God.", nrsv: "Do you not know that wrongdoers will not inherit the kingdom of God? Do not be deceived! Fornicators, idolaters, adulterers, male prostitutes, sodomites, thieves, the greedy, drunkards, revilers, robbers—none of these will inherit the kingdom of God.", topics: ["Faith & Works"], writer: "paul" },
       { reference: "2 Corinthians 5:9-10", kjv: "Wherefore we labour, that, whether present or absent, we may be accepted of him. For we must all appear before the judgment seat of Christ; that every one may receive the things done in his body, according to that he hath done, whether it be good or bad.", nrsv: "So whether we are at home or away, we make it our aim to please him. For all of us must appear before the judgment seat of Christ, so that each may receive recompense for what has been done in the body, whether good or evil.", topics: ["Faith & Works"], writer: "paul" },
-      { reference: "Luke 4:41", kjv: "And devils also came out of many, crying out, and saying, Thou art Christ the Son of God. And he rebuking them suffered them not to speak: for they knew that he was Christ.", nrsv: "Demons also came out of many, shouting, 'You are the Son of God!' But he rebuked them and would not allow them to speak, because they knew that he was the Messiah.", topics: ["Faith & Works"], writer: "luke" },
-      { reference: "Luke 6:46", kjv: "And why call ye me, Lord, Lord, and do not the things which I say?", nrsv: "Why do you call me 'Lord, Lord,' and do not do what I tell you?", topics: ["Faith & Works"], writer: "luke" },
-      { reference: "Luke 13:3, 5", kjv: "I tell you, Nay: but, except ye repent, ye shall all likewise perish.", nrsv: "No, I tell you; but unless you repent, you will all perish as they did.", topics: ["Faith & Works"], writer: "luke" },
-      { reference: "Luke 13:23-28", kjv: "Then said one unto him, Lord, are there few that be saved? And he said unto them, Strive to enter in at the strait gate: for many, I say unto you, will seek to enter in, and shall not be able. When once the master of the house is risen up, and hath shut to the door, and ye begin to stand without, and to knock at the door, saying, Lord, Lord, open unto us; and he shall answer and say unto you, I know you not whence ye are: Then shall ye begin to say, We have eaten and drunk in thy presence, and thou hast taught in our streets. But he shall say, I tell you, I know you not whence ye are; depart from me, all ye workers of iniquity. There shall be weeping and gnashing of teeth, when ye shall see Abraham, and Isaac, and Jacob, and all the prophets, in the kingdom of God, and you yourselves thrust out.", nrsv: "Someone asked him, 'Lord, will only a few be saved?' He said to them, 'Strive to enter through the narrow door; for many, I tell you, will try to enter and will not be able. When once the owner of the house has got up and shut the door, and you begin to stand outside and to knock at the door, saying, \"Lord, open to us,\" then in reply he will say to you, \"I do not know where you come from.\" Then you will begin to say, \"We ate and drank with you, and you taught in our streets.\" But he will say, \"I do not know where you come from; go away from me, all you evildoers!\" There will be weeping and gnashing of teeth when you see Abraham and Isaac and Jacob and all the prophets in the kingdom of God, and you yourselves thrown out.'", topics: ["Faith & Works"], writer: "luke" }
     ],
   },
   {
@@ -350,6 +346,27 @@ export const cities: CityData[] = [
       { reference: "Hebrews 13:20", kjv: "Now the God of peace, that brought again from the dead our Lord Jesus, that great shepherd of the sheep, through the blood of the everlasting covenant.", nrsv: "Now may the God of peace, who brought back from the dead our Lord Jesus, the great shepherd of the sheep, by the blood of the eternal covenant.", topics: ["Godhead"], writer: "hebrews-author" },
     
       { reference: "Hebrews 3:14", kjv: "For we are made partakers of Christ, if we hold the beginning of our confidence steadfast unto the end.", nrsv: "For we have become partners of Christ, if only we hold our first confidence firm to the end.", topics: ["Faith & Works"], writer: "hebrews-author" }
+    ],
+  },
+  {
+    id: "achaia",
+    name: "Achaia (Patras)",
+    lat: 38.2466,
+    lng: 21.7346,
+    label: "Gospel of Luke origin",
+    estimatedAge: "~59–63 AD",
+    type: "epistle",
+    writers: ["luke"],
+    epistleName: "Luke",
+    writerAges: {"luke":"~50–62"},
+    summerTempC: 28, winterTempC: 10,
+    summerPrecipMm: 5, winterPrecipMm: 80,
+    references: ["Luke 4:41","Luke 6:46","Luke 13:3, 5","Luke 13:23-28"],
+    scriptures: [
+      { reference: "Luke 4:41", kjv: "And devils also came out of many, crying out, and saying, Thou art Christ the Son of God. And he rebuking them suffered them not to speak: for they knew that he was Christ.", nrsv: "Demons also came out of many, shouting, 'You are the Son of God!' But he rebuked them and would not allow them to speak, because they knew that he was the Messiah.", topics: ["Faith & Works"], writer: "luke" },
+      { reference: "Luke 6:46", kjv: "And why call ye me, Lord, Lord, and do not the things which I say?", nrsv: "Why do you call me 'Lord, Lord,' and do not do what I tell you?", topics: ["Faith & Works"], writer: "luke" },
+      { reference: "Luke 13:3, 5", kjv: "I tell you, Nay: but, except ye repent, ye shall all likewise perish.", nrsv: "No, I tell you; but unless you repent, you will all perish as they did.", topics: ["Faith & Works"], writer: "luke" },
+      { reference: "Luke 13:23-28", kjv: "Then said one unto him, Lord, are there few that be saved? And he said unto them, Strive to enter in at the strait gate: for many, I say unto you, will seek to enter in, and shall not be able. When once the master of the house is risen up, and hath shut to the door, and ye begin to stand without, and to knock at the door, saying, Lord, Lord, open unto us; and he shall answer and say unto you, I know you not whence ye are: Then shall ye begin to say, We have eaten and drunk in thy presence, and thou hast taught in our streets. But he shall say, I tell you, I know you not whence ye are; depart from me, all ye workers of iniquity. There shall be weeping and gnashing of teeth, when ye shall see Abraham, and Isaac, and Jacob, and all the prophets, in the kingdom of God, and you yourselves thrust out.", nrsv: "Someone asked him, 'Lord, will only a few be saved?' He said to them, 'Strive to enter through the narrow door; for many, I tell you, will try to enter and will not be able. When once the owner of the house has got up and shut the door, and you begin to stand outside and to knock at the door, saying, \"Lord, open to us,\" then in reply he will say to you, \"I do not know where you come from.\" Then you will begin to say, \"We ate and drank with you, and you taught in our streets.\" But he will say, \"I do not know where you come from; go away from me, all you evildoers!\" There will be weeping and gnashing of teeth when you see Abraham and Isaac and Jacob and all the prophets in the kingdom of God, and you yourselves thrown out.'", topics: ["Faith & Works"], writer: "luke" }
     ],
   },
 ];
