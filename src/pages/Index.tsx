@@ -25,7 +25,7 @@ const Index = () => {
             rel="noopener noreferrer"
             className="text-[11px] text-primary hover:underline whitespace-nowrap ml-4"
           >
-            View Source Data ↗
+            Bible List with all included References for further reading ↗
           </a>
         </div>
       </header>
