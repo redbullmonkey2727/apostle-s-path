@@ -446,6 +446,16 @@ const PaulMap = () => {
 
   const tile = tileOptions.find((t) => t.id === activeTile) || tileOptions[0];
 
+  // Add language parameter to Google Maps tiles
+  const { lang } = useTranslation();
+  const localizedTileUrl = useMemo(() => {
+    const langCode = lang === "en" ? "en" : lang;
+    if (tile.id === "google" || tile.id === "satellite") {
+      return tile.url + `&hl=${langCode}`;
+    }
+    return tile.url;
+  }, [tile, lang]);
+
   // Collect all scriptures matching a topic search
   const topicSearchResults = useMemo(() => {
     if (!searchQuery.trim()) return null;
