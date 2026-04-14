@@ -128,8 +128,20 @@ const CityDetailPanel = ({ city, onClose, activeTopic, allCities, onCityChange, 
 
   const getTranslatedVerse = (reference: string): string | null => {
     if (!isNonEnglish) return null;
-    const langKey = lang as "es" | "fr" | "pt" | "sv" | "no";
+    const langKey = lang as "es" | "fr" | "pt" | "sv" | "no" | "da";
     return verseTranslations[reference]?.[langKey] || null;
+  };
+
+  const getTranslatedCommentary = (reference: string, englishCommentary: string): string => {
+    if (!isNonEnglish) return englishCommentary;
+    const langKey = lang as "es" | "fr" | "pt" | "sv" | "no" | "da";
+    return commentaryTranslations[reference]?.[langKey] || englishCommentary;
+  };
+
+  const getTranslatedTopic = (topic: string): string => {
+    if (!isNonEnglish) return topic;
+    const langKey = lang as "es" | "fr" | "pt" | "sv" | "no" | "da";
+    return topicTranslations[topic]?.[langKey] || topic;
   };
 
   const filteredScriptures = activeTopic
