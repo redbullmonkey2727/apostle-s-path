@@ -1,6 +1,8 @@
 import { CityData } from "@/data/paulData";
 import { X, MapPin, Tag, Thermometer, BookOpen, Droplets, ExternalLink, Scroll, ChevronLeft, ChevronRight, Bookmark, Home, Navigation } from "lucide-react";
 import { commentaries } from "@/data/commentaries";
+import { commentaryTranslations } from "@/data/commentaryTranslations";
+import { topicTranslations } from "@/data/topicTranslations";
 import { ScriptureEntry } from "@/data/types";
 import { useState, useEffect } from "react";
 import { useTranslation } from "@/i18n/LanguageContext";
