@@ -1,4 +1,4 @@
-export type UILanguage = "en" | "es" | "fr" | "pt" | "sv" | "no";
+export type UILanguage = "en" | "es" | "fr" | "pt" | "sv" | "no" | "da";
 
 /** Labels for the Bible translation shown in each language */
 export const bibleTranslationLabels: Record<UILanguage, string> = {
@@ -8,6 +8,18 @@ export const bibleTranslationLabels: Record<UILanguage, string> = {
   pt: "Almeida",
   sv: "Svenska Bibeln 1917",
   no: "Norsk Bibelen 1906",
+  da: "Bibelen 1992",
+};
+
+/** Google Maps language codes */
+export const mapLanguageCodes: Record<UILanguage, string> = {
+  en: "en",
+  es: "es",
+  fr: "fr",
+  pt: "pt",
+  sv: "sv",
+  no: "no",
+  da: "da",
 };
 
 export const languageLabels: Record<UILanguage, string> = {
@@ -17,6 +29,7 @@ export const languageLabels: Record<UILanguage, string> = {
   pt: "Português",
   sv: "Svenska",
   no: "Norsk",
+  da: "Dansk",
 };
 
 // All translatable UI strings
