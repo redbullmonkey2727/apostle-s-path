@@ -308,11 +308,11 @@ const CityDetailPanel = ({ city, onClose, activeTopic, allCities, onCityChange, 
                         </button>
                       </div>
                       <div className="flex items-center gap-1.5 md:gap-2 flex-wrap">
-                        {s.topics.map((t) => (
-                          <span key={t} className="text-[9px] md:text-[10px] px-1.5 md:px-2 py-0.5 rounded-full bg-primary/10 text-primary flex items-center gap-0.5">
-                            <Tag className="h-2 md:h-2.5 w-2 md:w-2.5" /> {t}
+                        {s.topics.map((tp) => (
+                          <span key={tp} className="text-[9px] md:text-[10px] px-1.5 md:px-2 py-0.5 rounded-full bg-primary/10 text-primary flex items-center gap-0.5">
+                            <Tag className="h-2 md:h-2.5 w-2 md:w-2.5" /> {getTranslatedTopic(tp)}
                           </span>
-                        ))}
+                        ))
                       </div>
                     </div>
                     <a
@@ -373,7 +373,7 @@ const CityDetailPanel = ({ city, onClose, activeTopic, allCities, onCityChange, 
                     <div className="p-5">
                       <h4 className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-3">{t.application}</h4>
                       {commentary ? (
-                        <p className="text-base leading-relaxed text-foreground font-rosarivo">{commentary}</p>
+                        <p className="text-base leading-relaxed text-foreground font-rosarivo">{getTranslatedCommentary(s.reference, commentary)}</p>
                       ) : (
                         <p className="text-sm text-muted-foreground italic">{t.noCommentary}</p>
                       )}
@@ -398,7 +398,7 @@ const CityDetailPanel = ({ city, onClose, activeTopic, allCities, onCityChange, 
                     )}
                     {mobileTab === "app" && (
                       commentary ? (
-                        <p className="text-sm leading-relaxed text-foreground font-rosarivo">{commentary}</p>
+                        <p className="text-sm leading-relaxed text-foreground font-rosarivo">{getTranslatedCommentary(s.reference, commentary)}</p>
                       ) : (
                         <p className="text-sm text-muted-foreground italic">{t.noCommentary}</p>
                       )
