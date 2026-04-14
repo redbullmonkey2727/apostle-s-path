@@ -550,8 +550,8 @@ const PaulMap = () => {
               </button>
             </div>
           )}
-          {/* Top-right: PDF */}
-          <div className="absolute top-3 right-3 z-[1000]">
+          {/* Bottom-left: PDF */}
+          <div className="absolute bottom-3 left-3 z-[1000]">
             <button
               onClick={() => generateScripturePdf(activeTopic)}
               className="bg-card/90 border border-border rounded-lg px-3 py-1.5 flex items-center gap-1.5 text-xs text-muted-foreground hover:text-foreground hover:bg-card shadow-sm transition-colors"
