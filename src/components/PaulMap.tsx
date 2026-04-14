@@ -436,17 +436,7 @@ const PaulMap = () => {
     return () => window.removeEventListener("keydown", handler);
   }, [closeCity, showTour, toggleDark]);
 
-  const handleShareLink = useCallback(() => {
-    navigator.clipboard.writeText(window.location.href).then(() => {
-      // Brief visual feedback via a toast-like approach
-      const el = document.createElement("div");
-      el.textContent = t.linkCopied;
-      el.className = "fixed top-4 left-1/2 -translate-x-1/2 z-[3000] bg-card border border-border rounded-lg px-4 py-2 text-sm shadow-lg animate-fade-in";
-      document.body.appendChild(el);
-      setTimeout(() => { el.style.opacity = "0"; el.style.transition = "opacity 0.3s"; }, 1500);
-      setTimeout(() => el.remove(), 2000);
-    });
-  }, []);
+
 
   const toggleJourney = (id: string) => {
     setActiveJourneys((prev) =>
