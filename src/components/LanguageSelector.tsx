@@ -7,7 +7,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
-const langs: UILanguage[] = ["en", "es", "fr", "pt", "sv", "no"];
+const langs: UILanguage[] = ["en", "es", "fr", "pt", "sv", "no", "da"];
 
 const LanguageSelector = () => {
   const { lang, setLang } = useTranslation();
