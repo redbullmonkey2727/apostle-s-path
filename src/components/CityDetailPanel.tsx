@@ -312,7 +312,7 @@ const CityDetailPanel = ({ city, onClose, activeTopic, allCities, onCityChange, 
                           <span key={tp} className="text-[9px] md:text-[10px] px-1.5 md:px-2 py-0.5 rounded-full bg-primary/10 text-primary flex items-center gap-0.5">
                             <Tag className="h-2 md:h-2.5 w-2 md:w-2.5" /> {getTranslatedTopic(tp)}
                           </span>
-                        ))
+                        ))}
                       </div>
                     </div>
                     <a
