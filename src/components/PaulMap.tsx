@@ -583,7 +583,7 @@ const PaulMap = () => {
             <TileUpdater tileId={activeTile} />
             <MapLoadingIndicator />
             <MapRef onMap={handleMapRef} />
-            <TileLayer url={tile.url} attribution={tile.attribution} />
+            <TileLayer key={`${activeTile}-${lang}`} url={localizedTileUrl} attribution={tile.attribution} />
 
             {(() => {
               const journeyOrder = ["first", "second", "third", "rome"];
