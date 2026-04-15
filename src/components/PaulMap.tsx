@@ -436,7 +436,17 @@ const PaulMap = () => {
     return () => window.removeEventListener("keydown", handler);
   }, [closeCity, showTour, toggleDark]);
 
-
+  const handleShareLink = useCallback(() => {
+    navigator.clipboard.writeText(window.location.href).then(() => {
+      // Brief visual feedback via a toast-like approach
+      const el = document.createElement("div");
+      el.textContent = t.linkCopied;
+      el.className = "fixed top-4 left-1/2 -translate-x-1/2 z-[3000] bg-card border border-border rounded-lg px-4 py-2 text-sm shadow-lg animate-fade-in";
+      document.body.appendChild(el);
+      setTimeout(() => { el.style.opacity = "0"; el.style.transition = "opacity 0.3s"; }, 1500);
+      setTimeout(() => el.remove(), 2000);
+    });
+  }, []);
 
   const toggleJourney = (id: string) => {
     setActiveJourneys((prev) =>
@@ -445,16 +455,6 @@ const PaulMap = () => {
   };
 
   const tile = tileOptions.find((t) => t.id === activeTile) || tileOptions[0];
-
-  // Add language parameter to Google Maps tiles
-  const { lang } = useTranslation();
-  const localizedTileUrl = useMemo(() => {
-    const langCode = lang === "en" ? "en" : lang;
-    if (tile.id === "google" || tile.id === "satellite") {
-      return tile.url + `&hl=${langCode}`;
-    }
-    return tile.url;
-  }, [tile, lang]);
 
   // Collect all scriptures matching a topic search
   const topicSearchResults = useMemo(() => {
@@ -550,8 +550,8 @@ const PaulMap = () => {
               </button>
             </div>
           )}
-          {/* Bottom-left: PDF */}
-          <div className="absolute bottom-3 left-3 z-[1000]">
+          {/* Top-right: PDF */}
+          <div className="absolute top-3 right-3 z-[1000]">
             <button
               onClick={() => generateScripturePdf(activeTopic)}
               className="bg-card/90 border border-border rounded-lg px-3 py-1.5 flex items-center gap-1.5 text-xs text-muted-foreground hover:text-foreground hover:bg-card shadow-sm transition-colors"
@@ -583,7 +583,7 @@ const PaulMap = () => {
             <TileUpdater tileId={activeTile} />
             <MapLoadingIndicator />
             <MapRef onMap={handleMapRef} />
-            <TileLayer key={`${activeTile}-${lang}`} url={localizedTileUrl} attribution={tile.attribution} />
+            <TileLayer url={tile.url} attribution={tile.attribution} />
 
             {(() => {
               const journeyOrder = ["first", "second", "third", "rome"];

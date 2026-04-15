@@ -350,9 +350,9 @@ export const cities: CityData[] = [
   },
   {
     id: "achaia",
-    name: "Kynaitha (Arkadía)",
-    lat: 38.0317,
-    lng: 22.1093,
+    name: "Achaia (Patras)",
+    lat: 38.2466,
+    lng: 21.7346,
     label: "Gospel of Luke origin",
     estimatedAge: "~59–63 AD",
     type: "letter",

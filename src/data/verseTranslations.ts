@@ -4,9 +4,8 @@
 // Portuguese: João Ferreira de Almeida (Public Domain)
 // Swedish: Swedish Bible 1917 (Public Domain)
 // Norwegian: Norwegian Bible 1906/1930 (Public Domain)
-// Danish: Bibelen 1992 (Det Danske Bibelselskab)
 
-export const verseTranslations: Record<string, Partial<Record<"es"|"fr"|"pt"|"sv"|"no"|"da", string>>> = {
+export const verseTranslations: Record<string, Partial<Record<"es"|"fr"|"pt"|"sv"|"no", string>>> = {
  "Acts 2:17-18": {
  es: " Y será en los postreros días, dice Dios, derramaré de mi Espíritu sobre toda carne, y vuestros hijos y vuestras hijas profetizarán; y vuestros mancebos verán visiones, y vuestros viejos soñarán sueños: Y de cierto sobre mis siervos y sobre mis siervas en aquellos días derramaré de mi Espíritu, y profetizarán.",
  fr: "Dans les derniers jours, dit Dieu, je répandrai de mon Esprit sur toute chair; Vos fils et vos filles prophétiseront, Vos jeunes gens auront des visions, Et vos vieillards auront des songes. Oui, sur mes serviteurs et sur mes servantes, Dans ces jours-là, je répandrai de mon Esprit; et ils prophétiseront.",

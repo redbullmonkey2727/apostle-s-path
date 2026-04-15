@@ -1,4 +1,4 @@
-export type UILanguage = "en" | "es" | "fr" | "pt" | "sv" | "no" | "da";
+export type UILanguage = "en" | "es" | "fr" | "pt" | "sv" | "no";
 
 /** Labels for the Bible translation shown in each language */
 export const bibleTranslationLabels: Record<UILanguage, string> = {
@@ -8,18 +8,6 @@ export const bibleTranslationLabels: Record<UILanguage, string> = {
   pt: "Almeida",
   sv: "Svenska Bibeln 1917",
   no: "Norsk Bibelen 1906",
-  da: "Bibelen 1992",
-};
-
-/** Google Maps language codes */
-export const mapLanguageCodes: Record<UILanguage, string> = {
-  en: "en",
-  es: "es",
-  fr: "fr",
-  pt: "pt",
-  sv: "sv",
-  no: "no",
-  da: "da",
 };
 
 export const languageLabels: Record<UILanguage, string> = {
@@ -29,7 +17,6 @@ export const languageLabels: Record<UILanguage, string> = {
   pt: "Português",
   sv: "Svenska",
   no: "Norsk",
-  da: "Dansk",
 };
 
 // All translatable UI strings
@@ -461,64 +448,4 @@ const no: TranslationStrings = {
   searchMobile: "Søk emner, byer, forfattere…",
 };
 
-const da: TranslationStrings = {
-  siteTitle: "Det Nye Testamentes Verden: Apostle, Breve og Rejser",
-  siteSubtitle: "Et dybt dyk ned i omstændighederne bag Det Nye Testamentes referencer, der peger mod Jesu Kristi Genoprettede Kirke.",
-  bibleListLink: "Bibelliste med alle inkluderede referencer til videre læsning ↗",
-
-  welcomeTitle: "Det Nye Testamentes Verden",
-  welcomeBody: "Velkommen til et interaktivt kort over apostlenes rejser — der sporer hvornår og under hvilke omstændigheder de skrev lære, der peger mod Jesu Kristi Genoprettede Kirke. Min hensigt var at give bibelstuderende et nærmere og mere intimt indblik i, hvor vanskelige og specielle omstændighederne var, som de unge apostle stod over for, da de forsøgte at nedskrive lærdomme og opbygge Guds kirke (ApG 15:4-23, 39; 2 Kor 11:25-33). Deres ord, skrevet midt i lidelse og åbenbaring, har stor relevans i dag. Prøv at skifte mellem kortstile (gade, terræn, satellit) i lagkontrollen — hver visning fremhæver forskellige detaljer i den antikke verden.",
-  howToExplore: "Sådan udforsker du",
-  clickCityDot: "Klik på en byprik for at se dens breve, skriftsteder og kommentarer",
-  searchTopics: "Søg efter emner som \"Guddommen\" eller \"Præstedømmet\" for en komplet liste over skriftsteder",
-  guidedTourDesc: "Den guidede tur fører dig gennem Paulus' rejser trin for trin",
-  shortcutsDesc: "Genveje: ← → byer, T tur, D mørk tilstand, Esc luk",
-  startExploring: "Begynd at Udforske",
-  takeTheTour: "Tag Turen",
-
-  apostolicJourneys: "Apostoliske Rejser",
-  toggleToShowHide: "Skift for at vise/skjule ruter",
-  guidedTour: "Guidet Tur",
-  searchPlaceholder: "Søg byer, lærespørgsmål eller forfattere…",
-  filterByTopic: "Filtrer efter Emne",
-  allTopics: "Alle Emner",
-  mapStyle: "Kortstil",
-  writersAndMarkers: "Forfattere og Markører",
-  dotSizeReflects: "Prikkens størrelse afspejler antallet af skriftsteder",
-  journeyRoutes: "Rejseruter",
-  traveled: "rejst",
-  showIntroduction: "Vis Introduktionen",
-
-  scripturesExplored: "Udforskede Skriftsteder",
-  explored: "udforsket",
-
-  timeline: "Tidslinje",
-  epistles: "Breve",
-  historicalEvents: "Historiske Begivenheder",
-
-  map: "Kort",
-  kjv: "KJV",
-  nrsv: "NRSV (2021)",
-  application: "Anvendelse",
-  noCommentary: "Ingen kommentar tilgængelig.",
-  noScripturesMatch: "Ingen skriftsteder matcher det valgte emne.",
-  readOnChurch: "Læs på ChurchofJesusChrist.org",
-  removeBookmark: "Fjern bogmærke",
-  bookmarkScripture: "Bogmærk dette skriftsted",
-  summer: "Sommer",
-  winter: "Vinter",
-  fromAntioch: "fra Antiokia",
-
-  viewScriptures: "Vis {count} skriftsted{s}er",
-
-  loadingMap: "Indlæser kort…",
-  hidePanel: "Skjul Panel",
-  menu: "Menu",
-  pdf: "PDF",
-  linkCopied: "📋 Link kopieret!",
-  shareWithFriends: "Del med Venner",
-  downloadPdf: "Download PDF med skriftsteder",
-  searchMobile: "Søg emner, byer, forfattere…",
-};
-
-export const translations: Record<UILanguage, TranslationStrings> = { en, es, fr, pt, sv, no, da };
+export const translations: Record<UILanguage, TranslationStrings> = { en, es, fr, pt, sv, no };
