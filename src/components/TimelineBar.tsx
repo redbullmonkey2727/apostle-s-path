@@ -3,6 +3,7 @@ import { Calendar, Landmark } from "lucide-react";
 import { useMemo, useState } from "react";
 import { useTranslation } from "@/i18n/LanguageContext";
 import { eventTranslations } from "@/data/eventTranslations";
+import { translateEpistleName } from "@/data/cityFieldTranslations";
 
 interface TimelineBarProps {
   onCitySelect: (city: CityData) => void;
@@ -38,7 +39,7 @@ const TimelineBar = ({ onCitySelect, selectedCityId }: TimelineBarProps) => {
         type: "epistle" as const,
         city: c,
         year: parseYear(c.estimatedAge),
-        label: c.epistleName || c.name,
+        label: translateEpistleName(c.epistleName, lang) || c.name,
         id: `epistle-${c.id}`,
       }));
 

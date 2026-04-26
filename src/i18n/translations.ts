@@ -75,6 +75,8 @@ export interface TranslationStrings {
   summer: string;
   winter: string;
   fromAntioch: string;
+  yrsOld: string;
+  written: string;
 
   // Guided Tour
   viewScriptures: string;
@@ -137,6 +139,8 @@ const en: TranslationStrings = {
   summer: "Summer",
   winter: "Winter",
   fromAntioch: "from Antioch",
+  yrsOld: "yrs old",
+  written: "written",
 
   viewScriptures: "View {count} scripture{s}",
 
@@ -197,6 +201,8 @@ const es: TranslationStrings = {
   summer: "Verano",
   winter: "Invierno",
   fromAntioch: "desde Antioquía",
+  yrsOld: "años",
+  written: "escrito",
 
   viewScriptures: "Ver {count} escritura{s}",
 
@@ -257,6 +263,8 @@ const fr: TranslationStrings = {
   summer: "Été",
   winter: "Hiver",
   fromAntioch: "d'Antioche",
+  yrsOld: "ans",
+  written: "écrit",
 
   viewScriptures: "Voir {count} écriture{s}",
 
@@ -317,6 +325,8 @@ const pt: TranslationStrings = {
   summer: "Verão",
   winter: "Inverno",
   fromAntioch: "de Antioquia",
+  yrsOld: "anos",
+  written: "escrito",
 
   viewScriptures: "Ver {count} escritura{s}",
 
@@ -377,6 +387,8 @@ const sv: TranslationStrings = {
   summer: "Sommar",
   winter: "Vinter",
   fromAntioch: "från Antiochia",
+  yrsOld: "år",
+  written: "skriven",
 
   viewScriptures: "Visa {count} skrift{s}er",
 
@@ -437,6 +449,8 @@ const no: TranslationStrings = {
   summer: "Sommer",
   winter: "Vinter",
   fromAntioch: "fra Antiokia",
+  yrsOld: "år",
+  written: "skrevet",
 
   viewScriptures: "Vis {count} skrift{s}er",
 
@@ -497,6 +511,8 @@ const da: TranslationStrings = {
   summer: "Sommer",
   winter: "Vinter",
   fromAntioch: "fra Antiokia",
+  yrsOld: "år",
+  written: "skrevet",
 
   viewScriptures: "Se {count} skrift{s}",
 

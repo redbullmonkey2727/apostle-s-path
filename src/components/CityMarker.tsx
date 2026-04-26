@@ -1,6 +1,8 @@
 import { CircleMarker, Tooltip, useMap } from "react-leaflet";
 import { useEffect, useRef, useCallback } from "react";
 import { CityData } from "@/data/paulData";
+import { useTranslation } from "@/i18n/LanguageContext";
+import { translateCityLabel, translateEpistleName } from "@/data/cityFieldTranslations";
 
 interface CityMarkerProps {
   city: CityData;
@@ -94,6 +96,7 @@ function getSummary(ref: string): string {
 }
 
 const CityMarker = ({ city, onClick }: CityMarkerProps) => {
+  const { t, lang } = useTranslation();
   const totalRefs = city.scriptures.length;
   const previewScriptures = city.scriptures.slice(0, 3);
   const markerRef = useRef<any>(null);
@@ -152,10 +155,10 @@ const CityMarker = ({ city, onClick }: CityMarkerProps) => {
                 {totalRefs} ref{totalRefs !== 1 ? "s" : ""}
               </span>
             </div>
-            <p className="text-xs text-muted-foreground mt-0.5">{city.label}</p>
+            <p className="text-xs text-muted-foreground mt-0.5">{translateCityLabel(city.id, city.label, lang)}</p>
             {city.epistleName && (
               <p className="text-[10px] text-muted-foreground italic mt-0.5">
-                {city.epistleName} — written {city.estimatedAge}
+                {translateEpistleName(city.epistleName, lang)} — {t.written} {city.estimatedAge}
               </p>
             )}
             <div className="flex flex-wrap gap-1 mt-1">
