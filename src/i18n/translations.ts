@@ -77,6 +77,10 @@ export interface TranslationStrings {
   fromAntioch: string;
   yrsOld: string;
   written: string;
+  lightMode: string;
+  darkMode: string;
+  showPanel: string;
+  language: string;
 
   // Guided Tour
   viewScriptures: string;
