@@ -316,7 +316,7 @@ export const journeys: JourneyData[] = [
     color: "hsl(38, 70%, 50%)",
     dateRange: "AD 59–60",
     durationNote: "~6 months",
-    travelNote: "Paul sailed as a prisoner under centurion Julius (Acts 27:1). From Caesarea to Sidon, then along Cilicia's coast to Myra, transferred to an Alexandrian grain ship. Caught in the Northeaster (Euraquilo) storm for 14 days (Acts 27:27), shipwrecked on Malta for 3 months, then sailed via Syracuse and Rhegium to Puteoli, arriving in Rome on foot via the Appian Way.",
+    travelNote: "Paul sailed as a prisoner under centurion Julius (Acts 27:1). From Caesarea to Sidon, then sheltered behind the lee (north) side of Cyprus due to contrary winds (Acts 27:4), passing Cilicia and Pamphylia to Myra of Lycia. Transferred to an Alexandrian grain ship; struggled past Cnidus, sailed under the lee of Crete to Fair Havens, then was caught by the Euraquilo for 14 days (Acts 27:27) and wrecked on Malta. After 3 months, sailed on the Castor & Pollux to Syracuse and Rhegium, landed at Puteoli, and walked the Appian Way via Forum of Appius and Three Taverns to Rome.",
     path: [
       // Caesarea → Sidon → north of Cyprus (lee side, Acts 27:4) → coast of Cilicia/Pamphylia → Myra → Cnidus → south of Crete (Salmone, Fair Havens) → Euraquilo storm → Malta → Syracuse → Rhegium → Puteoli → Forum of Appius → Three Taverns → Rome
       [32.53, 34.89],   // Caesarea (departure)
