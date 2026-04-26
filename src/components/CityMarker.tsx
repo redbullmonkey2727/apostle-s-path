@@ -3,6 +3,7 @@ import { useEffect, useRef, useCallback } from "react";
 import { CityData } from "@/data/paulData";
 import { useTranslation } from "@/i18n/LanguageContext";
 import { translateCityLabel, translateEpistleName } from "@/data/cityFieldTranslations";
+import { scriptureSummaryTranslations } from "@/data/scriptureSummaryTranslations";
 
 interface CityMarkerProps {
   city: CityData;
@@ -87,12 +88,27 @@ const summaries: Record<string, string> = {
   "Revelation 20:12": "Dead judged out of the books",
 };
 
-function getSummary(ref: string): string {
-  if (summaries[ref]) return summaries[ref];
-  for (const key of Object.keys(summaries)) {
-    if (ref.includes(key) || key.includes(ref)) return summaries[key];
-  }
-  return "";
+function getSummary(ref: string, lang: string): string {
+  const lookup = (r: string): string => {
+    if (summaries[r]) {
+      if (lang !== "en") {
+        const tr = scriptureSummaryTranslations[r]?.[lang as "es"|"fr"|"pt"|"sv"|"no"|"da"];
+        if (tr) return tr;
+      }
+      return summaries[r];
+    }
+    for (const key of Object.keys(summaries)) {
+      if (r.includes(key) || key.includes(r)) {
+        if (lang !== "en") {
+          const tr = scriptureSummaryTranslations[key]?.[lang as "es"|"fr"|"pt"|"sv"|"no"|"da"];
+          if (tr) return tr;
+        }
+        return summaries[key];
+      }
+    }
+    return "";
+  };
+  return lookup(ref);
 }
 
 const CityMarker = ({ city, onClick }: CityMarkerProps) => {
