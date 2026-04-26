@@ -3,7 +3,7 @@ export type UILanguage = "en" | "es" | "fr" | "pt" | "sv" | "no" | "da";
 /** Labels for the Bible translation shown in each language */
 export const bibleTranslationLabels: Record<UILanguage, string> = {
   en: "KJV",
-  es: "Reina-Valera 1909",
+  es: "Reina-Valera 1995",
   fr: "Louis Segond 1910",
   pt: "Almeida",
   sv: "Svenska Bibeln 1917",

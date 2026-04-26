@@ -9,60 +9,68 @@ export const journeys: JourneyData[] = [
     durationNote: "~2 years",
     travelNote: "Barnabas & Saul sailed from Seleucia to Cyprus, then crossed to Pamphylia. Overland through Pisidian Antioch, Iconium, Lystra, Derbe, then retraced their route. Ancient foot travel averaged ~20 mi/day on Roman roads; sea crossings ~100 mi/day with favorable winds.",
     path: [
-      // Antioch (Syria) → Seleucia → Salamis → Paphos → Perga → Pisidian Antioch → Iconium → Lystra → Derbe → return
-      [36.20, 36.15],   // Antioch
-      [36.12, 35.95],   // heading to coast
-      [36.05, 35.80],   // Seleucia approach
-      [35.95, 35.60],   // coast
-      [35.80, 35.20],   // open water
-      [35.55, 34.50],   // Cyprus north coast approach
-      [35.20, 33.95],   // Salamis
-      [35.05, 33.60],   // along Cyprus south coast
-      [34.85, 33.20],
+      // Antioch (Syria) → Seleucia → Salamis → across Cyprus → Paphos → Perga → Pisidian Antioch → Iconium → Lystra → Derbe → return → Attalia → Antioch
+      [36.20, 36.16],   // Antioch (Syria)
+      [36.16, 36.05],
+      [36.12, 35.92],   // Seleucia Pieria (port)
+      [36.05, 35.70],   // open sea
+      [35.85, 35.30],
+      [35.55, 34.80],
+      [35.25, 34.30],
+      [35.18, 33.90],   // Salamis (east Cyprus)
+      [35.05, 33.55],
+      [34.92, 33.10],
+      [34.82, 32.70],
       [34.76, 32.42],   // Paphos
-      [34.80, 32.00],   // departing Cyprus
-      [35.10, 31.50],   // crossing to Pamphylia
-      [35.60, 31.10],
-      [36.10, 30.85],
-      [36.50, 30.75],
-      [36.92, 30.69],   // Perga
-      [37.10, 30.55],
-      [37.30, 30.45],
-      [37.50, 30.35],
-      [37.65, 30.30],
+      [34.85, 32.10],
+      [35.05, 31.70],
+      [35.40, 31.40],
+      [35.85, 31.15],
+      [36.30, 30.95],
+      [36.65, 30.82],
+      [36.83, 30.69],   // Attalia (port arrival area)
+      [36.92, 30.79],   // Perga
+      [37.10, 30.70],
+      [37.30, 30.55],
+      [37.50, 30.45],
+      [37.65, 30.38],
       [37.76, 30.29],   // Pisidian Antioch
-      [37.78, 30.50],
-      [37.76, 30.80],
+      [37.78, 30.55],
+      [37.77, 30.85],
       [37.73, 31.15],   // Iconium
-      [37.80, 31.35],
-      [37.90, 31.55],
-      [38.05, 31.70],
-      [38.20, 31.80],
+      [37.85, 31.40],
+      [38.00, 31.60],
+      [38.20, 31.78],
       [38.35, 31.87],   // Lystra
-      [38.15, 32.10],
-      [37.95, 32.30],
-      [37.87, 32.49],   // Derbe
-      // Return journey
-      [37.95, 32.30],
-      [38.15, 32.10],
+      [38.20, 32.05],
+      [38.05, 32.25],
+      [37.95, 32.40],
+      [37.87, 32.49],   // Derbe (turnaround)
+      // Return: Derbe → Lystra → Iconium → Pisidian Antioch → Perga → Attalia → sail → Antioch
+      [37.95, 32.40],
+      [38.10, 32.15],
+      [38.25, 31.98],
       [38.35, 31.87],   // Lystra (return)
-      [38.20, 31.80],
-      [37.90, 31.55],
+      [38.10, 31.55],
+      [37.90, 31.35],
       [37.73, 31.15],   // Iconium (return)
-      [37.76, 30.80],
+      [37.76, 30.85],
+      [37.78, 30.55],
       [37.76, 30.29],   // Pisidian Antioch (return)
-      [37.50, 30.35],
-      [37.10, 30.55],
-      [36.92, 30.69],   // Perga (return)
-      [36.83, 30.61],   // Attalia
-      [36.60, 31.00],
-      [36.40, 31.80],
-      [36.20, 32.80],
-      [36.00, 33.80],
-      [35.90, 34.80],
-      [36.05, 35.50],
-      [36.12, 35.95],
-      [36.20, 36.15],   // Antioch
+      [37.55, 30.40],
+      [37.30, 30.55],
+      [37.05, 30.65],
+      [36.92, 30.79],   // Perga (return)
+      [36.83, 30.69],   // Attalia (sail home)
+      [36.55, 31.05],
+      [36.25, 31.70],
+      [36.00, 32.50],
+      [35.85, 33.40],
+      [35.85, 34.30],
+      [35.95, 35.10],
+      [36.05, 35.65],
+      [36.12, 35.92],   // Seleucia
+      [36.20, 36.16],   // Antioch
     ],
     shipwrecks: [
       {
@@ -83,79 +91,90 @@ export const journeys: JourneyData[] = [
     durationNote: "~3 years",
     travelNote: "Paul & Silas traveled overland through Syria, Cilicia, Derbe, Lystra, then across Phrygia and Galatia. A vision called them to Macedonia (Acts 16:9). Sea crossings to Neapolis, then overland to Philippi, Thessalonica, Berea, Athens, and Corinth (18-month stay per Acts 18:11). Return via Ephesus and Caesarea.",
     path: [
-      // Antioch → overland through Cilician Gates → Derbe → Lystra → Iconium → Phrygia → Galatia → Troas → Macedonia → Greece → return
-      [36.20, 36.15],   // Antioch
-      [36.50, 35.80],
-      [36.80, 35.40],
-      [37.00, 35.00],   // Tarsus area
-      [37.20, 34.60],
-      [37.40, 34.20],   // Cilician Gates
-      [37.60, 33.80],
-      [37.75, 33.30],
-      [37.85, 32.80],
+      // Antioch → Cilician Gates → Derbe → Lystra → Iconium → Phrygia/Galatia → Troas → Samothrace → Neapolis → Philippi → Thessalonica → Berea → Athens → Corinth → Cenchreae → Ephesus → Caesarea → Jerusalem → Antioch
+      [36.20, 36.16],   // Antioch
+      [36.45, 35.95],
+      [36.70, 35.65],
+      [36.92, 35.32],   // approach Tarsus
+      [36.95, 34.90],   // Tarsus
+      [37.10, 34.65],
+      [37.30, 34.45],   // Cilician Gates pass
+      [37.50, 34.10],
+      [37.70, 33.70],
+      [37.85, 33.20],
+      [37.90, 32.85],
       [37.87, 32.49],   // Derbe
-      [38.10, 32.10],
+      [38.05, 32.20],
+      [38.20, 32.05],
       [38.35, 31.87],   // Lystra (Timothy joins)
-      [38.05, 31.50],
+      [38.10, 31.50],
+      [37.90, 31.30],
       [37.73, 31.15],   // Iconium
-      [38.00, 30.80],
-      [38.30, 30.50],
-      [38.70, 30.30],   // Phrygia
-      [39.10, 30.50],
-      [39.40, 31.00],
-      [39.65, 31.50],   // Galatia region
-      [39.80, 31.20],
-      [39.90, 30.60],
-      [40.00, 30.00],
-      [40.05, 29.50],
-      [40.19, 29.07],   // Troas (vision of Macedonian man)
-      [40.30, 28.50],
-      [40.45, 27.50],
-      [40.55, 26.80],
-      [40.72, 26.00],   // Samothrace
-      [40.85, 25.20],
-      [40.94, 24.41],   // Neapolis
+      [37.95, 30.80],
+      [38.20, 30.50],
+      [38.55, 30.25],
+      [38.95, 30.15],   // Phrygia
+      [39.30, 30.20],
+      [39.65, 30.45],
+      [39.90, 30.10],
+      [40.05, 29.65],
+      [40.10, 29.20],
+      [40.15, 28.70],
+      [40.18, 28.10],
+      [40.19, 27.55],
+      [40.19, 27.00],
+      [40.05, 26.40],
+      [39.96, 26.16],   // Troas (vision)
+      [40.20, 25.90],
+      [40.45, 25.55],
+      [40.50, 25.52],   // Samothrace (overnight)
+      [40.70, 25.20],
+      [40.85, 24.85],
+      [40.94, 24.41],   // Neapolis (port)
       [41.01, 24.29],   // Philippi
-      [40.95, 23.90],
-      [40.80, 23.50],
+      [40.95, 23.95],
+      [40.80, 23.55],
       [40.64, 22.94],   // Thessalonica
-      [40.52, 22.70],
-      [40.38, 22.50],
+      [40.55, 22.75],
+      [40.45, 22.55],
       [40.31, 22.39],   // Berea
-      [40.10, 22.50],
-      [39.80, 22.60],
-      [39.40, 22.80],
-      [39.00, 23.10],
-      [38.60, 23.30],
-      [38.20, 23.50],
+      [40.05, 22.55],   // sail south
+      [39.65, 22.75],
+      [39.20, 23.00],
+      [38.75, 23.20],
+      [38.30, 23.45],
+      [38.05, 23.60],
       [37.97, 23.72],   // Athens
-      [37.96, 23.40],
-      [37.93, 23.10],
+      [37.93, 23.45],
+      [37.90, 23.15],
       [37.91, 22.88],   // Corinth (18 months)
-      // Return via Ephesus
-      [37.93, 23.10],
-      [37.96, 23.40],
-      [37.90, 24.00],
-      [37.85, 25.00],
-      [37.88, 26.00],
-      [37.94, 27.34],   // Ephesus (brief visit)
-      [37.70, 27.80],
-      [37.30, 28.50],
-      [36.80, 29.50],
-      [36.30, 30.50],
-      [35.80, 31.50],
-      [35.30, 32.50],
-      [34.50, 33.50],
-      [33.50, 34.30],
-      [32.80, 34.80],
+      [37.88, 22.99],   // Cenchreae (port — Acts 18:18)
+      [37.80, 23.40],
+      [37.65, 24.10],
+      [37.65, 24.90],
+      [37.75, 25.70],
+      [37.85, 26.50],
+      [37.94, 27.34],   // Ephesus (brief)
+      [37.55, 27.70],
+      [37.05, 28.30],
+      [36.50, 29.10],
+      [35.95, 30.05],
+      [35.40, 31.10],
+      [34.85, 32.20],
+      [34.20, 33.10],
+      [33.55, 33.85],
+      [32.95, 34.50],
       [32.53, 34.89],   // Caesarea
-      [32.20, 35.05],
-      [31.77, 35.21],   // Jerusalem
-      [32.20, 35.10],
-      [33.00, 35.50],
-      [34.50, 36.00],
-      [35.50, 36.10],
-      [36.20, 36.15],   // Antioch
+      [32.05, 35.05],
+      [31.77, 35.21],   // Jerusalem (greet church)
+      [32.05, 35.05],
+      [32.55, 35.30],
+      [33.20, 35.65],
+      [33.95, 35.85],
+      [34.70, 36.00],
+      [35.40, 36.10],
+      [35.90, 36.15],
+      [36.20, 36.16],   // Antioch
     ],
     shipwrecks: [
       {
@@ -176,71 +195,108 @@ export const journeys: JourneyData[] = [
     durationNote: "~4 years",
     travelNote: "Paul revisited Galatia and Phrygia overland, then settled in Ephesus for ~2.5 years (Acts 19:10). Traveled through Macedonia to Corinth (3-month stay, Acts 20:3), then returned via Philippi, Troas (Eutychus incident, Acts 20:9), and sailed along the coast to Miletus and on to Jerusalem.",
     path: [
-      // Antioch → Galatia/Phrygia → Ephesus (2+ years) → Macedonia → Greece → return via coast
-      [36.20, 36.15],   // Antioch
-      [36.60, 35.60],
-      [37.00, 35.00],
-      [37.40, 34.20],
-      [37.80, 33.50],
-      [38.30, 33.00],
-      [38.80, 32.50],
-      [39.30, 32.00],
-      [39.65, 31.50],   // Galatia
-      [39.40, 31.00],
-      [39.10, 30.50],
-      [38.70, 29.80],
-      [38.40, 29.00],
-      [38.10, 28.20],
-      [37.94, 27.34],   // Ephesus (long stay ~2.5 years)
-      // To Macedonia & Greece
-      [38.10, 27.00],
-      [38.50, 26.50],
-      [39.00, 26.00],
-      [39.50, 25.50],
-      [39.90, 25.00],
-      [40.19, 29.07],   // Troas (first visit)
-      [40.50, 27.50],
-      [40.80, 26.00],
+      // Antioch → Tarsus → Cilician Gates → Galatia/Phrygia overland → Ephesus (2.5 yrs) → Macedonia → Corinth → return via Macedonia → Troas → Assos → Mitylene → Chios → Samos → Miletus → Cos → Rhodes → Patara → Tyre → Ptolemais → Caesarea → Jerusalem
+      [36.20, 36.16],   // Antioch
+      [36.45, 35.90],
+      [36.70, 35.55],
+      [36.95, 34.90],   // Tarsus
+      [37.15, 34.65],
+      [37.30, 34.45],   // Cilician Gates
+      [37.55, 34.10],
+      [37.80, 33.65],
+      [37.95, 33.15],
+      [37.95, 32.65],
+      [37.87, 32.49],   // Derbe area
+      [38.10, 32.10],
+      [38.35, 31.87],   // Lystra
+      [38.10, 31.50],
+      [37.85, 31.30],
+      [37.73, 31.15],   // Iconium
+      [37.95, 30.85],
+      [38.20, 30.55],
+      [38.55, 30.30],
+      [38.85, 30.05],   // Phrygia
+      [39.10, 29.65],
+      [39.20, 29.10],
+      [39.10, 28.50],
+      [38.85, 28.00],
+      [38.55, 27.65],
+      [38.25, 27.50],
+      [37.94, 27.34],   // Ephesus (~2.5 years)
+      // To Macedonia & Greece (north overland through Asia, then sail)
+      [38.20, 27.20],
+      [38.55, 27.00],
+      [38.95, 26.85],
+      [39.40, 26.75],
+      [39.85, 26.50],
+      [40.19, 26.40],
+      [40.05, 26.40],
+      [39.96, 26.16],   // Troas (first visit)
+      [40.20, 25.85],
+      [40.50, 25.40],
+      [40.75, 24.90],
+      [40.94, 24.41],   // Neapolis
       [41.01, 24.29],   // Philippi
-      [40.80, 23.60],
+      [40.85, 23.85],
       [40.64, 22.94],   // Thessalonica
+      [40.50, 22.70],
       [40.31, 22.39],   // Berea
-      [39.60, 22.60],
-      [38.80, 23.00],
-      [38.20, 23.40],
-      [37.91, 22.88],   // Corinth (3 months in Greece)
-      // Return north
-      [38.20, 23.40],
-      [38.80, 23.00],
-      [39.60, 22.60],
-      [40.31, 22.39],   // Berea
-      [40.64, 22.94],   // Thessalonica
+      [39.85, 22.55],
+      [39.30, 22.85],
+      [38.70, 23.10],
+      [38.20, 23.45],
+      [37.97, 23.72],   // Athens (passing)
+      [37.92, 23.30],
+      [37.91, 22.88],   // Corinth (3 months)
+      // Return north overland (plot against him forced overland route — Acts 20:3)
+      [38.20, 23.10],
+      [38.75, 22.90],
+      [39.30, 22.75],
+      [39.85, 22.50],
+      [40.31, 22.39],   // Berea (return)
+      [40.55, 22.75],
+      [40.64, 22.94],   // Thessalonica (return)
+      [40.85, 23.85],
       [41.01, 24.29],   // Philippi (Passover)
-      // Coastal return
-      [40.60, 25.50],
-      [40.19, 29.07],   // Troas (Eutychus raised)
-      [39.50, 26.90],
+      // Coastal voyage southward
+      [40.85, 24.65],
+      [40.55, 25.30],
+      [40.30, 25.85],
+      [39.96, 26.16],   // Troas (Eutychus raised)
+      [39.65, 26.30],
+      [39.35, 26.40],
       [39.10, 26.55],   // Assos
-      [38.90, 26.35],   // Mitylene
-      [38.50, 26.15],   // Chios
-      [37.95, 26.80],
+      [38.95, 26.45],
+      [38.90, 26.35],   // Mitylene (Lesbos)
+      [38.65, 26.25],
+      [38.40, 26.15],   // Chios
+      [38.05, 26.50],
+      [37.85, 26.85],
       [37.75, 27.09],   // Miletus (farewell to Ephesian elders)
-      [37.40, 27.30],
-      [36.90, 27.50],   // Cos
-      [36.50, 28.00],   // Rhodes approach
+      [37.45, 27.25],
+      [37.10, 27.40],
+      [36.85, 27.30],   // Cos
+      [36.60, 27.65],
+      [36.45, 28.00],
       [36.45, 28.22],   // Rhodes
-      [36.30, 29.00],
+      [36.30, 28.65],
+      [36.20, 29.20],
       [36.18, 29.64],   // Patara
-      [35.80, 30.50],
-      [35.30, 31.50],
-      [34.90, 32.50],
+      [35.95, 30.20],
+      [35.65, 30.95],
+      [35.30, 31.65],
+      [34.95, 32.30],
+      [34.70, 32.85],
       [34.68, 33.04],   // Tyre (7 days)
-      [34.20, 33.80],
-      [33.20, 35.00],
+      [34.30, 33.55],
+      [33.85, 34.10],
+      [33.30, 34.65],
       [32.82, 34.99],   // Ptolemais
+      [32.65, 34.95],
       [32.53, 34.89],   // Caesarea (Philip's house)
-      [32.20, 35.00],
-      [31.90, 35.10],
+      [32.30, 34.95],
+      [32.05, 35.05],
+      [31.90, 35.15],
       [31.77, 35.21],   // Jerusalem (arrest)
     ],
     shipwrecks: [
@@ -260,56 +316,85 @@ export const journeys: JourneyData[] = [
     color: "hsl(38, 70%, 50%)",
     dateRange: "AD 59–60",
     durationNote: "~6 months",
-    travelNote: "Paul sailed as a prisoner under centurion Julius (Acts 27:1). From Caesarea to Sidon, then along Cilicia's coast to Myra, transferred to an Alexandrian grain ship. Caught in the Northeaster (Euraquilo) storm for 14 days (Acts 27:27), shipwrecked on Malta for 3 months, then sailed via Syracuse and Rhegium to Puteoli, arriving in Rome on foot via the Appian Way.",
+    travelNote: "Paul sailed as a prisoner under centurion Julius (Acts 27:1). From Caesarea to Sidon, then sheltered behind the lee (north) side of Cyprus due to contrary winds (Acts 27:4), passing Cilicia and Pamphylia to Myra of Lycia. Transferred to an Alexandrian grain ship; struggled past Cnidus, sailed under the lee of Crete to Fair Havens, then was caught by the Euraquilo for 14 days (Acts 27:27) and wrecked on Malta. After 3 months, sailed on the Castor & Pollux to Syracuse and Rhegium, landed at Puteoli, and walked the Appian Way via Forum of Appius and Three Taverns to Rome.",
     path: [
-      // Caesarea → Sidon → south of Cyprus → Myra → Cnidus → Crete → Malta → Syracuse → Rhegium → Puteoli → Rome
-      [32.53, 34.89],   // Caesarea
-      [32.80, 35.00],
+      // Caesarea → Sidon → north of Cyprus (lee side, Acts 27:4) → coast of Cilicia/Pamphylia → Myra → Cnidus → south of Crete (Salmone, Fair Havens) → Euraquilo storm → Malta → Syracuse → Rhegium → Puteoli → Forum of Appius → Three Taverns → Rome
+      [32.53, 34.89],   // Caesarea (departure)
+      [32.85, 35.05],
       [33.20, 35.20],
-      [33.56, 35.37],   // Sidon
-      [34.00, 35.00],
-      [34.50, 34.50],
-      [35.00, 33.50],
-      [35.40, 32.50],   // south of Cyprus
-      [35.80, 31.50],
-      [36.00, 30.50],
-      [36.10, 29.80],
-      [36.14, 29.64],   // Myra (change ships)
-      [36.10, 29.00],
-      [36.00, 28.20],
-      [35.80, 27.50],
-      [35.60, 27.00],
-      [35.50, 26.50],
-      [35.40, 26.00],   // Cnidus
-      [35.30, 25.50],
-      [35.28, 24.47],   // Fair Havens, Crete
-      [35.30, 23.80],
-      [35.35, 23.00],   // Cape Matala
-      [35.40, 22.00],   // Storm - Euraquilo
-      [35.50, 20.50],
-      [35.60, 19.00],
-      [35.70, 17.50],
-      [35.80, 16.50],
-      [35.88, 15.50],
-      [35.90, 14.50],   // Malta approach
-      [35.90, 14.42],   // Malta (3 months)
-      // Malta to Rome
-      [36.20, 14.45],
-      [36.60, 14.80],
-      [37.07, 15.29],   // Syracuse (3 days)
-      [37.50, 15.45],
-      [38.10, 15.65],   // Rhegium
-      [38.50, 15.50],
-      [39.00, 15.20],
-      [39.50, 14.80],
-      [40.00, 14.50],
-      [40.50, 14.30],
-      [40.85, 14.27],   // Puteoli (Pozzuoli)
-      [41.00, 14.00],
-      [41.20, 13.50],
-      [41.40, 13.00],
-      [41.60, 12.80],
-      [41.90, 12.50],   // Rome
+      [33.56, 35.37],   // Sidon (Acts 27:3)
+      [33.95, 35.35],
+      [34.40, 35.30],
+      [34.85, 35.20],
+      [35.20, 34.90],   // approach Cyprus
+      [35.40, 34.50],   // skirt north (lee) side of Cyprus
+      [35.55, 34.00],
+      [35.65, 33.40],
+      [35.70, 32.80],
+      [35.85, 32.20],
+      [36.00, 31.55],
+      [36.05, 30.85],
+      [36.10, 30.30],
+      [36.14, 29.98],
+      [36.26, 29.99],   // Myra of Lycia (transfer to Alexandrian grain ship — Acts 27:5-6)
+      [36.20, 29.40],
+      [36.10, 28.85],
+      [35.95, 28.30],
+      [35.75, 27.80],
+      [35.55, 27.40],
+      [35.40, 27.05],
+      [36.69, 27.38],   // Cnidus (with difficulty — Acts 27:7)
+      [35.65, 26.55],
+      [35.45, 26.30],
+      [35.30, 26.20],   // Salmone (east cape of Crete)
+      [35.15, 25.65],
+      [35.05, 25.10],
+      [34.95, 24.70],
+      [34.92, 24.50],
+      [34.90, 24.45],   // Fair Havens (near Lasea — Acts 27:8)
+      [34.95, 24.20],
+      [35.00, 23.85],
+      [35.05, 23.40],   // departing toward Phoenix
+      // Euraquilo storm — driven southwest, then west, then west-northwest past Cauda
+      [34.85, 23.95],
+      [34.55, 24.10],   // Cauda (Clauda — Acts 27:16)
+      [34.70, 23.50],
+      [34.95, 22.70],
+      [35.20, 21.80],
+      [35.40, 20.80],
+      [35.55, 19.70],
+      [35.65, 18.50],
+      [35.75, 17.30],
+      [35.82, 16.20],
+      [35.88, 15.20],
+      [35.90, 14.65],
+      [35.90, 14.42],   // Malta — wreck at St. Paul's Bay (3 months)
+      // Spring sailing on the Castor & Pollux (Acts 28:11)
+      [36.10, 14.50],
+      [36.45, 14.75],
+      [36.80, 15.05],
+      [37.07, 15.29],   // Syracuse (3 days — Acts 28:12)
+      [37.40, 15.40],
+      [37.75, 15.55],
+      [38.10, 15.65],   // Rhegium (Acts 28:13)
+      [38.40, 15.55],
+      [38.80, 15.30],
+      [39.20, 15.05],
+      [39.65, 14.80],
+      [40.10, 14.55],
+      [40.50, 14.40],
+      [40.75, 14.30],
+      [40.83, 14.12],   // Puteoli (Pozzuoli — landed; Acts 28:13)
+      [40.95, 14.05],
+      [41.10, 13.85],
+      [41.25, 13.65],
+      [41.42, 13.35],   // Forum of Appius (Acts 28:15)
+      [41.55, 13.05],
+      [41.65, 12.85],
+      [41.72, 12.75],   // Three Taverns (Acts 28:15)
+      [41.80, 12.65],
+      [41.88, 12.55],
+      [41.90, 12.50],   // Rome (Acts 28:16)
     ],
     shipwrecks: [
       {
