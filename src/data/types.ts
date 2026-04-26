@@ -2,7 +2,7 @@ export type WriterType = "paul" | "peter" | "john" | "james" | "jude" | "hebrews
 export type CityType = "visited" | "letter" | "both";
 
 /** Supported Bible translation keys */
-export type TranslationKey = "kjv" | "nrsv" | "es" | "fr" | "pt" | "sv" | "no";
+export type TranslationKey = "kjv" | "nrsv" | "es" | "fr" | "pt" | "sv" | "no" | "da";
 
 export const translationMeta: Record<TranslationKey, { label: string; fullName: string }> = {
   kjv: { label: "KJV", fullName: "King James Version" },
@@ -12,6 +12,7 @@ export const translationMeta: Record<TranslationKey, { label: string; fullName: 
   pt: { label: "Português", fullName: "Almeida 1914 (Church Edition)" },
   sv: { label: "Svenska", fullName: "Svenska Folkbibeln 2015 (XP Media)" },
   no: { label: "Norsk", fullName: "Bibelen 2007 (Norsk Bibel A/S)" },
+  da: { label: "Dansk", fullName: "Bibelen 1992 (Danish Bible Society)" },
 };
 
 export interface ScriptureEntry {

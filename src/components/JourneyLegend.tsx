@@ -4,6 +4,8 @@ import { Label } from "@/components/ui/label";
 import { MapPin, BookOpen, Navigation, Tag, PenTool, ChevronDown, Ruler, Clock, Calendar, Moon, Sun, Compass } from "lucide-react";
 import { useState } from "react";
 import { useTranslation } from "@/i18n/LanguageContext";
+import { topicTranslations } from "@/data/topicTranslations";
+import { writerLabelTranslations, writerBioTranslations } from "@/data/writerTranslations";
 
 interface JourneyLegendProps {
   activeJourneys: string[];
@@ -91,7 +93,14 @@ const JourneyLegend = ({
   onShowWelcome,
 }: JourneyLegendProps) => {
   const [topicOpen, setTopicOpen] = useState(false);
-  const { t } = useTranslation();
+  const { t, lang } = useTranslation();
+  const isNonEnglish = lang !== "en";
+  const langKey = lang as "es" | "fr" | "pt" | "sv" | "no" | "da";
+  const tr = (topic: string) => isNonEnglish ? (topicTranslations[topic]?.[langKey] || topic) : topic;
+  const trWriterLabel = (key: string, fallback: string) =>
+    isNonEnglish ? (writerLabelTranslations[key]?.[langKey] || fallback) : fallback;
+  const trWriterBio = (key: string, fallback: string) =>
+    isNonEnglish ? (writerBioTranslations[key]?.[langKey] || fallback) : fallback;
 
   return (
     <div className="w-full lg:w-72 bg-card border border-border rounded-lg p-4 shadow-sm space-y-5 overflow-y-auto max-h-[calc(100vh-6rem)]">
@@ -156,7 +165,7 @@ const JourneyLegend = ({
                   activeTopic === topic ? "bg-primary text-primary-foreground" : "hover:bg-muted text-foreground"
                 }`}
               >
-                {topic}
+                {tr(topic)}
               </button>
             ))}
           </div>
@@ -164,7 +173,7 @@ const JourneyLegend = ({
         {activeTopic && (
           <div className="flex items-center gap-1 text-xs text-primary">
             <Tag className="h-3 w-3" />
-            <span>{activeTopic}</span>
+            <span>{tr(activeTopic)}</span>
             <button onClick={() => onTopicChange("")} className="ml-auto hover:text-destructive">✕</button>
           </div>
         )}
@@ -194,16 +203,18 @@ const JourneyLegend = ({
           <PenTool className="h-3 w-3" /> {t.writersAndMarkers}
         </h3>
         {Object.entries(writerLabels).map(([key, { label, color, bio }]) => {
-          const isMatch = searchQuery.trim().length > 0 && label.toLowerCase().includes(searchQuery.trim().toLowerCase());
+          const trLabel = trWriterLabel(key, label);
+          const trBio = trWriterBio(key, bio);
+          const isMatch = searchQuery.trim().length > 0 && (label.toLowerCase().includes(searchQuery.trim().toLowerCase()) || trLabel.toLowerCase().includes(searchQuery.trim().toLowerCase()));
           return (
             <div key={key}>
               <div className="flex items-center gap-2 text-sm">
                 <div className="w-3 h-3 rounded-full" style={{ backgroundColor: color }} />
-                <span>{label}</span>
+                <span>{trLabel}</span>
               </div>
               {isMatch && (
                 <p className="ml-5 mt-1 text-[11px] leading-snug text-muted-foreground bg-muted/50 rounded-md p-2">
-                  {bio}
+                  {trBio}
                 </p>
               )}
             </div>

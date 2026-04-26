@@ -6,6 +6,10 @@ import { useState, useEffect } from "react";
 import { useTranslation } from "@/i18n/LanguageContext";
 import { bibleTranslationLabels } from "@/i18n/translations";
 import { verseTranslations } from "@/data/verseTranslations";
+import { commentaryTranslations } from "@/data/commentaryTranslations";
+import { topicTranslations } from "@/data/topicTranslations";
+import { writerLabelTranslations } from "@/data/writerTranslations";
+import { contextTranslations } from "@/data/contextTranslations";
 
 interface CityDetailPanelProps {
   city: CityData;
@@ -123,11 +127,33 @@ const CityDetailPanel = ({ city, onClose, activeTopic, allCities, onCityChange, 
   const { t, lang } = useTranslation();
   const isNonEnglish = lang !== "en";
   const translationLabel = bibleTranslationLabels[lang];
+  type LangKey = "es" | "fr" | "pt" | "sv" | "no" | "da";
+  const langKey = lang as LangKey;
 
   const getTranslatedVerse = (reference: string): string | null => {
     if (!isNonEnglish) return null;
-    const langKey = lang as "es" | "fr" | "pt" | "sv" | "no";
     return verseTranslations[reference]?.[langKey] || null;
+  };
+
+  const getTranslatedCommentary = (reference: string, fallback: string): string => {
+    if (!isNonEnglish) return fallback;
+    return commentaryTranslations[reference]?.[langKey] || fallback;
+  };
+
+  const getTranslatedTopic = (topic: string): string => {
+    if (!isNonEnglish) return topic;
+    return topicTranslations[topic]?.[langKey] || topic;
+  };
+
+  const getTranslatedWriter = (writer: string): string => {
+    const fallback = writerNames[writer] || writer;
+    if (!isNonEnglish) return fallback;
+    return writerLabelTranslations[writer]?.[langKey] || fallback;
+  };
+
+  const getTranslatedContext = (cityName: string, book: string, fallback: string | undefined): string | undefined => {
+    if (!isNonEnglish || !fallback) return fallback;
+    return contextTranslations[cityName]?.[book]?.[langKey] || fallback;
   };
 
   const filteredScriptures = activeTopic
@@ -207,7 +233,7 @@ const CityDetailPanel = ({ city, onClose, activeTopic, allCities, onCityChange, 
               </span>
               {city.writerAges && Object.entries(city.writerAges).map(([w, age]) => (
                 <span key={w} className="px-2 py-0.5 rounded bg-muted text-xs">
-                  {writerNames[w] || w}: {age} yrs old
+                  {getTranslatedWriter(w)}: {age} yrs old
                 </span>
               ))}
               {(() => {
@@ -261,13 +287,15 @@ const CityDetailPanel = ({ city, onClose, activeTopic, allCities, onCityChange, 
             <p className="text-muted-foreground italic text-center py-12">{t.noScripturesMatch}</p>
           )}
           {filteredScriptures.map((s, idx) => {
-            const commentary = getCommentary(s.reference);
+            const rawCommentary = getCommentary(s.reference);
+            const commentary = getTranslatedCommentary(s.reference, rawCommentary);
             const churchUrl = getChurchUrl(s.reference);
             const currentBook = getBookName(s.reference);
             const prevBook = idx > 0 ? getBookName(filteredScriptures[idx - 1].reference) : null;
             const showBookTransition = currentBook !== prevBook;
             const contextMap = bookContextInfo[city.name];
-            const contextNote = contextMap ? contextMap[currentBook] : undefined;
+            const rawContextNote = contextMap ? contextMap[currentBook] : undefined;
+            const contextNote = getTranslatedContext(city.name, currentBook, rawContextNote);
             const isMarked = bookmarks.has(s.reference);
             return (
               <div key={s.reference}>
@@ -284,7 +312,7 @@ const CityDetailPanel = ({ city, onClose, activeTopic, allCities, onCityChange, 
                       <div className="flex items-center gap-2 md:gap-3">
                         <BookOpen className="h-4 w-4 text-primary" />
                         <span className="font-serif text-base md:text-lg font-bold text-foreground">{s.reference}</span>
-                        <span className="text-xs text-muted-foreground">— {writerNames[s.writer]}</span>
+                        <span className="text-xs text-muted-foreground">— {getTranslatedWriter(s.writer)}</span>
                         <button
                           onClick={() => onToggleBookmark(s.reference)}
                           className="p-0.5 rounded hover:bg-muted transition-colors"
@@ -294,9 +322,9 @@ const CityDetailPanel = ({ city, onClose, activeTopic, allCities, onCityChange, 
                         </button>
                       </div>
                       <div className="flex items-center gap-1.5 md:gap-2 flex-wrap">
-                        {s.topics.map((t) => (
-                          <span key={t} className="text-[9px] md:text-[10px] px-1.5 md:px-2 py-0.5 rounded-full bg-primary/10 text-primary flex items-center gap-0.5">
-                            <Tag className="h-2 md:h-2.5 w-2 md:w-2.5" /> {t}
+                        {s.topics.map((tp) => (
+                          <span key={tp} className="text-[9px] md:text-[10px] px-1.5 md:px-2 py-0.5 rounded-full bg-primary/10 text-primary flex items-center gap-0.5">
+                            <Tag className="h-2 md:h-2.5 w-2 md:w-2.5" /> {getTranslatedTopic(tp)}
                           </span>
                         ))}
                       </div>

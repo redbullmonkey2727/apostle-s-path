@@ -1,6 +1,7 @@
 import type { CityData } from "./types";
+import { compareReferences } from "@/lib/scriptureOrder";
 
-export const cities: CityData[] = [
+const citiesRaw: CityData[] = [
   {
     id: "jerusalem",
     name: "Jerusalem",
@@ -375,6 +376,13 @@ export const cities: CityData[] = [
     ],
   },
 ];
+
+// Sort each city's scriptures into canonical NT order so that
+// scriptures grouped under different topics still appear in Biblical order.
+export const cities: CityData[] = citiesRaw.map((c) => ({
+  ...c,
+  scriptures: [...c.scriptures].sort((a, b) => compareReferences(a.reference, b.reference)),
+}));
 
 // Extract all unique topics from scripture data
 export const allTopics: string[] = Array.from(
