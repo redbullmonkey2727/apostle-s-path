@@ -2,6 +2,7 @@ import { cities, CityData, historicalEvents, HistoricalEvent } from "@/data/paul
 import { Calendar, Landmark } from "lucide-react";
 import { useMemo, useState } from "react";
 import { useTranslation } from "@/i18n/LanguageContext";
+import { eventTranslations } from "@/data/eventTranslations";
 
 interface TimelineBarProps {
   onCitySelect: (city: CityData) => void;
@@ -24,7 +25,11 @@ function parseYear(age: string): number {
 
 const TimelineBar = ({ onCitySelect, selectedCityId }: TimelineBarProps) => {
   const [hoveredId, setHoveredId] = useState<string | null>(null);
-  const { t } = useTranslation();
+  const { t, lang } = useTranslation();
+  const isNonEnglish = lang !== "en";
+  const langKey = lang as "es" | "fr" | "pt" | "sv" | "no" | "da";
+  const trEventName = (n: string) => isNonEnglish ? (eventTranslations[n]?.name?.[langKey] || n) : n;
+  const trEventDesc = (n: string, d: string) => isNonEnglish ? (eventTranslations[n]?.description?.[langKey] || d) : d;
 
   const entries = useMemo<TimelineEntry[]>(() => {
     const epistleEntries: TimelineEntry[] = cities
@@ -120,7 +125,7 @@ const TimelineBar = ({ onCitySelect, selectedCityId }: TimelineBarProps) => {
               onMouseLeave={() => setHoveredId(null)}
               className="absolute -translate-x-1/2 group"
               style={{ left: `${Math.min(Math.max(pct, 2), 98)}%`, top: "12px" }}
-              title={`${e.label} (~${e.year} AD)${isEvent && e.event ? `\n${e.event.description}` : ""}`}
+              title={`${isEvent && e.event ? trEventName(e.event.name) : e.label} (~${e.year} AD)${isEvent && e.event ? `\n${trEventDesc(e.event.name, e.event.description)}` : ""}`}
             >
               <div
                 className={`rounded-full border-2 transition-all ${
@@ -142,10 +147,10 @@ const TimelineBar = ({ onCitySelect, selectedCityId }: TimelineBarProps) => {
                     : "text-muted-foreground opacity-0 text-[10px]"
                 }`}
               >
-                {isEvent ? e.event?.name : e.city?.name}
+                {isEvent ? trEventName(e.event!.name) : e.city?.name}
                 {isEvent && isHovered && e.event?.description && (
                   <span className="block text-[9px] text-muted-foreground font-normal max-w-[200px] whitespace-normal text-center">
-                    {e.event.description}
+                    {trEventDesc(e.event.name, e.event.description)}
                   </span>
                 )}
               </span>
