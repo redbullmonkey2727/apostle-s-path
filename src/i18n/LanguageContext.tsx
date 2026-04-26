@@ -24,6 +24,11 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
     localStorage.setItem("ui-lang", l);
   }, []);
 
+  // Keep <html lang="..."> in sync for SEO + accessibility
+  if (typeof document !== "undefined" && document.documentElement.lang !== lang) {
+    document.documentElement.lang = lang;
+  }
+
   return (
     <LanguageContext.Provider value={{ lang, setLang, t: translations[lang] }}>
       {children}
