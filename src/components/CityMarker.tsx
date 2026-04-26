@@ -96,6 +96,7 @@ function getSummary(ref: string): string {
 }
 
 const CityMarker = ({ city, onClick }: CityMarkerProps) => {
+  const { t, lang } = useTranslation();
   const totalRefs = city.scriptures.length;
   const previewScriptures = city.scriptures.slice(0, 3);
   const markerRef = useRef<any>(null);
