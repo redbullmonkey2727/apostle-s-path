@@ -127,11 +127,33 @@ const CityDetailPanel = ({ city, onClose, activeTopic, allCities, onCityChange, 
   const { t, lang } = useTranslation();
   const isNonEnglish = lang !== "en";
   const translationLabel = bibleTranslationLabels[lang];
+  type LangKey = "es" | "fr" | "pt" | "sv" | "no" | "da";
+  const langKey = lang as LangKey;
 
   const getTranslatedVerse = (reference: string): string | null => {
     if (!isNonEnglish) return null;
-    const langKey = lang as "es" | "fr" | "pt" | "sv" | "no";
     return verseTranslations[reference]?.[langKey] || null;
+  };
+
+  const getTranslatedCommentary = (reference: string, fallback: string): string => {
+    if (!isNonEnglish) return fallback;
+    return commentaryTranslations[reference]?.[langKey] || fallback;
+  };
+
+  const getTranslatedTopic = (topic: string): string => {
+    if (!isNonEnglish) return topic;
+    return topicTranslations[topic]?.[langKey] || topic;
+  };
+
+  const getTranslatedWriter = (writer: string): string => {
+    const fallback = writerNames[writer] || writer;
+    if (!isNonEnglish) return fallback;
+    return writerLabelTranslations[writer]?.[langKey] || fallback;
+  };
+
+  const getTranslatedContext = (cityName: string, book: string, fallback: string | undefined): string | undefined => {
+    if (!isNonEnglish || !fallback) return fallback;
+    return contextTranslations[cityName]?.[book]?.[langKey] || fallback;
   };
 
   const filteredScriptures = activeTopic
