@@ -187,7 +187,7 @@ const CityMarker = ({ city, onClick }: CityMarkerProps) => {
             {previewScriptures.length > 0 && (
               <div className="mt-2 border-t border-border pt-1.5 space-y-1">
                 {previewScriptures.map((s, i) => {
-                  const summary = getSummary(s.reference);
+                  const summary = getSummary(s.reference, lang);
                   return (
                     <div key={i} className="flex gap-1.5 items-start">
                       <span className="text-[11px] font-semibold text-primary whitespace-nowrap">{s.reference}</span>
