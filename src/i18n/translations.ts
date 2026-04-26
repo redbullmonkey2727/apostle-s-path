@@ -139,6 +139,8 @@ const en: TranslationStrings = {
   summer: "Summer",
   winter: "Winter",
   fromAntioch: "from Antioch",
+  yrsOld: "yrs old",
+  written: "written",
 
   viewScriptures: "View {count} scripture{s}",
 
