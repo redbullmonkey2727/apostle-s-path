@@ -115,7 +115,7 @@ const JourneyLegend = ({
         <button
           onClick={onToggleDark}
           className="p-2 rounded-md hover:bg-muted transition-colors"
-          title={isDark ? "Light mode" : "Dark mode"}
+          title={isDark ? t.lightMode : t.darkMode}
         >
           {isDark ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
         </button>
