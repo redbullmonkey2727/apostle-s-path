@@ -1,4 +1,4 @@
-export type UILanguage = "en" | "es" | "fr" | "pt" | "sv" | "no";
+export type UILanguage = "en" | "es" | "fr" | "pt" | "sv" | "no" | "da";
 
 /** Labels for the Bible translation shown in each language */
 export const bibleTranslationLabels: Record<UILanguage, string> = {
@@ -8,6 +8,7 @@ export const bibleTranslationLabels: Record<UILanguage, string> = {
   pt: "Almeida",
   sv: "Svenska Bibeln 1917",
   no: "Norsk Bibelen 1906",
+  da: "Bibelen 1992",
 };
 
 export const languageLabels: Record<UILanguage, string> = {
@@ -17,6 +18,7 @@ export const languageLabels: Record<UILanguage, string> = {
   pt: "Português",
   sv: "Svenska",
   no: "Norsk",
+  da: "Dansk",
 };
 
 // All translatable UI strings
@@ -448,4 +450,64 @@ const no: TranslationStrings = {
   searchMobile: "Søk emner, byer, forfattere…",
 };
 
-export const translations: Record<UILanguage, TranslationStrings> = { en, es, fr, pt, sv, no };
+const da: TranslationStrings = {
+  siteTitle: "Det Nye Testamentes Verden: Apostle, Breve og Rejser",
+  siteSubtitle: "Et dybdegående kig på omstændighederne omkring Det Nye Testamentes referencer, der peger mod Jesu Kristi Gengivne Kirke.",
+  bibleListLink: "Bibelliste med alle inkluderede referencer til videre læsning ↗",
+
+  welcomeTitle: "Det Nye Testamentes Verden",
+  welcomeBody: "Velkommen til et interaktivt kort over apostlenes rejser — der sporer hvornår og under hvilke omstændigheder de skrev lære, der peger mod Jesu Kristi Gengivne Kirke. Min hensigt var at lade bibelstuderende få et nærmere og mere intimt indblik i, hvor vanskelige og særlige de omstændigheder var, som de unge apostle stod overfor, da de forsøgte at nedskrive doktriner og opbygge Guds Kirke (ApG 15:4-23, 39; 2 Kor 11:25-33). Deres ord, skrevet midt i lidelse og åbenbaring, har stor relevans i dag. Prøv at skifte mellem kortstile (gade, terræn, satellit) i lagkontrollen — hvert syn fremhæver forskellige detaljer i den antikke verden.",
+  howToExplore: "Sådan udforsker du",
+  clickCityDot: "Klik på en byprik for at se dens breve, skrifter og kommentarer",
+  searchTopics: "Søg efter emner som \"Guddommen\" eller \"Præstedømmet\" for en komplet skriftliste",
+  guidedTourDesc: "Den guidede rundvisning fører dig gennem Paulus' rejser trin for trin",
+  shortcutsDesc: "Genveje: ← → byer, T tur, D mørk tilstand, Esc luk",
+  startExploring: "Begynd at Udforske",
+  takeTheTour: "Tag Rundvisningen",
+
+  apostolicJourneys: "Apostoliske Rejser",
+  toggleToShowHide: "Skift for at vise/skjule ruter",
+  guidedTour: "Guidet Rundvisning",
+  searchPlaceholder: "Søg byer, doktrinære emner eller forfattere…",
+  filterByTopic: "Filtrér efter Emne",
+  allTopics: "Alle Emner",
+  mapStyle: "Kortstil",
+  writersAndMarkers: "Forfattere og Markører",
+  dotSizeReflects: "Prikkens størrelse afspejler antal skrifter",
+  journeyRoutes: "Rejseruter",
+  traveled: "rejst",
+  showIntroduction: "Vis Introduktionen",
+
+  scripturesExplored: "Udforskede Skrifter",
+  explored: "udforsket",
+
+  timeline: "Tidslinje",
+  epistles: "Breve",
+  historicalEvents: "Historiske Begivenheder",
+
+  map: "Kort",
+  kjv: "KJV",
+  nrsv: "NRSV (2021)",
+  application: "Anvendelse",
+  noCommentary: "Ingen kommentar tilgængelig.",
+  noScripturesMatch: "Ingen skrifter matcher det valgte emne.",
+  readOnChurch: "Læs på ChurchofJesusChrist.org",
+  removeBookmark: "Fjern bogmærke",
+  bookmarkScripture: "Bogmærk denne skrift",
+  summer: "Sommer",
+  winter: "Vinter",
+  fromAntioch: "fra Antiokia",
+
+  viewScriptures: "Se {count} skrift{s}",
+
+  loadingMap: "Indlæser kort…",
+  hidePanel: "Skjul Panel",
+  menu: "Menu",
+  pdf: "PDF",
+  linkCopied: "📋 Link kopieret!",
+  shareWithFriends: "Del med Venner",
+  downloadPdf: "Download PDF med skrifter",
+  searchMobile: "Søg emner, byer, forfattere…",
+};
+
+export const translations: Record<UILanguage, TranslationStrings> = { en, es, fr, pt, sv, no, da };
