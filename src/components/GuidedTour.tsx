@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback } from "react";
 import { cities, journeys, CityData } from "@/data/paulData";
 import { X, ChevronRight, ChevronLeft, MapPin, Play, Pause } from "lucide-react";
 import { useTranslation } from "@/i18n/LanguageContext";
+import { tourTranslations } from "@/data/tourTranslations";
 
 interface GuidedTourProps {
   onClose: () => void;
@@ -29,10 +30,15 @@ const tourSteps = [
 const GuidedTour = ({ onClose, onCitySelect, onPanTo }: GuidedTourProps) => {
   const [step, setStep] = useState(0);
   const [autoPlay, setAutoPlay] = useState(false);
-  const { t } = useTranslation();
+  const { t, lang } = useTranslation();
 
   const currentStep = tourSteps[step];
   const city = cities.find((c) => c.id === currentStep.cityId);
+  const isNonEnglish = lang !== "en";
+  const langKey = lang as "es" | "fr" | "pt" | "sv" | "no" | "da";
+  const translatedNote = isNonEnglish
+    ? (tourTranslations[currentStep.cityId]?.[langKey] || currentStep.note)
+    : currentStep.note;
 
   useEffect(() => {
     if (city) {
@@ -70,7 +76,7 @@ const GuidedTour = ({ onClose, onCitySelect, onPanTo }: GuidedTourProps) => {
           </button>
         </div>
         <p className="text-sm text-foreground/80 leading-relaxed font-rosarivo mb-3">
-          {currentStep.note}
+          {translatedNote}
         </p>
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
