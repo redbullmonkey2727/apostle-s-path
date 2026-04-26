@@ -195,71 +195,108 @@ export const journeys: JourneyData[] = [
     durationNote: "~4 years",
     travelNote: "Paul revisited Galatia and Phrygia overland, then settled in Ephesus for ~2.5 years (Acts 19:10). Traveled through Macedonia to Corinth (3-month stay, Acts 20:3), then returned via Philippi, Troas (Eutychus incident, Acts 20:9), and sailed along the coast to Miletus and on to Jerusalem.",
     path: [
-      // Antioch → Galatia/Phrygia → Ephesus (2+ years) → Macedonia → Greece → return via coast
-      [36.20, 36.15],   // Antioch
-      [36.60, 35.60],
-      [37.00, 35.00],
-      [37.40, 34.20],
-      [37.80, 33.50],
-      [38.30, 33.00],
-      [38.80, 32.50],
-      [39.30, 32.00],
-      [39.65, 31.50],   // Galatia
-      [39.40, 31.00],
-      [39.10, 30.50],
-      [38.70, 29.80],
-      [38.40, 29.00],
-      [38.10, 28.20],
-      [37.94, 27.34],   // Ephesus (long stay ~2.5 years)
-      // To Macedonia & Greece
-      [38.10, 27.00],
-      [38.50, 26.50],
-      [39.00, 26.00],
-      [39.50, 25.50],
-      [39.90, 25.00],
-      [40.19, 29.07],   // Troas (first visit)
-      [40.50, 27.50],
-      [40.80, 26.00],
+      // Antioch → Tarsus → Cilician Gates → Galatia/Phrygia overland → Ephesus (2.5 yrs) → Macedonia → Corinth → return via Macedonia → Troas → Assos → Mitylene → Chios → Samos → Miletus → Cos → Rhodes → Patara → Tyre → Ptolemais → Caesarea → Jerusalem
+      [36.20, 36.16],   // Antioch
+      [36.45, 35.90],
+      [36.70, 35.55],
+      [36.95, 34.90],   // Tarsus
+      [37.15, 34.65],
+      [37.30, 34.45],   // Cilician Gates
+      [37.55, 34.10],
+      [37.80, 33.65],
+      [37.95, 33.15],
+      [37.95, 32.65],
+      [37.87, 32.49],   // Derbe area
+      [38.10, 32.10],
+      [38.35, 31.87],   // Lystra
+      [38.10, 31.50],
+      [37.85, 31.30],
+      [37.73, 31.15],   // Iconium
+      [37.95, 30.85],
+      [38.20, 30.55],
+      [38.55, 30.30],
+      [38.85, 30.05],   // Phrygia
+      [39.10, 29.65],
+      [39.20, 29.10],
+      [39.10, 28.50],
+      [38.85, 28.00],
+      [38.55, 27.65],
+      [38.25, 27.50],
+      [37.94, 27.34],   // Ephesus (~2.5 years)
+      // To Macedonia & Greece (north overland through Asia, then sail)
+      [38.20, 27.20],
+      [38.55, 27.00],
+      [38.95, 26.85],
+      [39.40, 26.75],
+      [39.85, 26.50],
+      [40.19, 26.40],
+      [40.05, 26.40],
+      [39.96, 26.16],   // Troas (first visit)
+      [40.20, 25.85],
+      [40.50, 25.40],
+      [40.75, 24.90],
+      [40.94, 24.41],   // Neapolis
       [41.01, 24.29],   // Philippi
-      [40.80, 23.60],
+      [40.85, 23.85],
       [40.64, 22.94],   // Thessalonica
+      [40.50, 22.70],
       [40.31, 22.39],   // Berea
-      [39.60, 22.60],
-      [38.80, 23.00],
-      [38.20, 23.40],
-      [37.91, 22.88],   // Corinth (3 months in Greece)
-      // Return north
-      [38.20, 23.40],
-      [38.80, 23.00],
-      [39.60, 22.60],
-      [40.31, 22.39],   // Berea
-      [40.64, 22.94],   // Thessalonica
+      [39.85, 22.55],
+      [39.30, 22.85],
+      [38.70, 23.10],
+      [38.20, 23.45],
+      [37.97, 23.72],   // Athens (passing)
+      [37.92, 23.30],
+      [37.91, 22.88],   // Corinth (3 months)
+      // Return north overland (plot against him forced overland route — Acts 20:3)
+      [38.20, 23.10],
+      [38.75, 22.90],
+      [39.30, 22.75],
+      [39.85, 22.50],
+      [40.31, 22.39],   // Berea (return)
+      [40.55, 22.75],
+      [40.64, 22.94],   // Thessalonica (return)
+      [40.85, 23.85],
       [41.01, 24.29],   // Philippi (Passover)
-      // Coastal return
-      [40.60, 25.50],
-      [40.19, 29.07],   // Troas (Eutychus raised)
-      [39.50, 26.90],
+      // Coastal voyage southward
+      [40.85, 24.65],
+      [40.55, 25.30],
+      [40.30, 25.85],
+      [39.96, 26.16],   // Troas (Eutychus raised)
+      [39.65, 26.30],
+      [39.35, 26.40],
       [39.10, 26.55],   // Assos
-      [38.90, 26.35],   // Mitylene
-      [38.50, 26.15],   // Chios
-      [37.95, 26.80],
+      [38.95, 26.45],
+      [38.90, 26.35],   // Mitylene (Lesbos)
+      [38.65, 26.25],
+      [38.40, 26.15],   // Chios
+      [38.05, 26.50],
+      [37.85, 26.85],
       [37.75, 27.09],   // Miletus (farewell to Ephesian elders)
-      [37.40, 27.30],
-      [36.90, 27.50],   // Cos
-      [36.50, 28.00],   // Rhodes approach
+      [37.45, 27.25],
+      [37.10, 27.40],
+      [36.85, 27.30],   // Cos
+      [36.60, 27.65],
+      [36.45, 28.00],
       [36.45, 28.22],   // Rhodes
-      [36.30, 29.00],
+      [36.30, 28.65],
+      [36.20, 29.20],
       [36.18, 29.64],   // Patara
-      [35.80, 30.50],
-      [35.30, 31.50],
-      [34.90, 32.50],
+      [35.95, 30.20],
+      [35.65, 30.95],
+      [35.30, 31.65],
+      [34.95, 32.30],
+      [34.70, 32.85],
       [34.68, 33.04],   // Tyre (7 days)
-      [34.20, 33.80],
-      [33.20, 35.00],
+      [34.30, 33.55],
+      [33.85, 34.10],
+      [33.30, 34.65],
       [32.82, 34.99],   // Ptolemais
+      [32.65, 34.95],
       [32.53, 34.89],   // Caesarea (Philip's house)
-      [32.20, 35.00],
-      [31.90, 35.10],
+      [32.30, 34.95],
+      [32.05, 35.05],
+      [31.90, 35.15],
       [31.77, 35.21],   // Jerusalem (arrest)
     ],
     shipwrecks: [
