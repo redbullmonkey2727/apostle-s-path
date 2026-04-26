@@ -4,6 +4,8 @@ import { Label } from "@/components/ui/label";
 import { MapPin, BookOpen, Navigation, Tag, PenTool, ChevronDown, Ruler, Clock, Calendar, Moon, Sun, Compass } from "lucide-react";
 import { useState } from "react";
 import { useTranslation } from "@/i18n/LanguageContext";
+import { topicTranslations } from "@/data/topicTranslations";
+import { writerLabelTranslations, writerBioTranslations } from "@/data/writerTranslations";
 
 interface JourneyLegendProps {
   activeJourneys: string[];
@@ -91,7 +93,14 @@ const JourneyLegend = ({
   onShowWelcome,
 }: JourneyLegendProps) => {
   const [topicOpen, setTopicOpen] = useState(false);
-  const { t } = useTranslation();
+  const { t, lang } = useTranslation();
+  const isNonEnglish = lang !== "en";
+  const langKey = lang as "es" | "fr" | "pt" | "sv" | "no" | "da";
+  const tr = (topic: string) => isNonEnglish ? (topicTranslations[topic]?.[langKey] || topic) : topic;
+  const trWriterLabel = (key: string, fallback: string) =>
+    isNonEnglish ? (writerLabelTranslations[key]?.[langKey] || fallback) : fallback;
+  const trWriterBio = (key: string, fallback: string) =>
+    isNonEnglish ? (writerBioTranslations[key]?.[langKey] || fallback) : fallback;
 
   return (
     <div className="w-full lg:w-72 bg-card border border-border rounded-lg p-4 shadow-sm space-y-5 overflow-y-auto max-h-[calc(100vh-6rem)]">
