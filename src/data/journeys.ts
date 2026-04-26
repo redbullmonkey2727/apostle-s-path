@@ -9,60 +9,68 @@ export const journeys: JourneyData[] = [
     durationNote: "~2 years",
     travelNote: "Barnabas & Saul sailed from Seleucia to Cyprus, then crossed to Pamphylia. Overland through Pisidian Antioch, Iconium, Lystra, Derbe, then retraced their route. Ancient foot travel averaged ~20 mi/day on Roman roads; sea crossings ~100 mi/day with favorable winds.",
     path: [
-      // Antioch (Syria) → Seleucia → Salamis → Paphos → Perga → Pisidian Antioch → Iconium → Lystra → Derbe → return
-      [36.20, 36.15],   // Antioch
-      [36.12, 35.95],   // heading to coast
-      [36.05, 35.80],   // Seleucia approach
-      [35.95, 35.60],   // coast
-      [35.80, 35.20],   // open water
-      [35.55, 34.50],   // Cyprus north coast approach
-      [35.20, 33.95],   // Salamis
-      [35.05, 33.60],   // along Cyprus south coast
-      [34.85, 33.20],
+      // Antioch (Syria) → Seleucia → Salamis → across Cyprus → Paphos → Perga → Pisidian Antioch → Iconium → Lystra → Derbe → return → Attalia → Antioch
+      [36.20, 36.16],   // Antioch (Syria)
+      [36.16, 36.05],
+      [36.12, 35.92],   // Seleucia Pieria (port)
+      [36.05, 35.70],   // open sea
+      [35.85, 35.30],
+      [35.55, 34.80],
+      [35.25, 34.30],
+      [35.18, 33.90],   // Salamis (east Cyprus)
+      [35.05, 33.55],
+      [34.92, 33.10],
+      [34.82, 32.70],
       [34.76, 32.42],   // Paphos
-      [34.80, 32.00],   // departing Cyprus
-      [35.10, 31.50],   // crossing to Pamphylia
-      [35.60, 31.10],
-      [36.10, 30.85],
-      [36.50, 30.75],
-      [36.92, 30.69],   // Perga
-      [37.10, 30.55],
-      [37.30, 30.45],
-      [37.50, 30.35],
-      [37.65, 30.30],
+      [34.85, 32.10],
+      [35.05, 31.70],
+      [35.40, 31.40],
+      [35.85, 31.15],
+      [36.30, 30.95],
+      [36.65, 30.82],
+      [36.83, 30.69],   // Attalia (port arrival area)
+      [36.92, 30.79],   // Perga
+      [37.10, 30.70],
+      [37.30, 30.55],
+      [37.50, 30.45],
+      [37.65, 30.38],
       [37.76, 30.29],   // Pisidian Antioch
-      [37.78, 30.50],
-      [37.76, 30.80],
+      [37.78, 30.55],
+      [37.77, 30.85],
       [37.73, 31.15],   // Iconium
-      [37.80, 31.35],
-      [37.90, 31.55],
-      [38.05, 31.70],
-      [38.20, 31.80],
+      [37.85, 31.40],
+      [38.00, 31.60],
+      [38.20, 31.78],
       [38.35, 31.87],   // Lystra
-      [38.15, 32.10],
-      [37.95, 32.30],
-      [37.87, 32.49],   // Derbe
-      // Return journey
-      [37.95, 32.30],
-      [38.15, 32.10],
+      [38.20, 32.05],
+      [38.05, 32.25],
+      [37.95, 32.40],
+      [37.87, 32.49],   // Derbe (turnaround)
+      // Return: Derbe → Lystra → Iconium → Pisidian Antioch → Perga → Attalia → sail → Antioch
+      [37.95, 32.40],
+      [38.10, 32.15],
+      [38.25, 31.98],
       [38.35, 31.87],   // Lystra (return)
-      [38.20, 31.80],
-      [37.90, 31.55],
+      [38.10, 31.55],
+      [37.90, 31.35],
       [37.73, 31.15],   // Iconium (return)
-      [37.76, 30.80],
+      [37.76, 30.85],
+      [37.78, 30.55],
       [37.76, 30.29],   // Pisidian Antioch (return)
-      [37.50, 30.35],
-      [37.10, 30.55],
-      [36.92, 30.69],   // Perga (return)
-      [36.83, 30.61],   // Attalia
-      [36.60, 31.00],
-      [36.40, 31.80],
-      [36.20, 32.80],
-      [36.00, 33.80],
-      [35.90, 34.80],
-      [36.05, 35.50],
-      [36.12, 35.95],
-      [36.20, 36.15],   // Antioch
+      [37.55, 30.40],
+      [37.30, 30.55],
+      [37.05, 30.65],
+      [36.92, 30.79],   // Perga (return)
+      [36.83, 30.69],   // Attalia (sail home)
+      [36.55, 31.05],
+      [36.25, 31.70],
+      [36.00, 32.50],
+      [35.85, 33.40],
+      [35.85, 34.30],
+      [35.95, 35.10],
+      [36.05, 35.65],
+      [36.12, 35.92],   // Seleucia
+      [36.20, 36.16],   // Antioch
     ],
     shipwrecks: [
       {
