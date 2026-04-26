@@ -372,7 +372,7 @@ const PaulMap = () => {
   const mapInstanceRef = useRef<L.Map | null>(null);
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const { trackCityView, trackTopicView, getPopularCities } = useLocalAnalytics();
-  const { t } = useTranslation();
+  const { t, lang } = useTranslation();
   const popularCityIds = getPopularCities(3);
 
   const [activeJourneys, setActiveJourneys] = useState<string[]>(() => {
@@ -455,7 +455,6 @@ const PaulMap = () => {
   };
 
   const tile = tileOptions.find((t) => t.id === activeTile) || tileOptions[0];
-  const { lang } = useTranslation();
   const localizedTileUrl = useMemo(() => {
     if (tile.id === "google" || tile.id === "satellite") {
       const sep = tile.url.includes("?") ? "&" : "?";
@@ -591,7 +590,7 @@ const PaulMap = () => {
             <TileUpdater tileId={activeTile} />
             <MapLoadingIndicator />
             <MapRef onMap={handleMapRef} />
-            <TileLayer url={tile.url} attribution={tile.attribution} />
+            <TileLayer key={`${tile.id}-${lang}`} url={localizedTileUrl} attribution={tile.attribution} />
 
             {(() => {
               const journeyOrder = ["first", "second", "third", "rome"];
