@@ -318,54 +318,83 @@ export const journeys: JourneyData[] = [
     durationNote: "~6 months",
     travelNote: "Paul sailed as a prisoner under centurion Julius (Acts 27:1). From Caesarea to Sidon, then along Cilicia's coast to Myra, transferred to an Alexandrian grain ship. Caught in the Northeaster (Euraquilo) storm for 14 days (Acts 27:27), shipwrecked on Malta for 3 months, then sailed via Syracuse and Rhegium to Puteoli, arriving in Rome on foot via the Appian Way.",
     path: [
-      // Caesarea → Sidon → south of Cyprus → Myra → Cnidus → Crete → Malta → Syracuse → Rhegium → Puteoli → Rome
-      [32.53, 34.89],   // Caesarea
-      [32.80, 35.00],
+      // Caesarea → Sidon → north of Cyprus (lee side, Acts 27:4) → coast of Cilicia/Pamphylia → Myra → Cnidus → south of Crete (Salmone, Fair Havens) → Euraquilo storm → Malta → Syracuse → Rhegium → Puteoli → Forum of Appius → Three Taverns → Rome
+      [32.53, 34.89],   // Caesarea (departure)
+      [32.85, 35.05],
       [33.20, 35.20],
-      [33.56, 35.37],   // Sidon
-      [34.00, 35.00],
-      [34.50, 34.50],
-      [35.00, 33.50],
-      [35.40, 32.50],   // south of Cyprus
-      [35.80, 31.50],
-      [36.00, 30.50],
-      [36.10, 29.80],
-      [36.14, 29.64],   // Myra (change ships)
-      [36.10, 29.00],
-      [36.00, 28.20],
-      [35.80, 27.50],
-      [35.60, 27.00],
-      [35.50, 26.50],
-      [35.40, 26.00],   // Cnidus
-      [35.30, 25.50],
-      [35.28, 24.47],   // Fair Havens, Crete
-      [35.30, 23.80],
-      [35.35, 23.00],   // Cape Matala
-      [35.40, 22.00],   // Storm - Euraquilo
-      [35.50, 20.50],
-      [35.60, 19.00],
-      [35.70, 17.50],
-      [35.80, 16.50],
-      [35.88, 15.50],
-      [35.90, 14.50],   // Malta approach
-      [35.90, 14.42],   // Malta (3 months)
-      // Malta to Rome
-      [36.20, 14.45],
-      [36.60, 14.80],
-      [37.07, 15.29],   // Syracuse (3 days)
-      [37.50, 15.45],
-      [38.10, 15.65],   // Rhegium
-      [38.50, 15.50],
-      [39.00, 15.20],
-      [39.50, 14.80],
-      [40.00, 14.50],
-      [40.50, 14.30],
-      [40.85, 14.27],   // Puteoli (Pozzuoli)
-      [41.00, 14.00],
-      [41.20, 13.50],
-      [41.40, 13.00],
-      [41.60, 12.80],
-      [41.90, 12.50],   // Rome
+      [33.56, 35.37],   // Sidon (Acts 27:3)
+      [33.95, 35.35],
+      [34.40, 35.30],
+      [34.85, 35.20],
+      [35.20, 34.90],   // approach Cyprus
+      [35.40, 34.50],   // skirt north (lee) side of Cyprus
+      [35.55, 34.00],
+      [35.65, 33.40],
+      [35.70, 32.80],
+      [35.85, 32.20],
+      [36.00, 31.55],
+      [36.05, 30.85],
+      [36.10, 30.30],
+      [36.14, 29.98],
+      [36.26, 29.99],   // Myra of Lycia (transfer to Alexandrian grain ship — Acts 27:5-6)
+      [36.20, 29.40],
+      [36.10, 28.85],
+      [35.95, 28.30],
+      [35.75, 27.80],
+      [35.55, 27.40],
+      [35.40, 27.05],
+      [36.69, 27.38],   // Cnidus (with difficulty — Acts 27:7)
+      [35.65, 26.55],
+      [35.45, 26.30],
+      [35.30, 26.20],   // Salmone (east cape of Crete)
+      [35.15, 25.65],
+      [35.05, 25.10],
+      [34.95, 24.70],
+      [34.92, 24.50],
+      [34.90, 24.45],   // Fair Havens (near Lasea — Acts 27:8)
+      [34.95, 24.20],
+      [35.00, 23.85],
+      [35.05, 23.40],   // departing toward Phoenix
+      // Euraquilo storm — driven southwest, then west, then west-northwest past Cauda
+      [34.85, 23.95],
+      [34.55, 24.10],   // Cauda (Clauda — Acts 27:16)
+      [34.70, 23.50],
+      [34.95, 22.70],
+      [35.20, 21.80],
+      [35.40, 20.80],
+      [35.55, 19.70],
+      [35.65, 18.50],
+      [35.75, 17.30],
+      [35.82, 16.20],
+      [35.88, 15.20],
+      [35.90, 14.65],
+      [35.90, 14.42],   // Malta — wreck at St. Paul's Bay (3 months)
+      // Spring sailing on the Castor & Pollux (Acts 28:11)
+      [36.10, 14.50],
+      [36.45, 14.75],
+      [36.80, 15.05],
+      [37.07, 15.29],   // Syracuse (3 days — Acts 28:12)
+      [37.40, 15.40],
+      [37.75, 15.55],
+      [38.10, 15.65],   // Rhegium (Acts 28:13)
+      [38.40, 15.55],
+      [38.80, 15.30],
+      [39.20, 15.05],
+      [39.65, 14.80],
+      [40.10, 14.55],
+      [40.50, 14.40],
+      [40.75, 14.30],
+      [40.83, 14.12],   // Puteoli (Pozzuoli — landed; Acts 28:13)
+      [40.95, 14.05],
+      [41.10, 13.85],
+      [41.25, 13.65],
+      [41.42, 13.35],   // Forum of Appius (Acts 28:15)
+      [41.55, 13.05],
+      [41.65, 12.85],
+      [41.72, 12.75],   // Three Taverns (Acts 28:15)
+      [41.80, 12.65],
+      [41.88, 12.55],
+      [41.90, 12.50],   // Rome (Acts 28:16)
     ],
     shipwrecks: [
       {
