@@ -455,6 +455,14 @@ const PaulMap = () => {
   };
 
   const tile = tileOptions.find((t) => t.id === activeTile) || tileOptions[0];
+  const { lang } = useTranslation();
+  const localizedTileUrl = useMemo(() => {
+    if (tile.id === "google" || tile.id === "satellite") {
+      const sep = tile.url.includes("?") ? "&" : "?";
+      return `${tile.url}${sep}hl=${lang}`;
+    }
+    return tile.url;
+  }, [tile, lang]);
 
   // Collect all scriptures matching a topic search
   const topicSearchResults = useMemo(() => {
