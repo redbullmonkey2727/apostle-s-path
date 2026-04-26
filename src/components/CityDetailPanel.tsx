@@ -217,18 +217,18 @@ const CityDetailPanel = ({ city, onClose, activeTopic, allCities, onCityChange, 
       </div>
 
       {/* Top bar */}
-      <div className="border-b border-border bg-card px-4 md:px-6 py-3 md:py-4 shrink-0">
-        <div className="flex items-start justify-between max-w-7xl mx-auto">
+      <div className="border-b border-border bg-card px-3 sm:px-4 md:px-6 py-2.5 sm:py-3 md:py-4 shrink-0">
+        <div className="flex items-start justify-between gap-2 max-w-7xl mx-auto">
           <div className="flex-1 min-w-0">
-            <div className="flex items-center gap-3 flex-wrap">
-              <h2 className="font-serif text-2xl md:text-3xl font-bold text-foreground">{city.name}</h2>
+            <div className="flex items-center gap-2 sm:gap-3 flex-wrap">
+              <h2 className="font-serif text-xl sm:text-2xl md:text-3xl font-bold text-foreground leading-tight">{city.name}</h2>
               {city.epistleName && (
-                <span className="text-xs md:text-sm px-2 md:px-3 py-0.5 md:py-1 rounded-full bg-primary/10 text-primary font-medium">
+                <span className="text-[10px] sm:text-xs md:text-sm px-1.5 sm:px-2 md:px-3 py-0.5 md:py-1 rounded-full bg-primary/10 text-primary font-medium">
                   {translateEpistleName(city.epistleName, lang)}
                 </span>
               )}
             </div>
-            <div className="flex items-center gap-3 md:gap-4 mt-1.5 md:mt-2 text-xs md:text-sm text-muted-foreground flex-wrap">
+            <div className="flex items-center gap-2 sm:gap-3 md:gap-4 mt-1 sm:mt-1.5 md:mt-2 text-[11px] sm:text-xs md:text-sm text-muted-foreground flex-wrap">
               <span className="flex items-center gap-1">
                 <MapPin className="h-3 md:h-3.5 w-3 md:w-3.5" /> {translateCityLabel(city.id, city.label, lang)}
               </span>

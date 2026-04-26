@@ -77,6 +77,10 @@ export interface TranslationStrings {
   fromAntioch: string;
   yrsOld: string;
   written: string;
+  lightMode: string;
+  darkMode: string;
+  showPanel: string;
+  language: string;
 
   // Guided Tour
   viewScriptures: string;
@@ -141,6 +145,10 @@ const en: TranslationStrings = {
   fromAntioch: "from Antioch",
   yrsOld: "yrs old",
   written: "written",
+  lightMode: "Light mode",
+  darkMode: "Dark mode",
+  showPanel: "Show panel",
+  language: "Language",
 
   viewScriptures: "View {count} scripture{s}",
 
@@ -203,6 +211,10 @@ const es: TranslationStrings = {
   fromAntioch: "desde Antioquía",
   yrsOld: "años",
   written: "escrito",
+  lightMode: "Modo claro",
+  darkMode: "Modo oscuro",
+  showPanel: "Mostrar panel",
+  language: "Idioma",
 
   viewScriptures: "Ver {count} escritura{s}",
 
@@ -265,6 +277,10 @@ const fr: TranslationStrings = {
   fromAntioch: "d'Antioche",
   yrsOld: "ans",
   written: "écrit",
+  lightMode: "Mode clair",
+  darkMode: "Mode sombre",
+  showPanel: "Afficher le panneau",
+  language: "Langue",
 
   viewScriptures: "Voir {count} écriture{s}",
 
@@ -327,6 +343,10 @@ const pt: TranslationStrings = {
   fromAntioch: "de Antioquia",
   yrsOld: "anos",
   written: "escrito",
+  lightMode: "Modo claro",
+  darkMode: "Modo escuro",
+  showPanel: "Mostrar painel",
+  language: "Idioma",
 
   viewScriptures: "Ver {count} escritura{s}",
 
@@ -389,6 +409,10 @@ const sv: TranslationStrings = {
   fromAntioch: "från Antiochia",
   yrsOld: "år",
   written: "skriven",
+  lightMode: "Ljust läge",
+  darkMode: "Mörkt läge",
+  showPanel: "Visa panel",
+  language: "Språk",
 
   viewScriptures: "Visa {count} skrift{s}er",
 
@@ -451,6 +475,10 @@ const no: TranslationStrings = {
   fromAntioch: "fra Antiokia",
   yrsOld: "år",
   written: "skrevet",
+  lightMode: "Lys modus",
+  darkMode: "Mørk modus",
+  showPanel: "Vis panel",
+  language: "Språk",
 
   viewScriptures: "Vis {count} skrift{s}er",
 
@@ -513,6 +541,10 @@ const da: TranslationStrings = {
   fromAntioch: "fra Antiokia",
   yrsOld: "år",
   written: "skrevet",
+  lightMode: "Lys tilstand",
+  darkMode: "Mørk tilstand",
+  showPanel: "Vis panel",
+  language: "Sprog",
 
   viewScriptures: "Se {count} skrift{s}",
 
