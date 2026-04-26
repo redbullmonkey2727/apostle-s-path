@@ -6,6 +6,10 @@ import { useState, useEffect } from "react";
 import { useTranslation } from "@/i18n/LanguageContext";
 import { bibleTranslationLabels } from "@/i18n/translations";
 import { verseTranslations } from "@/data/verseTranslations";
+import { commentaryTranslations } from "@/data/commentaryTranslations";
+import { topicTranslations } from "@/data/topicTranslations";
+import { writerLabelTranslations } from "@/data/writerTranslations";
+import { contextTranslations } from "@/data/contextTranslations";
 
 interface CityDetailPanelProps {
   city: CityData;
