@@ -10,6 +10,7 @@ import { commentaryTranslations } from "@/data/commentaryTranslations";
 import { topicTranslations } from "@/data/topicTranslations";
 import { writerLabelTranslations } from "@/data/writerTranslations";
 import { contextTranslations } from "@/data/contextTranslations";
+import { translateCityLabel, translateEpistleName } from "@/data/cityFieldTranslations";
 
 interface CityDetailPanelProps {
   city: CityData;
@@ -223,17 +224,17 @@ const CityDetailPanel = ({ city, onClose, activeTopic, allCities, onCityChange, 
               <h2 className="font-serif text-2xl md:text-3xl font-bold text-foreground">{city.name}</h2>
               {city.epistleName && (
                 <span className="text-xs md:text-sm px-2 md:px-3 py-0.5 md:py-1 rounded-full bg-primary/10 text-primary font-medium">
-                  {city.epistleName}
+                  {translateEpistleName(city.epistleName, lang)}
                 </span>
               )}
             </div>
             <div className="flex items-center gap-3 md:gap-4 mt-1.5 md:mt-2 text-xs md:text-sm text-muted-foreground flex-wrap">
               <span className="flex items-center gap-1">
-                <MapPin className="h-3 md:h-3.5 w-3 md:w-3.5" /> {city.label}
+                <MapPin className="h-3 md:h-3.5 w-3 md:w-3.5" /> {translateCityLabel(city.id, city.label, lang)}
               </span>
               {city.writerAges && Object.entries(city.writerAges).map(([w, age]) => (
                 <span key={w} className="px-2 py-0.5 rounded bg-muted text-xs">
-                  {getTranslatedWriter(w)}: {age} yrs old
+                  {getTranslatedWriter(w)}: {age} {t.yrsOld}
                 </span>
               ))}
               {(() => {
