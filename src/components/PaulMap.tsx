@@ -551,7 +551,7 @@ const PaulMap = () => {
               <button
                 onClick={() => setSidebarOpen(true)}
                 className="bg-card/90 border border-border rounded-lg px-2.5 py-1.5 flex items-center gap-1.5 text-xs text-muted-foreground hover:text-foreground hover:bg-card shadow-sm transition-colors"
-                title="Show panel"
+                title={t.showPanel}
               >
                 <PanelLeftOpen className="h-3.5 w-3.5" /> {t.menu}
               </button>

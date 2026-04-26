@@ -10,14 +10,14 @@ import {
 const langs: UILanguage[] = ["en", "es", "fr", "pt", "sv", "no", "da"];
 
 const LanguageSelector = () => {
-  const { lang, setLang } = useTranslation();
+  const { lang, setLang, t } = useTranslation();
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <button
           className="p-2 rounded-md hover:bg-muted transition-colors flex items-center gap-1.5 text-xs text-muted-foreground hover:text-foreground"
-          title="Language"
+          title={t.language}
         >
           <Globe className="h-4 w-4" />
           <span className="hidden sm:inline">{languageLabels[lang]}</span>
