@@ -75,6 +75,8 @@ export interface TranslationStrings {
   summer: string;
   winter: string;
   fromAntioch: string;
+  yrsOld: string;
+  written: string;
 
   // Guided Tour
   viewScriptures: string;
