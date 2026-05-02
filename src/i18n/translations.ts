@@ -298,6 +298,8 @@ const fr: TranslationStrings = {
   shareWithFriends: "Partager avec des Amis",
   downloadPdf: "Télécharger le PDF des écritures",
   searchMobile: "Rechercher sujets, villes, écrivains…",
+  clickToViewAll: "Cliquez pour voir toutes les écritures →",
+  translationNotAvailable: "Traduction non disponible",
 };
 
 const pt: TranslationStrings = {
@@ -364,6 +366,8 @@ const pt: TranslationStrings = {
   shareWithFriends: "Compartilhar com Amigos",
   downloadPdf: "Baixar PDF de escrituras",
   searchMobile: "Pesquisar temas, cidades, escritores…",
+  clickToViewAll: "Clique para ver todas as escrituras →",
+  translationNotAvailable: "Tradução não disponível",
 };
 
 const sv: TranslationStrings = {
@@ -430,6 +434,8 @@ const sv: TranslationStrings = {
   shareWithFriends: "Dela med Vänner",
   downloadPdf: "Ladda ner PDF med skrifter",
   searchMobile: "Sök ämnen, städer, författare…",
+  clickToViewAll: "Klicka för att se alla skrifter →",
+  translationNotAvailable: "Översättning ej tillgänglig",
 };
 
 const no: TranslationStrings = {
@@ -496,6 +502,8 @@ const no: TranslationStrings = {
   shareWithFriends: "Del med Venner",
   downloadPdf: "Last ned PDF med skrifter",
   searchMobile: "Søk emner, byer, forfattere…",
+  clickToViewAll: "Klikk for å se alle skrifter →",
+  translationNotAvailable: "Oversettelse ikke tilgjengelig",
 };
 
 const da: TranslationStrings = {
@@ -562,6 +570,8 @@ const da: TranslationStrings = {
   shareWithFriends: "Del med Venner",
   downloadPdf: "Download PDF med skrifter",
   searchMobile: "Søg emner, byer, forfattere…",
+  clickToViewAll: "Klik for at se alle skrifter →",
+  translationNotAvailable: "Oversættelse ikke tilgængelig",
 };
 
 export const translations: Record<UILanguage, TranslationStrings> = { en, es, fr, pt, sv, no, da };

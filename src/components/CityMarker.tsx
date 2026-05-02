@@ -202,7 +202,7 @@ const CityMarker = ({ city, onClick }: CityMarkerProps) => {
                 )}
               </div>
             )}
-            <p className="text-[10px] text-accent mt-1.5">Click to view all scriptures →</p>
+            <p className="text-[10px] text-accent mt-1.5">{t.clickToViewAll}</p>
           </div>
         </Tooltip>
       </CircleMarker>
