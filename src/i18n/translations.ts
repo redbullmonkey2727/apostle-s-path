@@ -162,6 +162,8 @@ const en: TranslationStrings = {
   shareWithFriends: "Share with Friends",
   downloadPdf: "Download scripture PDF",
   searchMobile: "Search topics, cities, writers…",
+  clickToViewAll: "Click to view all scriptures →",
+  translationNotAvailable: "Translation not available",
 };
 
 const es: TranslationStrings = {
@@ -228,6 +230,8 @@ const es: TranslationStrings = {
   shareWithFriends: "Compartir con Amigos",
   downloadPdf: "Descargar PDF de escrituras",
   searchMobile: "Buscar temas, ciudades, escritores…",
+  clickToViewAll: "Haga clic para ver todas las escrituras →",
+  translationNotAvailable: "Traducción no disponible",
 };
 
 const fr: TranslationStrings = {
