@@ -120,3 +120,53 @@
   border: none !important;
   transition: opacity 0.3s ease;
 }
+
+/* Print-friendly: hide map UI and show city detail panel cleanly */
+@media print {
+  @page { margin: 1.5cm; }
+
+  html, body {
+    background: #fff !important;
+    color: #000 !important;
+  }
+
+  header,
+  .leaflet-container,
+  .leaflet-control-container,
+  button,
+  input,
+  .no-print {
+    display: none !important;
+  }
+
+  .print-show {
+    position: static !important;
+    inset: auto !important;
+    height: auto !important;
+    max-height: none !important;
+    overflow: visible !important;
+    box-shadow: none !important;
+    background: #fff !important;
+    color: #000 !important;
+  }
+
+  .print-show .overflow-y-auto,
+  .print-show .overflow-hidden {
+    overflow: visible !important;
+    max-height: none !important;
+  }
+
+  .print-show [class*="bg-"] {
+    background: transparent !important;
+  }
+
+  .print-show .border {
+    page-break-inside: avoid;
+    border-color: #ccc !important;
+  }
+
+  .print-show a {
+    color: #000 !important;
+    text-decoration: none !important;
+  }
+}
