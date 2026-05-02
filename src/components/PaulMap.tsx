@@ -365,7 +365,7 @@ function JourneyDistanceSegments({ rawPath, shipwrecks, color }: { rawPath: [num
 const PaulMap = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const { isDark, toggle: toggleDark } = useDarkMode();
-  const { bookmarks, toggle: toggleBookmark } = useBookmarks();
+  const { bookmarks, toggle: toggleBookmark, exportBookmarks, importBookmarks } = useBookmarks();
   const { viewedCount, totalScriptures, markViewed } = useScriptureProgress();
   const [showTour, setShowTour] = useState(false);
   const [showWelcome, setShowWelcome] = useState(false);
@@ -540,6 +540,9 @@ const PaulMap = () => {
               onToggleDark={toggleDark}
               onStartTour={() => setShowTour(true)}
               onShowWelcome={() => setShowWelcome(true)}
+              bookmarksCount={bookmarks.size}
+              onExportBookmarks={exportBookmarks}
+              onImportBookmarks={importBookmarks}
             />
           </div>
         )}
