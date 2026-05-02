@@ -96,6 +96,23 @@ export interface TranslationStrings {
   searchMobile: string;
   clickToViewAll: string;
   translationNotAvailable: string;
+
+  // Bookmarks tools
+  bookmarks: string;
+  export: string;
+  import: string;
+  exportBookmarks: string;
+  importBookmarks: string;
+  imported: string;
+  invalidBookmarksFile: string;
+
+  // Analytics
+  yourActivity: string;
+  popularCities: string;
+  popularTopics: string;
+  views: string;
+  noViewsYet: string;
+  viewActivity: string;
 }
 
 const en: TranslationStrings = {
