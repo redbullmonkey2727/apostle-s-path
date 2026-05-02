@@ -1,12 +1,12 @@
 import { MapContainer, TileLayer, Polyline, Marker, useMap, CircleMarker, Tooltip } from "react-leaflet";
-import { useState, useMemo, useEffect, useCallback, useRef } from "react";
+import { useState, useMemo, useEffect, useCallback, useRef, lazy, Suspense } from "react";
 import { useSearchParams } from "react-router-dom";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import { cities, journeys, tileOptions, CityData, allTopics } from "@/data/paulData";
 import { smoothPath } from "@/lib/smoothPath";
 import CityMarker from "./CityMarker";
-import CityDetailPanel from "./CityDetailPanel";
+const CityDetailPanel = lazy(() => import("./CityDetailPanel"));
 import JourneyLegend from "./JourneyLegend";
 import TimelineBar from "./TimelineBar";
 import GuidedTour from "./GuidedTour";
@@ -365,7 +365,7 @@ function JourneyDistanceSegments({ rawPath, shipwrecks, color }: { rawPath: [num
 const PaulMap = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const { isDark, toggle: toggleDark } = useDarkMode();
-  const { bookmarks, toggle: toggleBookmark } = useBookmarks();
+  const { bookmarks, toggle: toggleBookmark, exportBookmarks, importBookmarks } = useBookmarks();
   const { viewedCount, totalScriptures, markViewed } = useScriptureProgress();
   const [showTour, setShowTour] = useState(false);
   const [showWelcome, setShowWelcome] = useState(false);
@@ -540,6 +540,9 @@ const PaulMap = () => {
               onToggleDark={toggleDark}
               onStartTour={() => setShowTour(true)}
               onShowWelcome={() => setShowWelcome(true)}
+              bookmarksCount={bookmarks.size}
+              onExportBookmarks={exportBookmarks}
+              onImportBookmarks={importBookmarks}
             />
           </div>
         )}
@@ -677,16 +680,18 @@ const PaulMap = () => {
       </div>
 
       {selectedCity && (
-        <CityDetailPanel
-          city={selectedCity}
-          onClose={closeCity}
-          activeTopic={activeTopic}
-          allCities={cities}
-          onCityChange={setSelectedCity}
-          bookmarks={bookmarks}
-          onToggleBookmark={toggleBookmark}
-          onScriptureView={markViewed}
-        />
+        <Suspense fallback={null}>
+          <CityDetailPanel
+            city={selectedCity}
+            onClose={closeCity}
+            activeTopic={activeTopic}
+            allCities={cities}
+            onCityChange={setSelectedCity}
+            bookmarks={bookmarks}
+            onToggleBookmark={toggleBookmark}
+            onScriptureView={markViewed}
+          />
+        </Suspense>
       )}
 
       {showTour && (

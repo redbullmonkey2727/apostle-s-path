@@ -174,7 +174,7 @@ const CityDetailPanel = ({ city, onClose, activeTopic, allCities, onCityChange, 
   const [mobileTab, setMobileTab] = useState<"translation" | "kjv" | "nrsv" | "app">(isNonEnglish ? "translation" : "kjv");
 
   return (
-    <div className="fixed inset-x-0 bottom-0 top-auto h-[55vh] lg:inset-0 lg:h-auto bg-background z-[1000] flex flex-col animate-slide-in-right lg:animate-fade-in rounded-t-2xl lg:rounded-none shadow-[0_-4px_20px_rgba(0,0,0,0.15)] lg:shadow-none">
+    <div className="print-show fixed inset-x-0 bottom-0 top-auto h-[55vh] lg:inset-0 lg:h-auto bg-background z-[1000] flex flex-col animate-slide-in-right lg:animate-fade-in rounded-t-2xl lg:rounded-none shadow-[0_-4px_20px_rgba(0,0,0,0.15)] lg:shadow-none">
       {/* Mobile drag handle */}
       <div className="lg:hidden flex justify-center pt-2 pb-1">
         <div className="w-10 h-1 rounded-full bg-muted-foreground/30" />
