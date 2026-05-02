@@ -1,11 +1,13 @@
 import { journeys, tileOptions, allTopics } from "@/data/paulData";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
-import { MapPin, BookOpen, Navigation, Tag, PenTool, ChevronDown, Ruler, Clock, Calendar, Moon, Sun, Compass } from "lucide-react";
+import { MapPin, BookOpen, Navigation, Tag, PenTool, ChevronDown, Ruler, Clock, Calendar, Moon, Sun, Compass, BarChart3 } from "lucide-react";
 import { useState } from "react";
 import { useTranslation } from "@/i18n/LanguageContext";
 import { topicTranslations } from "@/data/topicTranslations";
 import { writerLabelTranslations, writerBioTranslations } from "@/data/writerTranslations";
+import BookmarksTools from "./BookmarksTools";
+import AnalyticsDialog from "./AnalyticsDialog";
 
 interface JourneyLegendProps {
   activeJourneys: string[];
@@ -20,6 +22,9 @@ interface JourneyLegendProps {
   onToggleDark: () => void;
   onStartTour: () => void;
   onShowWelcome: () => void;
+  bookmarksCount: number;
+  onExportBookmarks: () => void;
+  onImportBookmarks: (file: File) => Promise<number>;
 }
 
 const writerLabels: Record<string, { label: string; color: string; bio: string }> = {
@@ -91,8 +96,12 @@ const JourneyLegend = ({
   onToggleDark,
   onStartTour,
   onShowWelcome,
+  bookmarksCount,
+  onExportBookmarks,
+  onImportBookmarks,
 }: JourneyLegendProps) => {
   const [topicOpen, setTopicOpen] = useState(false);
+  const [analyticsOpen, setAnalyticsOpen] = useState(false);
   const { t, lang } = useTranslation();
   const isNonEnglish = lang !== "en";
   const langKey = lang as "es" | "fr" | "pt" | "sv" | "no" | "da";
@@ -269,6 +278,19 @@ const JourneyLegend = ({
         })}
       </div>
 
+      <BookmarksTools
+        count={bookmarksCount}
+        onExport={onExportBookmarks}
+        onImport={onImportBookmarks}
+      />
+
+      <button
+        onClick={() => setAnalyticsOpen(true)}
+        className="w-full flex items-center justify-center gap-1.5 py-1.5 rounded-md border border-border text-[11px] text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-colors"
+      >
+        <BarChart3 className="h-3 w-3" /> {t.viewActivity}
+      </button>
+
       {/* Re-show intro */}
       <button
         onClick={onShowWelcome}
@@ -276,6 +298,8 @@ const JourneyLegend = ({
       >
         <BookOpen className="h-3 w-3" /> {t.showIntroduction}
       </button>
+
+      <AnalyticsDialog open={analyticsOpen} onOpenChange={setAnalyticsOpen} />
     </div>
   );
 };
