@@ -94,6 +94,8 @@ export interface TranslationStrings {
   shareWithFriends: string;
   downloadPdf: string;
   searchMobile: string;
+  clickToViewAll: string;
+  translationNotAvailable: string;
 }
 
 const en: TranslationStrings = {
