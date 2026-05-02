@@ -181,6 +181,21 @@ const en: TranslationStrings = {
   searchMobile: "Search topics, cities, writers…",
   clickToViewAll: "Click to view all scriptures →",
   translationNotAvailable: "Translation not available",
+
+  bookmarks: "Bookmarks",
+  export: "Export",
+  import: "Import",
+  exportBookmarks: "Export bookmarks to file",
+  importBookmarks: "Import bookmarks from file",
+  imported: "Imported",
+  invalidBookmarksFile: "Invalid bookmarks file",
+
+  yourActivity: "Your Activity",
+  popularCities: "Most Viewed Cities",
+  popularTopics: "Most Viewed Topics",
+  views: "views",
+  noViewsYet: "No views recorded yet.",
+  viewActivity: "View activity",
 };
 
 const es: TranslationStrings = {
@@ -249,6 +264,21 @@ const es: TranslationStrings = {
   searchMobile: "Buscar temas, ciudades, escritores…",
   clickToViewAll: "Haga clic para ver todas las escrituras →",
   translationNotAvailable: "Traducción no disponible",
+
+  bookmarks: "Marcadores",
+  export: "Exportar",
+  import: "Importar",
+  exportBookmarks: "Exportar marcadores a archivo",
+  importBookmarks: "Importar marcadores desde archivo",
+  imported: "Importados",
+  invalidBookmarksFile: "Archivo de marcadores no válido",
+
+  yourActivity: "Tu Actividad",
+  popularCities: "Ciudades Más Vistas",
+  popularTopics: "Temas Más Vistos",
+  views: "vistas",
+  noViewsYet: "Aún no hay visitas registradas.",
+  viewActivity: "Ver actividad",
 };
 
 const fr: TranslationStrings = {
@@ -317,6 +347,21 @@ const fr: TranslationStrings = {
   searchMobile: "Rechercher sujets, villes, écrivains…",
   clickToViewAll: "Cliquez pour voir toutes les écritures →",
   translationNotAvailable: "Traduction non disponible",
+
+  bookmarks: "Signets",
+  export: "Exporter",
+  import: "Importer",
+  exportBookmarks: "Exporter les signets vers un fichier",
+  importBookmarks: "Importer les signets depuis un fichier",
+  imported: "Importés",
+  invalidBookmarksFile: "Fichier de signets invalide",
+
+  yourActivity: "Votre Activité",
+  popularCities: "Villes les Plus Consultées",
+  popularTopics: "Sujets les Plus Consultés",
+  views: "vues",
+  noViewsYet: "Aucune consultation enregistrée.",
+  viewActivity: "Voir l'activité",
 };
 
 const pt: TranslationStrings = {
@@ -385,6 +430,21 @@ const pt: TranslationStrings = {
   searchMobile: "Pesquisar temas, cidades, escritores…",
   clickToViewAll: "Clique para ver todas as escrituras →",
   translationNotAvailable: "Tradução não disponível",
+
+  bookmarks: "Marcadores",
+  export: "Exportar",
+  import: "Importar",
+  exportBookmarks: "Exportar marcadores para arquivo",
+  importBookmarks: "Importar marcadores de arquivo",
+  imported: "Importados",
+  invalidBookmarksFile: "Arquivo de marcadores inválido",
+
+  yourActivity: "Sua Atividade",
+  popularCities: "Cidades Mais Vistas",
+  popularTopics: "Temas Mais Vistos",
+  views: "visualizações",
+  noViewsYet: "Nenhuma visualização registrada.",
+  viewActivity: "Ver atividade",
 };
 
 const sv: TranslationStrings = {
@@ -453,6 +513,21 @@ const sv: TranslationStrings = {
   searchMobile: "Sök ämnen, städer, författare…",
   clickToViewAll: "Klicka för att se alla skrifter →",
   translationNotAvailable: "Översättning ej tillgänglig",
+
+  bookmarks: "Bokmärken",
+  export: "Exportera",
+  import: "Importera",
+  exportBookmarks: "Exportera bokmärken till fil",
+  importBookmarks: "Importera bokmärken från fil",
+  imported: "Importerade",
+  invalidBookmarksFile: "Ogiltig bokmärkesfil",
+
+  yourActivity: "Din Aktivitet",
+  popularCities: "Mest Besökta Städer",
+  popularTopics: "Mest Visade Ämnen",
+  views: "visningar",
+  noViewsYet: "Inga visningar registrerade än.",
+  viewActivity: "Visa aktivitet",
 };
 
 const no: TranslationStrings = {
@@ -521,6 +596,21 @@ const no: TranslationStrings = {
   searchMobile: "Søk emner, byer, forfattere…",
   clickToViewAll: "Klikk for å se alle skrifter →",
   translationNotAvailable: "Oversettelse ikke tilgjengelig",
+
+  bookmarks: "Bokmerker",
+  export: "Eksporter",
+  import: "Importer",
+  exportBookmarks: "Eksporter bokmerker til fil",
+  importBookmarks: "Importer bokmerker fra fil",
+  imported: "Importert",
+  invalidBookmarksFile: "Ugyldig bokmerkefil",
+
+  yourActivity: "Din Aktivitet",
+  popularCities: "Mest Besøkte Byer",
+  popularTopics: "Mest Viste Emner",
+  views: "visninger",
+  noViewsYet: "Ingen visninger registrert ennå.",
+  viewActivity: "Vis aktivitet",
 };
 
 const da: TranslationStrings = {
@@ -589,6 +679,21 @@ const da: TranslationStrings = {
   searchMobile: "Søg emner, byer, forfattere…",
   clickToViewAll: "Klik for at se alle skrifter →",
   translationNotAvailable: "Oversættelse ikke tilgængelig",
+
+  bookmarks: "Bogmærker",
+  export: "Eksportér",
+  import: "Importér",
+  exportBookmarks: "Eksportér bogmærker til fil",
+  importBookmarks: "Importér bogmærker fra fil",
+  imported: "Importeret",
+  invalidBookmarksFile: "Ugyldig bogmærkefil",
+
+  yourActivity: "Din Aktivitet",
+  popularCities: "Mest Besøgte Byer",
+  popularTopics: "Mest Viste Emner",
+  views: "visninger",
+  noViewsYet: "Ingen visninger registreret endnu.",
+  viewActivity: "Vis aktivitet",
 };
 
 export const translations: Record<UILanguage, TranslationStrings> = { en, es, fr, pt, sv, no, da };
