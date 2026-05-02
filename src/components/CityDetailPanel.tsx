@@ -370,7 +370,7 @@ const CityDetailPanel = ({ city, onClose, activeTopic, allCities, onCityChange, 
                           {translated ? (
                             <p className="text-base leading-relaxed text-foreground font-rosarivo">{translated}</p>
                           ) : (
-                            <p className="text-sm text-muted-foreground italic">Translation not available</p>
+                            <p className="text-sm text-muted-foreground italic">{t.translationNotAvailable}</p>
                           )}
                         </div>
                       );
@@ -402,7 +402,7 @@ const CityDetailPanel = ({ city, onClose, activeTopic, allCities, onCityChange, 
                       return translated ? (
                         <p className="text-sm leading-relaxed text-foreground font-rosarivo">{translated}</p>
                       ) : (
-                        <p className="text-sm text-muted-foreground italic">Translation not available</p>
+                        <p className="text-sm text-muted-foreground italic">{t.translationNotAvailable}</p>
                       );
                     })()}
                     {mobileTab === "kjv" && (
